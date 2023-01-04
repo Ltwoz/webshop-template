@@ -6,7 +6,7 @@ const DashboardNavbar = () => {
             id="dashboard-nav"
             className="bg-white border sm:rounded shadow mb-6 px-6"
         >
-            <div class="flex gap-x-8 divide-x">
+            <div class="flex gap-x-8">
                 <Link
                     href={`/dashboard`}
                     class="appearance-none py-4 text-blue-dark border-b border-blue-dark"
@@ -15,27 +15,33 @@ const DashboardNavbar = () => {
                 </Link>
                 <Link
                     href={`/dashboard/configs`}
-                    class="appearance-none py-4 text-grey-dark border-b border-transparent hover:border-grey-dark"
+                    class="appearance-none py-4 text-grey-dark"
                 >
                     จัดการเว็บไซต์
                 </Link>
                 <Link
                     href={`/dashboard`}
-                    class="appearance-none py-4 text-grey-dark border-b border-transparent hover:border-grey-dark"
+                    class="appearance-none py-4 text-grey-dark"
                 >
-                    หมวดหมู่
+                    จัดการหมวดหมู่
                 </Link>
                 <Link
                     href={`/dashboard`}
-                    class="appearance-none py-4 text-grey-dark border-b border-transparent hover:border-grey-dark"
+                    class="appearance-none py-4 text-grey-dark"
                 >
-                    สินค้า
+                    จัดการสินค้า
                 </Link>
                 <Link
                     href={`/dashboard`}
-                    class="appearance-none py-4 text-grey-dark border-b border-transparent hover:border-grey-dark"
+                    class="appearance-none py-4 text-grey-dark"
                 >
-                    ผู้ใช้งาน
+                    จัดการคิว
+                </Link>
+                <Link
+                    href={`/dashboard`}
+                    class="appearance-none py-4 text-grey-dark"
+                >
+                    จัดการผู้ใช้
                 </Link>
             </div>
         </nav>

@@ -2,10 +2,12 @@ export const getServerSideProps = async (ctx) => {
     const token = ctx.req.cookies.token;
     // console.log("ssr cookie :", token);
 
-    const config_raw = await fetch("http://localhost:3000/api/configs");
+    const protocol = ctx.req.headers.referer.split('://')[0]
+
+    const config_raw = await fetch(`${protocol}:${ctx.req.headers.host}/api/configs`);
     const config_data = await config_raw.json();
 
-    const user_raw = await fetch("http://localhost:3000/api/auth/@me", {
+    const user_raw = await fetch(`${protocol}://${ctx.req.headers.host}/api/auth/@me`, {
         headers: {
             Cookie: `token=${token}`,
         }
