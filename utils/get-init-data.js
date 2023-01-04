@@ -2,7 +2,7 @@ export const getServerSideProps = async (ctx) => {
     const token = ctx.req.cookies.token;
     // console.log("ssr cookie :", token);
 
-    const protocol = ctx.req.headers.referer.split('://')[0]
+    // const protocol = ctx.req.headers.referer.split('://')[0]
 
     const config_raw = await fetch(`https:${ctx.req.headers.host}/api/configs`);
     const config_data = await config_raw.json();
