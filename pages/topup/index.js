@@ -21,4 +21,4 @@ const Topup = () => {
 
 export default Topup;
 
-export { getServerSideProps } from "../../utils/get-init-data";
+// export { getServerSideProps } from "../../utils/get-init-data";
