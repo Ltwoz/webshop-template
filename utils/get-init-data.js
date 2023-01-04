@@ -1,18 +1,18 @@
+import axios from "axios";
+
 export const getServerSideProps = async (ctx) => {
     const token = ctx.req.cookies.token;
     // console.log("ssr cookie :", token);
 
-    // const protocol = ctx.req.headers.referer.split('://')[0]
+    const config_raw = await axios(`http://${ctx.req.headers.host}/api/configs`);
+    const config_data = await config_raw.data
 
-    const config_raw = await fetch(`https://${ctx.req.headers.host}/api/configs`);
-    const config_data = await config_raw.json();
-
-    const user_raw = await fetch(`https://${ctx.req.headers.host}/api/auth/@me`, {
+    const user_raw = await axios(`http://${ctx.req.headers.host}/api/auth/@me`, {
         headers: {
             Cookie: `token=${token}`,
         }
     });
-    const user_data = await user_raw.json();
+    const user_data = await user_raw.data
 
     return {
         props: {
