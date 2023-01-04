@@ -4,7 +4,7 @@ export const getServerSideProps = async (ctx) => {
 
     // const protocol = ctx.req.headers.referer.split('://')[0]
 
-    const config_raw = await fetch(`https:${ctx.req.headers.host}/api/configs`);
+    const config_raw = await fetch(`https://${ctx.req.headers.host}/api/configs`);
     const config_data = await config_raw.json();
 
     const user_raw = await fetch(`https://${ctx.req.headers.host}/api/auth/@me`, {
