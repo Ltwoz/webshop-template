@@ -41,7 +41,7 @@ export default function Home() {
     );
 }
 
-export { getServerSideProps } from "../utils/get-init-data";
+// export { getServerSideProps } from "../utils/get-init-data";
 // export const getServerSideProps = withInitProps(async (ctx) => {
 //     return {
 //         props: {
