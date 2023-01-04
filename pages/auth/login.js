@@ -23,7 +23,7 @@ const LoginPage = () => {
             })
         }).then(res => res.json()).then(data => console.log(data))
 
-        router.replace("/")
+        router.push("/")
     }
 
     return (
