@@ -12,7 +12,7 @@ const handler = async (req, res) => {
 
                 res.status(200).json({ success: true, user });
             } catch (error) {
-                res.status(404).json({ success: false, message: "User not found." });
+                res.status(404).json({ success: false, message: error.message });
             }
             break;
         default:

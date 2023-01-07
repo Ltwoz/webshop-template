@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import next from "next";
 import User from "../models/user";
 import catchAsyncErrors from "./catchAsyncErrors";
 

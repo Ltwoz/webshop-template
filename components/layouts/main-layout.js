@@ -4,7 +4,7 @@ import Navbar from "./navbar";
 
 import { IBM_Plex_Sans_Thai } from "@next/font/google";
 import { useContext } from "react";
-import ConfigsContext from "../../contexts/configs-context";
+import ConfigContext from "../../contexts/config/config-context";
 
 const ibm = IBM_Plex_Sans_Thai({
     weight: ["300", "400", "500", "600", "700"],
@@ -12,7 +12,7 @@ const ibm = IBM_Plex_Sans_Thai({
 });
 
 const Layout = ({ children }) => {
-    const configsCtx = useContext(ConfigsContext);
+    const { configs, loading, error } = useContext(ConfigContext);
 
     return (
         <>
@@ -22,14 +22,26 @@ const Layout = ({ children }) => {
                 }
             `}</style>
             <Head>
-                <title>{configsCtx?.website_title || "SRVT"}</title>
-                <meta name="description" content={configsCtx?.website_desc || "SRVT"} />
-                <meta name="keywords" content={configsCtx?.website_name || "SRVT"} />
+                <title>{configs?.website_title || "SRVT"}</title>
+                <meta
+                    name="description"
+                    content={configs?.website_desc || "SRVT"}
+                />
+                <meta
+                    name="keywords"
+                    content={configs?.website_name || "SRVT"}
+                />
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
-                <link rel="icon" href="/favicon.ico" />
+                <link
+                    rel="icon"
+                    href={
+                        configs?.website_icon ||
+                        "https://media.discordapp.net/attachments/717327142978977834/1060896307235004467/favicon.png"
+                    }
+                />
             </Head>
             <div className="bg-gray-50 text-gray-800 min-h-screen">
                 <Navbar />

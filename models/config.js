@@ -5,20 +5,33 @@ const ConfigSchema = mongoose.Schema(
         website_title: {
             type: String,
             required: [true, "Please provide a Website Title."],
-            default: "SVRT E-Commerce For Rent.",
+            default: "SVRT E-Commerce Provider For Rent.",
         },
         website_name: {
             type: String,
             required: [true, "Please provide a Website Title."],
             default: "SVRT",
         },
+        website_desc: {
+            type: String,
+            required: [true, "Please provide a Website Description."],
+            default: "SVRT E-Commerce Provider For Rent.",
+        },
         website_icon: {
             type: String,
             required: [true, "Please provide a Website Icon."],
         },
-        website_thumbnail: {
+        website_logo: {
             type: String,
-            required: [true, "Please provide a Website Thumbnail."],
+            required: [true, "Please provide a Website Logo."],
+        },
+        website_banner: {
+            type: String,
+            required: [true, "Please provide a Website Banner."],
+        },
+        announcement: {
+            type: String,
+            required: true,
         },
         recaptcha_key: {
             type: String,

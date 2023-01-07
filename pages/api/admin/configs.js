@@ -1,6 +1,5 @@
 import dbConnect from "../../../lib/db-connect";
 import { authorizeRoles, isAuthenticatedUser } from "../../../middlewares/auth";
-import catchAsyncErrors from "../../../middlewares/catchAsyncErrors";
 import Config from "../../../models/config";
 
 const handler = async (req, res) => {
@@ -37,7 +36,7 @@ const handler = async (req, res) => {
             } catch (error) {
                 res.status(406).json({
                     success: false,
-                    message: "Update Not Acceptable.",
+                    message: error.message,
                 });
             }
             break;

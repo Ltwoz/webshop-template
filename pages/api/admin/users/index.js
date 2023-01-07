@@ -11,7 +11,7 @@ const handler = async (req, res) => {
     switch (req.method) {
         case "GET":
             try {
-                const users = await User.find();
+                const users = await User.find().select("-__v");
 
                 res.status(200).json({ success: true, users });
             } catch (error) {

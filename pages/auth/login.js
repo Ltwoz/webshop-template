@@ -1,30 +1,23 @@
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import Layout from "../../components/layouts/main-layout";
+import UserContext from "../../contexts/user/user-context";
 
 const LoginPage = () => {
     const router = useRouter();
     const usernameRef = useRef();
     const passwordRef = useRef();
 
+    const { login, loading, error, success } = useContext(UserContext);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const enteredUsername = usernameRef.current.value;
         const enteredPassword = passwordRef.current.value;
 
-        fetch("/api/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username: enteredUsername,
-                password: enteredPassword
-            })
-        }).then(res => res.json()).then(data => console.log(data))
-
-        router.push("/")
-    }
+        login(enteredUsername, enteredPassword);
+        router.replace("/")
+    };
 
     return (
         <Layout>
@@ -33,10 +26,12 @@ const LoginPage = () => {
                     <div className="flex-col flex  self-center lg:px-14 sm:max-w-4xl xl:max-w-md  z-10">
                         <div className="self-start hidden lg:flex flex-col  text-gray-300">
                             <h1 className="my-3 font-semibold text-4xl">
-                                SRVT 
+                                SRVT
                             </h1>
                             <p className="pr-3 text-sm opacity-75">
-                                รับกดผล รับฟามราคาถูก และยังมี Robux VIPSERVER ในราคาสุดคุ้มอีกมากมาย ว่าไม่จะไก่ตันหรือ ไอดีต่างๆที่นี้มีขาย
+                                รับกดผล รับฟามราคาถูก และยังมี Robux VIPSERVER
+                                ในราคาสุดคุ้มอีกมากมาย ว่าไม่จะไก่ตันหรือ
+                                ไอดีต่างๆที่นี้มีขาย
                             </p>
                         </div>
                     </div>
@@ -66,7 +61,10 @@ const LoginPage = () => {
                                     />
                                 </div>
 
-                                <div className="relative" x-data="{ show: true }">
+                                <div
+                                    className="relative"
+                                    x-data="{ show: true }"
+                                >
                                     <input
                                         placeholder="Password"
                                         type="password"
@@ -93,7 +91,6 @@ const LoginPage = () => {
                                         เข้าสู่ระบบ
                                     </button>
                                 </div>
-
                             </form>
                         </div>
                     </div>

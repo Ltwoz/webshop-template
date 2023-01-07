@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import ConfigsContext from "../../contexts/configs-context";
+import ConfigsContext from "../../contexts/config/config-context";
 import UserContext from "../../contexts/user/user-context";
 
 const Navbar = () => {
-    const configsCtx = useContext(ConfigsContext);
-    const userCtx = useContext(UserContext);
+    const { configs } = useContext(ConfigsContext);
+    const { user, loading, error, success, logout } = useContext(UserContext);
+    const router = useRouter();
 
     const [showMenu, setShowMenu] = useState(false);
 
@@ -23,6 +25,12 @@ const Navbar = () => {
     const handleClick = (e) => {
         e.stopPropagation();
         setShowMenu(!showMenu);
+    };
+
+    const logoutHandler = (e) => {
+        e.preventDefault();
+        logout();
+        router.replace("/")
     };
 
     return (
@@ -43,7 +51,10 @@ const Navbar = () => {
                             <div className="relative h-8 sm:h-10 w-24">
                                 <Image
                                     alt="logo_img"
-                                    src={configsCtx?.website_icon || "https://media.discordapp.net/attachments/872102608909795449/944274854121701416/logo.png"}
+                                    src={
+                                        configs?.website_logo ||
+                                        "https://media.discordapp.net/attachments/872102608909795449/944274854121701416/logo.png"
+                                    }
                                     draggable="false"
                                     fill
                                     className="object-contain"
@@ -85,7 +96,7 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {userCtx ? (
+                {Object.keys(user).length > 0 ? (
                     <div className="hidden relative md:flex text-left items-center">
                         <div className="flex items-center">
                             <button
@@ -93,7 +104,7 @@ const Navbar = () => {
                                 className="w-full hover:cursor-pointer justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
                                 onClick={handleClick}
                             >
-                                <p>{userCtx.username}</p>
+                                <p>{user?.username}</p>
                             </button>
                         </div>
 
@@ -106,10 +117,10 @@ const Navbar = () => {
                                     href="#"
                                     className="text-gray-700 block px-4 py-2 text-sm"
                                 >
-                                    {userCtx.point.toFixed(2)} บาท
+                                    {user?.point.toFixed(2)} บาท
                                 </div>
                             </div>
-                            {userCtx.role === "admin" && (
+                            {user?.role === "admin" && (
                                 <div className="py-1">
                                     <Link
                                         href={`/dashboard`}
@@ -134,12 +145,12 @@ const Navbar = () => {
                                 </Link>
                             </div>
                             <div className="py-1">
-                                <div
-                                    href="#"
-                                    className="text-red-600 block px-4 py-2 text-sm hover:bg-gray-100/50"
+                                <button
+                                    onClick={logoutHandler}
+                                    className="text-red-600 w-full text-left px-4 py-2 text-sm hover:bg-gray-100/50"
                                 >
                                     ออกจากระบบ
-                                </div>
+                                </button>
                             </div>
                         </div>
                     </div>

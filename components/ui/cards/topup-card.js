@@ -16,7 +16,7 @@ const TopupCard = () => {
         //         />
         //     </div>
         // </div>
-        <div className="overflow-hidden rounded-xl border shadow-md w-full divide-y">
+        <div className="overflow-hidden rounded-xl border shadow-md w-full divide-y bg-white">
             <div id="payment-method" className=" px-6 py-6">
                 <h2 className="text-md md:text-lg font-medium">ช่องทางการเติมเงิน</h2>
                 <div id="payment-group">

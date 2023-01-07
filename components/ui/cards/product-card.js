@@ -20,7 +20,7 @@ const ProductCard = () => {
                         className="select-none object-cover"
                     />
                 </div>
-                <div className="p-6">
+                <div className="p-6 bg-white">
                     <h1 className="text-xl font-semibold mb-4">
                         สินค้าตัวอย่าง
                     </h1>
