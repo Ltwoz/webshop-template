@@ -4,10 +4,16 @@ const CategorySchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "Please provide a name for this category."],
+        unique: true,
     },
     description: {
         type: String,
         required: [true, "Please provide a description for this category."],
+    },
+    type: {
+        type: String,
+        required:[true, "Please provide a type for this category."],
+        enum: ["STOCK", "ID_PASS"],
     },
     image: {
         type: String,
@@ -16,7 +22,12 @@ const CategorySchema = new mongoose.Schema({
     slug: {
         type: String,
         required: [true, "Please provide a slug for this category."],
-    }
+        unique: true,
+    },
+    isActive: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 export default mongoose.models.Category ||

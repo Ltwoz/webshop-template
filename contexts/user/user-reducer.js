@@ -26,6 +26,8 @@ import {
 
 const UserReducer = (state, action) => {
     switch (action.type) {
+
+        //* Login & Register
         case USER_LOGIN_REQUEST:
         case USER_REGISTER_REQUEST:
             return {
@@ -37,8 +39,8 @@ const UserReducer = (state, action) => {
             return {
                 ...state,
                 loading: false,
-                success: true,
-                user: action.payload,
+                success: action.payload.success,
+                user: action.payload.user,
             };
         case USER_UPDATE_PROFILE_FAIL:
         case USER_LOGIN_FAIL:
@@ -81,7 +83,7 @@ const UserReducer = (state, action) => {
                     loading: false,
                     success: false,
                     userDetails: {},
-                    error: "",
+                    error: null,
                 },
             };
 
@@ -95,7 +97,7 @@ const UserReducer = (state, action) => {
             return {
                 ...state,
                 loading: false,
-                success: true,
+                isUpdated: action.payload.success,
                 userInfo: action.payload,
                 userDetailsScreen: { userDetails: action.payload },
             };

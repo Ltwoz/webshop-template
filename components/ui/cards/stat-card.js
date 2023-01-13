@@ -4,7 +4,7 @@ import { MdOutlineSell } from "react-icons/md";
 import { useContext } from "react";
 import ConfigsContext from "../../../contexts/config/config-context";
 
-const StatCard = () => {
+const StatCard = ({stats}) => {
     const { configs } = useContext(ConfigsContext);
 
     return (
@@ -67,7 +67,7 @@ const StatCard = () => {
                             สินค้าทั้งหมด
                         </h4>
                         <h1 className="text-3xl md:text-2xl lg:text-3xl font-semibold">
-                            42 ชิ้น
+                            {stats?.productCount} ชิ้น
                         </h1>
                     </div>
                 </div>
@@ -99,7 +99,7 @@ const StatCard = () => {
                             ผู้ใช้งานทั้งหมด
                         </h4>
                         <h1 className="text-3xl md:text-2xl lg:text-3xl font-semibold">
-                            1,258 คน
+                            {stats?.userCount} คน
                         </h1>
                     </div>
                 </div>

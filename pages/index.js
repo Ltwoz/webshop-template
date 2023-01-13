@@ -1,12 +1,13 @@
+import axios from "axios";
 import Image from "next/image";
 import { useContext } from "react";
 import Layout from "../components/layouts/main-layout";
 import ProductCard from "../components/ui/cards/product-card";
 import StatCard from "../components/ui/cards/stat-card";
 import ConfigsContext from "../contexts/config/config-context";
-// import { withInitProps } from "../utils/get-init-data";
+import { withInitProps } from "../utils/get-init-data";
 
-export default function Home() {
+export default function Home({stats}) {
     const { configs } = useContext(ConfigsContext);
 
     return (
@@ -29,7 +30,7 @@ export default function Home() {
                     </section>
 
                     <section id="stats" className="px-2">
-                        <StatCard />
+                        <StatCard stats={stats} />
                     </section>
 
                     <section id="products">
@@ -45,11 +46,20 @@ export default function Home() {
     );
 }
 
-export { getServerSideProps } from "../utils/get-init-data";
-// export const getServerSideProps = withInitProps(async (ctx) => {
-//     return {
-//         props: {
-//             text: "hello"
-//         },
-//     };
-// });
+// export { getServerSideProps } from "../utils/get-init-data";
+export const getServerSideProps = withInitProps(async (ctx) => {
+    const nextRequestMeta = ctx.req[Reflect.ownKeys(ctx.req).find(
+        (s) => String(s) === "Symbol(NextRequestMeta)"
+    )];
+    const protocal = nextRequestMeta._protocol;
+
+    const { data } = await axios.get(
+        `${protocal}://${ctx.req.headers.host}/api/stats`
+    );
+
+    return {
+        props: {
+            stats: data
+        },
+    };
+});

@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useContext, useReducer } from "react";
 import UserReducer from "./user-reducer";
 import {
     USER_LOGIN_REQUEST,
@@ -26,6 +26,7 @@ import {
     CLEAR_ERRORS,
 } from "../../types/user-constants";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const UserContext = createContext();
 
@@ -69,10 +70,7 @@ export const UserContextProvider = (props) => {
                 config
             );
 
-            dispatch({
-                type: USER_LOGIN_SUCCESS,
-                payload: data.user,
-            });
+            dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
         } catch (error) {
             dispatch({
                 type: USER_LOGIN_FAIL,
@@ -123,7 +121,7 @@ export const UserContextProvider = (props) => {
         }
     };
 
-    //* get All Users
+    //* get All Users -- Admin
     const getAllUsers = async () => {
         try {
             dispatch({ type: ALL_USER_REQUEST });
@@ -170,13 +168,14 @@ export const UserContextProvider = (props) => {
     //* Clear Errors
     const clearErrors = async () => {
         dispatch({ type: CLEAR_ERRORS });
-    }
+    };
 
     // props.value
     return (
         <UserContext.Provider
             value={{
                 user: state.user,
+                isAuthenticated: Object.keys(state.user).length > 0,
                 userDetailsScreen: state.userDetailsScreen,
                 userListScreen: state.userListScreen,
                 loading: state.loading,
@@ -194,5 +193,25 @@ export const UserContextProvider = (props) => {
         </UserContext.Provider>
     );
 };
+
+//TODO #1 HOC Protected Route.
+// export const ProtectedRoute = (Component) => {
+//     const AuthenticatedComponent = () => {
+//         const { isAuthenticated, loading, user } = useContext(UserContext);
+//         const router = useRouter();
+
+//         if (!isAuthenticated) {
+//             return router.push("/auth/login")
+//         }
+
+//         return <Component />;
+
+//         // if (isAdmin === true && user.role !== "admin") {
+//         //     return router.push("/");
+//         // }
+
+//     };
+//     return AuthenticatedComponent;
+// };
 
 export default UserContext;

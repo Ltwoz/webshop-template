@@ -36,7 +36,7 @@ const Navbar = () => {
     return (
         <nav
             className="fixed top-0 py-5 w-full bg-gray-100/80
-        backdrop-blur-md z-50"
+        backdrop-blur-md z-30"
         >
             <div
                 className="max-w-[1150px] px-4 sm:px-6 mx-auto flex justify-between

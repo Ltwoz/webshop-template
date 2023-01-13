@@ -38,7 +38,7 @@ const ConfigReducer = (state, action) => {
             return {
                 ...state,
                 loading: false,
-                isUpdated: true,
+                isUpdated: action.payload.success,
             };
         case UPDATE_CONFIG_FAIL:
             return {

@@ -24,8 +24,8 @@ const handler = async (req, res) => {
         case "PUT":
             try {
                 const newUserData = {
-                    username: req.body.username,
-                    email: req.body.email,
+                    // username: req.body.username,
+                    // email: req.body.email,
                     role: req.body.role,
                     point: req.body.point
                 }
@@ -44,30 +44,30 @@ const handler = async (req, res) => {
                 });
             }
             break;
-        case "DELETE":
-            try {
-                const user = await User.findById(req.query.id);
+        // case "DELETE":
+        //     try {
+        //         const user = await User.findById(req.query.id);
 
-                if (!user) {
-                    res.status(400).json({
-                        success: false,
-                        message: "User not found.",
-                    });
-                }
+        //         if (!user) {
+        //             res.status(400).json({
+        //                 success: false,
+        //                 message: "User not found.",
+        //             });
+        //         }
 
-                await user.remove();
+        //         await user.remove();
 
-                res.status(200).json({
-                    success: true,
-                    message: "User Delete Successfully.",
-                });
-            } catch (error) {
-                res.status(400).json({
-                    success: false,
-                    message: error.message,
-                });
-            }
-            break;
+        //         res.status(200).json({
+        //             success: true,
+        //             message: "User Delete Successfully.",
+        //         });
+        //     } catch (error) {
+        //         res.status(400).json({
+        //             success: false,
+        //             message: error.message,
+        //         });
+        //     }
+        //     break;
         default:
             res.status(405).json({
                 success: false,

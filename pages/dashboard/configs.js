@@ -1,8 +1,6 @@
 import DashboardNavbar from "../../components/layouts/dashboard-navbar";
 import Layout from "../../components/layouts/main-layout";
-import useSWR from "swr";
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
 import ConfigContext from "../../contexts/config/config-context";
@@ -72,7 +70,7 @@ const AdminConfig = () => {
         }
     }, [clearErrors, dispatch, error, isUpdated, router]);
 
-    const handleSaveHandler = (e) => {
+    const handleSave = (e) => {
         e.preventDefault();
         const configsForm = new FormData();
 
@@ -96,7 +94,7 @@ const AdminConfig = () => {
                     <form
                         id="left"
                         autoComplete="off"
-                        onSubmit={handleSaveHandler}
+                        onSubmit={handleSave}
                         className="w-full md:w-2/3 mr-6 bg-white border rounded-md shadow mb-6 divide-y"
                     >
                         <div className="p-6 flex items-center justify-between">
@@ -130,7 +128,6 @@ const AdminConfig = () => {
                         >
                             <div className="col-span-6 md:col-span-3">
                                 <label
-                                    htmlFor="website-title"
                                     className="block text-sm font-medium tracking-wide"
                                 >
                                     ชื่อเว็บไซต์
@@ -146,7 +143,6 @@ const AdminConfig = () => {
                             </div>
                             <div className="col-span-6 md:col-span-3">
                                 <label
-                                    htmlFor="website-name"
                                     className="block text-sm font-medium tracking-wide"
                                 >
                                     ชื่อเว็บไซต์ (ย่อ)
@@ -162,7 +158,6 @@ const AdminConfig = () => {
                             </div>
                             <div className="col-span-6 md:col-span-">
                                 <label
-                                    htmlFor="website-desc"
                                     className="block text-sm font-medium tracking-wide"
                                 >
                                     รายละเอียด
@@ -179,7 +174,6 @@ const AdminConfig = () => {
                             </div>
                             <div className="col-span-6 md:col-span-6">
                                 <label
-                                    htmlFor="website-icon"
                                     className="block text-sm font-medium tracking-wide"
                                 >
                                     ไอคอนเว็บไซต์ (16x16)
@@ -195,7 +189,6 @@ const AdminConfig = () => {
                             </div>
                             <div className="col-span-6 md:col-span-6">
                                 <label
-                                    htmlFor="website-logo"
                                     className="block text-sm font-medium tracking-wide"
                                 >
                                     โลโก้เว็บไซต์ (40x40)
@@ -211,7 +204,6 @@ const AdminConfig = () => {
                             </div>
                             <div className="col-span-6 md:col-span-6">
                                 <label
-                                    htmlFor="website-thumbnail"
                                     className="block text-sm font-medium tracking-wide"
                                 >
                                     แบนเนอร์เว็บไซต์ (1100x250)
@@ -227,7 +219,6 @@ const AdminConfig = () => {
                             </div>
                             <div className="col-span-6 md:col-span-6">
                                 <label
-                                    htmlFor="announcement"
                                     className="block text-sm font-medium tracking-wide"
                                 >
                                     ประกาศ
@@ -278,15 +269,14 @@ const AdminConfig = () => {
                         >
                             <div className="col-span-3">
                                 <label
-                                    htmlFor="website-title"
                                     className="block text-sm font-medium tracking-wide"
                                 >
                                     เบอร์โทรศัพท์
                                 </label>
                                 <input
                                     type="text"
-                                    name="website-title"
-                                    id="website-title"
+                                    name="tw-number"
+                                    id="tw-number"
                                     value={twPhone}
                                     onChange={(e) => setTwPhone(e.target.value)}
                                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"

@@ -11,7 +11,15 @@ const handler = async (req, res) => {
     switch (req.method) {
         case "POST":
             try {
-                const category = await Category.create(req.body);
+                const { name, description, type, image, slug } = req.body;
+
+                const category = await Category.create({
+                    name,
+                    description,
+                    type,
+                    image,
+                    slug
+                });
 
                 res.status(201).json({ success: true, category });
             } catch (error) {

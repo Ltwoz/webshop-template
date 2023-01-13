@@ -3,6 +3,7 @@ import {
     authorizeRoles,
     isAuthenticatedUser,
 } from "../../../../middlewares/auth";
+import Category from "../../../../models/category";
 import Product from "../../../../models/product";
 
 const handler = async (req, res) => {
@@ -11,13 +12,16 @@ const handler = async (req, res) => {
     switch (req.method) {
         case "GET":
             try {
-                const products = await Product.find();
+                const products = await Product.find().populate({
+                    path: "category",
+                    model: Category,
+                });
 
                 res.status(200).json({ success: true, products });
             } catch (error) {
                 res.status(404).json({
                     success: false,
-                    message: "Products not found.",
+                    message: error.message,
                 });
             }
             break;

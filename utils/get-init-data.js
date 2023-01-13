@@ -25,12 +25,12 @@ export const getServerSideProps = async (ctx) => {
         );
         user_data = await user_raw.data;
     } catch (error) {
-        console.log("Not Login.");
+        // console.log("Not Login.");
     }
-    console.log("get init data");
+    
     return {
         props: {
-            user: user_data?.success ? user_data?.user : null,
+            user: user_data?.success ? user_data.user : null,
             configs: config_data?.configs,
         },
     };

@@ -26,7 +26,7 @@ const DashboardNavbar = () => {
                     จัดการหมวดหมู่
                 </Link>
                 <Link
-                    href={`/dashboard`}
+                    href={`/dashboard/products`}
                     className="appearance-none py-4 text-grey-dark"
                 >
                     จัดการสินค้า

@@ -1,40 +1,39 @@
 import { useContext, useEffect, useState } from "react";
 import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 import Layout from "../../../components/layouts/main-layout";
-import CategoryContext from "../../../contexts/category/category-context";
 import Swal from "sweetalert2";
-import { DELETE_CATEGORY_RESET } from "../../../types/category-constants";
+import ProductContext from "../../../contexts/product/product-context";
+import { DELETE_PRODUCT_RESET } from "../../../types/product-constants";
 import { CSSTransition } from "react-transition-group";
-import NewCategoryModal from "../../../components/ui/modals/new-category-modal";
-import UpdateCategoryModal from "../../../components/ui/modals/update-category-modal";
+import NewProductModal from "../../../components/ui/modals/new-product-modal";
+import UpdateProductModal from "../../../components/ui/modals/update-product-modal";
 
-const AdminCategories = () => {
+const AdminProducts = () => {
     const {
-        getAdminCategories,
-        deleteCategory,
-        categories,
+        getAdminProducts,
+        deleteProduct,
+        products,
         loading,
         error,
         success,
-        isUpdated,
         isDeleted,
         dispatch,
-    } = useContext(CategoryContext);
+    } = useContext(ProductContext);
 
     const [isNewModalOpen, setIsNewModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-    const [category, setCategory] = useState("");
+    const [product, setProduct] = useState("")
 
     useEffect(() => {
-        getAdminCategories();
+        getAdminProducts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [success, isUpdated, isDeleted]);
+    }, [success, isDeleted]);
 
-    const deleteHandler = (e, category) => {
+    const deleteHandler = (e, product) => {
         e.preventDefault();
 
         Swal.fire({
-            title: `ลบหมวดหมู่ ${category.name} ?`,
+            title: `ลบสินค้า ${product.name} ?`,
             text: "หากลบแล้วไม่สามารถกู้คืนได้!",
             icon: "warning",
             showCancelButton: true,
@@ -44,14 +43,10 @@ const AdminCategories = () => {
             cancelButtonText: "ยกเลิก",
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteCategory(category._id);
-                Swal.fire(
-                    "ลบหมวดหมู่แล้ว!",
-                    "ไม่มีหมวดหมู่นี้อีกแล้ว",
-                    "success"
-                );
+                deleteProduct(product._id);
+                Swal.fire("ลบสินค้าแล้ว!", "ไม่มีสินค้านี้อีกแล้ว", "success");
             }
-            dispatch({ type: DELETE_CATEGORY_RESET });
+            dispatch({ type: DELETE_PRODUCT_RESET });
         });
     };
 
@@ -63,7 +58,7 @@ const AdminCategories = () => {
                 classNames="modal"
                 unmountOnExit
             >
-                <NewCategoryModal setIsNewModalOpen={setIsNewModalOpen} />
+                <NewProductModal setIsNewModalOpen={setIsNewModalOpen} />
             </CSSTransition>
             <CSSTransition
                 in={isUpdateModalOpen}
@@ -71,8 +66,8 @@ const AdminCategories = () => {
                 classNames="modal"
                 unmountOnExit
             >
-                <UpdateCategoryModal
-                    category={category}
+                <UpdateProductModal
+                    product={product}
                     setIsUpdateModalOpen={setIsUpdateModalOpen}
                 />
             </CSSTransition>
@@ -80,9 +75,7 @@ const AdminCategories = () => {
                 <DashboardNavbar />
                 <section className="bg-white border rounded-md shadow mb-6 divide-y">
                     <div className="p-6 flex items-center justify-between max-h-[88px]">
-                        <h2 className="text-lg font-semibold">
-                            จัดการหมวดหมู่
-                        </h2>
+                        <h2 className="text-lg font-semibold">จัดการสินค้า</h2>
                         <button
                             type="button"
                             onClick={() =>
@@ -105,7 +98,7 @@ const AdminCategories = () => {
                                 />
                             </svg>
                             <span className="hidden md:block">
-                                สร้างหมวดหมู่ใหม่
+                                เพิ่มสินค้าใหม่
                             </span>
                         </button>
                     </div>
@@ -114,10 +107,16 @@ const AdminCategories = () => {
                             <thead>
                                 <tr className="bg-gray-200 text-gray-600 text-sm leading-normal">
                                     <th className="py-3 px-6 text-left">
-                                        ชื่อหมวดหมู่
+                                        ชื่อสินค้า
                                     </th>
                                     <th className="py-3 px-6 text-left">
-                                        ประเภท
+                                        หมวดหมู่
+                                    </th>
+                                    <th className="py-3 px-6 text-left">
+                                        ราคา
+                                    </th>
+                                    <th className="py-3 px-6 text-center">
+                                        สต็อก
                                     </th>
                                     <th className="py-3 px-6 text-center">
                                         สถานะ
@@ -128,19 +127,25 @@ const AdminCategories = () => {
                                 </tr>
                             </thead>
                             <tbody className="text-gray-600 text-base">
-                                {categories?.map((category) => (
+                                {products?.map((product) => (
                                     <tr
-                                        key={category._id}
+                                        key={product._id}
                                         className="border-b border-gray-200 hover:bg-gray-100/80"
                                     >
                                         <td className="py-3 px-6 text-left">
-                                            {category.name}
+                                            {product.name}
                                         </td>
                                         <td className="py-3 px-6 text-left">
-                                            {category.type}
+                                            {product.category?.name}
+                                        </td>
+                                        <td className="py-3 px-6 text-left">
+                                            {product.price.toFixed(2)}
                                         </td>
                                         <td className="py-3 px-6 text-center">
-                                            {category.isActive ? (
+                                            {product.stock}
+                                        </td>
+                                        <td className="py-3 px-6 text-center">
+                                            {product.isActive ? (
                                                 <span className="bg-blue-100 text-green-800 text-base font-medium px-4 py-0.5 rounded-full dark:bg-green-600 dark:text-green-100">
                                                     เปิด
                                                 </span>
@@ -176,7 +181,7 @@ const AdminCategories = () => {
                                                 </button>
                                                 <button
                                                     onClick={() => {
-                                                        setCategory(category)
+                                                        setProduct(product);
                                                         setIsUpdateModalOpen(
                                                             (prevState) =>
                                                                 !prevState
@@ -203,7 +208,7 @@ const AdminCategories = () => {
                                                     onClick={(e) =>
                                                         deleteHandler(
                                                             e,
-                                                            category
+                                                            product
                                                         )
                                                     }
                                                     className="transform text-red-600 hover:scale-110 transition-all border hover:border-red-600 rounded-full p-2"
@@ -236,6 +241,6 @@ const AdminCategories = () => {
     );
 };
 
-export default AdminCategories;
+export default AdminProducts;
 
 export { getServerSideProps } from "../../../utils/get-init-data";
