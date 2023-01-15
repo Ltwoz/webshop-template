@@ -21,24 +21,69 @@ const handler = async (req, res) => {
                 });
             }
             break;
+        case "POST":
+            try {
+                const { stock } = req.body;
+
+                console.log(stock);
+
+                if (!stock) {
+                    return res.status(404).json({
+                        success: false,
+                        message: "No stock data.",
+                    });
+                }
+
+                const product = await Product.findById(req.query.id);
+
+                if (!product) {
+                    return res.status(404).json({
+                        success: false,
+                        message: "Products not found.",
+                    });
+                }
+
+                // //* If req.body.stock is array use concat instead of push
+                // if (Array.isArray(stock)) {
+                //     product.stock = product.stock.concat(stock);
+                // } else {
+                //     product.stock.push(stock);
+                // }
+
+                product.stock = stock
+
+                product.save();
+
+                res.status(200).json({ success: true, product });
+            } catch (error) {
+                res.status(400).json({
+                    success: false,
+                    message: error.message,
+                });
+            }
+            break;
         case "PUT":
             try {
                 let product = await Product.findById(req.query.id);
 
                 if (!product) {
-                    res.status(400).json({
+                    res.status(404).json({
                         success: false,
                         message: "Product not found.",
                     });
                 }
 
-                product = await Product.findByIdAndUpdate(req.query.id, req.body, {
-                    new: true,
-                    runValidators: true,
-                    useFindAndModify: true
-                });
+                product = await Product.findByIdAndUpdate(
+                    req.query.id,
+                    req.body,
+                    {
+                        new: true,
+                        runValidators: true,
+                        useFindAndModify: true,
+                    }
+                );
 
-                res.status(200).json({success: true, product});
+                res.status(200).json({ success: true, product });
             } catch (error) {
                 res.status(400).json({
                     success: false,

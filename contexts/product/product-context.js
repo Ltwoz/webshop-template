@@ -20,6 +20,9 @@ import {
     PRODUCT_DETAILS_FAIL,
     PRODUCT_DETAILS_SUCCESS,
     CLEAR_ERRORS,
+    UPDATE_STOCK_REQUEST,
+    UPDATE_STOCK_SUCCESS,
+    UPDATE_STOCK_FAIL,
 } from "../../types/product-constants";
 import ProductReducer from "./product-reducer";
 
@@ -114,6 +117,28 @@ export const ProductContextProvider = (props) => {
         }
     };
 
+    //* Update Stock -- Admin
+    const updateStock = async (id, stock) => {
+        try {
+            dispatch({ type: UPDATE_STOCK_REQUEST });
+
+            const config = { headers: { "Content-Type": "application/json" } };
+
+            const { data } = await axios.post(
+                `/api/admin/products/${id}`,
+                stock,
+                config
+            );
+
+            dispatch({ type: UPDATE_STOCK_SUCCESS, payload: data.success });
+        } catch (error) {
+            dispatch({
+                type: UPDATE_STOCK_FAIL,
+                payload: error.response.data.message,
+            });
+        }
+    };
+
     //* Delete Product -- Admin
     const deleteProduct = async (id) => {
         try {
@@ -165,6 +190,7 @@ export const ProductContextProvider = (props) => {
                 getAdminProducts,
                 createProduct,
                 updateProduct,
+                updateStock,
                 deleteProduct,
                 getProductDetails,
                 clearErrors,

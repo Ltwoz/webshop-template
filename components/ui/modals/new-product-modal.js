@@ -4,6 +4,7 @@ import Select from "react-select";
 import Swal from "sweetalert2";
 import CategoryContext from "../../../contexts/category/category-context";
 import ProductContext from "../../../contexts/product/product-context";
+import { colourStyles } from "../../../styles/select-style";
 import { NEW_PRODUCT_RESET } from "../../../types/product-constants";
 
 const typeOptions = [
@@ -162,6 +163,8 @@ const NewProductModal = ({ setIsNewModalOpen }) => {
                                 <Select
                                     options={categoryOptions}
                                     className="mt-1"
+                                    placeholder={'เลือกหมวดหมู่'}
+                                    styles={colourStyles}
                                     onChange={(e) => setCategory(e.value)}
                                 />
                             </div>
@@ -172,6 +175,8 @@ const NewProductModal = ({ setIsNewModalOpen }) => {
                                 <Select
                                     options={typeOptions}
                                     className="mt-1"
+                                    placeholder={'เลือกประเภท'}
+                                    styles={colourStyles}
                                     onChange={(e) => setType(e.value)}
                                 />
                             </div>

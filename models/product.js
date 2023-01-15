@@ -33,8 +33,8 @@ const ProductSchema = new mongoose.Schema({
         unique: true,
     },
     stock: {
-        type: Number,
-        default: 0,
+        type: Array,
+        default: [],
     },
     isActive: {
         type: Boolean,

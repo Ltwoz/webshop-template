@@ -9,7 +9,7 @@ export default async function handler(req, res) {
         case "GET":
             try {
                 const ApiFeature = new ApiFeatures(
-                    Product.find(),
+                    Product.find().select("-stock"),
                     req.query
                 ).filter();
 

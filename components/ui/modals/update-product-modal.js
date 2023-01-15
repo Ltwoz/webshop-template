@@ -4,6 +4,7 @@ import Select from "react-select";
 import Swal from "sweetalert2";
 import CategoryContext from "../../../contexts/category/category-context";
 import ProductContext from "../../../contexts/product/product-context";
+import { colourStyles } from "../../../styles/select-style";
 import { UPDATE_PRODUCT_RESET } from "../../../types/product-constants";
 
 const typeOptions = [
@@ -12,7 +13,7 @@ const typeOptions = [
 ];
 
 const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
-    const { updateProduct, clearErrors, loading, error, success, dispatch } =
+    const { updateProduct, clearErrors, loading, error, success, isUpdated, dispatch } =
         useContext(ProductContext);
 
     const { getAdminCategories, categories } = useContext(CategoryContext);
@@ -25,8 +26,6 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
     const [type, setType] = useState("");
     const [image, setImage] = useState("");
     const [slug, setSlug] = useState("");
-
-    //TODO #2 const [stockData, setStockData] = useState("");
 
     const [categoryOptions, setCategoryOptions] = useState([]);
 
@@ -72,15 +71,15 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
             clearErrors();
         }
 
-        if (success === true) {
+        if (isUpdated === true) {
             Swal.fire({
-                title: "เพิ่มสินค้าแล้ว",
+                title: "แก้ไขสินค้าแล้ว",
                 text: "",
                 icon: "success",
             });
             dispatch({ type: UPDATE_PRODUCT_RESET });
         }
-    }, [clearErrors, dispatch, error, success]);
+    }, [clearErrors, dispatch, error, isUpdated]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -109,7 +108,7 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                     >
                         <div className="w-full px-6 py-4 flex items-center justify-between">
                             <h2 className="text-lg font-semibold">
-                                แก้ไขสินค้า
+                                แก้ไขสินค้า {product.name}
                             </h2>
                             <button
                                 type="button"
@@ -185,6 +184,8 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                                 <Select
                                     options={categoryOptions}
                                     className="mt-1"
+                                    placeholder={'เลือกหมวดหมู่'}
+                                    styles={colourStyles}
                                     value={{
                                         value: category,
                                         label: categoryName,
@@ -202,6 +203,8 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                                 <Select
                                     options={typeOptions}
                                     className="mt-1"
+                                    placeholder={'เลือกประเภท'}
+                                    styles={colourStyles}
                                     value={{
                                         value: type,
                                         label:

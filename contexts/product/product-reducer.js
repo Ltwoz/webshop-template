@@ -21,6 +21,10 @@ import {
     PRODUCT_DETAILS_FAIL,
     PRODUCT_DETAILS_SUCCESS,
     CLEAR_ERRORS,
+    UPDATE_STOCK_REQUEST,
+    UPDATE_STOCK_SUCCESS,
+    UPDATE_STOCK_FAIL,
+    UPDATE_STOCK_RESET,
 } from "../../types/product-constants";
 
 const ProductReducer = (state, action) => {
@@ -83,6 +87,7 @@ const ProductReducer = (state, action) => {
         //* Update and Delete Product
         case DELETE_PRODUCT_REQUEST:
         case UPDATE_PRODUCT_REQUEST:
+        case UPDATE_STOCK_REQUEST:
             return {
                 ...state,
                 loading: true,
@@ -95,6 +100,7 @@ const ProductReducer = (state, action) => {
             };
 
         case UPDATE_PRODUCT_SUCCESS:
+        case UPDATE_STOCK_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -102,6 +108,7 @@ const ProductReducer = (state, action) => {
             };
         case DELETE_PRODUCT_FAIL:
         case UPDATE_PRODUCT_FAIL:
+        case UPDATE_STOCK_FAIL:
             return {
                 ...state,
                 loading: false,
@@ -113,6 +120,7 @@ const ProductReducer = (state, action) => {
                 isDeleted: false,
             };
         case UPDATE_PRODUCT_RESET:
+        case UPDATE_STOCK_RESET:
             return {
                 ...state,
                 isUpdated: false,

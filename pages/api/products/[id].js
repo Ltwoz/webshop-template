@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     switch (req.method) {
         case "GET":
             try {
-                const product = await Product.findById(req.query.id);
+                const product = await Product.findById(req.query.id).select("-stock");
 
                 res.status(200).json({
                     success: true,

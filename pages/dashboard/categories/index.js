@@ -151,8 +151,8 @@ const AdminCategories = () => {
                                             )}
                                         </td>
                                         <td className="py-3 px-6 text-center">
-                                            <div className="flex item-center justify-end">
-                                                <button className="mr-2 transform hover:text-purple-500 hover:scale-110 transition-all border hover:border-purple-500 rounded-full p-2">
+                                            <div className="flex item-center justify-end gap-x-2">
+                                                <button className="transform hover:text-purple-500 hover:scale-110 transition-all border hover:border-purple-500 rounded-full p-2">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -182,7 +182,7 @@ const AdminCategories = () => {
                                                                 !prevState
                                                         );
                                                     }}
-                                                    className="mr-2 transform hover:text-purple-500 hover:scale-110 transition-all border hover:border-purple-500 rounded-full p-2"
+                                                    className="transform hover:text-purple-500 hover:scale-110 transition-all border hover:border-purple-500 rounded-full p-2"
                                                 >
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"

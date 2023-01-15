@@ -4,6 +4,7 @@ import Select from "react-select";
 import CategoryContext from "../../../contexts/category/category-context";
 import Swal from "sweetalert2";
 import { NEW_CATEGORY_RESET } from "../../../types/category-constants";
+import { colourStyles } from "../../../styles/select-style";
 
 const typeOptions = [
     { value: "STOCK", label: "Stock" },
@@ -129,6 +130,7 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
                                 </label>
                                 <Select
                                     options={typeOptions}
+                                    styles={colourStyles}
                                     onChange={(e) => setType(e.value)}
                                 />
                             </div>
