@@ -13,19 +13,26 @@ const typeOptions = [
 ];
 
 const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
-    const { updateProduct, clearErrors, loading, error, success, isUpdated, dispatch } =
-        useContext(ProductContext);
+    const {
+        updateProduct,
+        clearErrors,
+        loading,
+        error,
+        success,
+        isUpdated,
+        dispatch,
+    } = useContext(ProductContext);
 
     const { getAdminCategories, categories } = useContext(CategoryContext);
 
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
-    const [category, setCategory] = useState("");
-    const [categoryName, setCategoryName] = useState("");
-    const [type, setType] = useState("");
-    const [image, setImage] = useState("");
-    const [slug, setSlug] = useState("");
+    const [name, setName] = useState(product.name);
+    const [description, setDescription] = useState(product.description);
+    const [price, setPrice] = useState(product.price);
+    const [category, setCategory] = useState(product.category?._id);
+    const [categoryName, setCategoryName] = useState(product.category?.name);
+    const [type, setType] = useState(product.type);
+    const [image, setImage] = useState(product.image);
+    const [slug, setSlug] = useState(product.slug);
 
     const [categoryOptions, setCategoryOptions] = useState([]);
 
@@ -40,26 +47,6 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
         });
         setCategoryOptions(categoryObj);
     }, [categories]);
-
-    useEffect(() => {
-        setName(product.name);
-        setDescription(product.description);
-        setPrice(product.price);
-        setCategory(product.category?._id);
-        setCategoryName(product.category?.name);
-        setType(product.type);
-        setImage(product.image);
-        setSlug(product.slug);
-    }, [
-        product.category?._id,
-        product.category?.name,
-        product.description,
-        product.image,
-        product.name,
-        product.price,
-        product.slug,
-        product.type,
-    ]);
 
     useEffect(() => {
         if (error) {
@@ -83,17 +70,16 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newForm = new FormData();
 
-        newForm.set("name", name);
-        newForm.set("description", description);
-        newForm.set("price", price);
-        newForm.set("category", category);
-        newForm.set("type", type);
-        newForm.set("image", image);
-        newForm.set("slug", slug);
-
-        updateProduct(product._id, newForm);
+        updateProduct(product._id, {
+            name: name,
+            description: description,
+            price: price,
+            category: category,
+            type: type,
+            image: image,
+            slug: slug,
+        });
         setIsUpdateModalOpen(false);
     };
 
@@ -108,7 +94,7 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                     >
                         <div className="w-full px-6 py-4 flex items-center justify-between">
                             <h2 className="text-lg font-semibold">
-                                แก้ไขสินค้า {product.name}
+                                แก้ไขสินค้า
                             </h2>
                             <button
                                 type="button"
@@ -133,8 +119,7 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                         </div>
                         <form
                             autoComplete="off"
-                            onSubmit={handleSubmit}
-                            className="px-6 py-4 grid grid-cols-6 gap-6"
+                            className="px-6 py-6 w-[40rem] grid grid-cols-6 gap-6"
                         >
                             <div className="col-span-6 md:col-span-3">
                                 <label className="block text-sm font-medium tracking-wide">
@@ -184,7 +169,7 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                                 <Select
                                     options={categoryOptions}
                                     className="mt-1"
-                                    placeholder={'เลือกหมวดหมู่'}
+                                    placeholder={"เลือกหมวดหมู่"}
                                     styles={colourStyles}
                                     value={{
                                         value: category,
@@ -203,7 +188,7 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                                 <Select
                                     options={typeOptions}
                                     className="mt-1"
-                                    placeholder={'เลือกประเภท'}
+                                    placeholder={"เลือกประเภท"}
                                     styles={colourStyles}
                                     value={{
                                         value: type,
@@ -241,8 +226,32 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                                 />
                             </div>
+                        </form>
+                        <div className="w-full px-6 py-4 flex items-center justify-end gap-x-4">
                             <button
-                                type="submit"
+                                type="button"
+                                onClick={() => setIsUpdateModalOpen(false)}
+                                className="inline-flex items-center font-medium text-black hover:bg-gray-200/80 py-2 px-4 rounded-md transition-all hover:scale-105"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={2}
+                                    stroke="currentColor"
+                                    className="w-5 h-5 mr-2"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                                <span>ยกเลิก</span>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleSubmit}
                                 className="inline-flex items-center font-medium text-white bg-primary hover:bg-violet-700 py-2 px-4 rounded-md transition-all hover:scale-105"
                             >
                                 <svg
@@ -261,7 +270,7 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                                 </svg>
                                 <span>บันทึก</span>
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>,
                 document.getElementById("modals")

@@ -4,6 +4,7 @@ import {
     isAuthenticatedUser,
 } from "../../../../middlewares/auth";
 import Product from "../../../../models/product";
+import Category from "../../../../models/category";
 
 const handler = async (req, res) => {
     await dbConnect();
@@ -12,6 +13,26 @@ const handler = async (req, res) => {
         case "POST":
             try {
                 const product = await Product.create(req.body);
+
+                const categories = await Category.aggregate([
+                    {
+                        $lookup: {
+                            from: "products",
+                            localField: "_id",
+                            foreignField: "category",
+                            as: "products"
+                        }
+                    },
+                    {
+                        $addFields: {
+                            products_count: { $size: "$products" }
+                        }
+                    }
+                ]);
+
+                for (let category of categories) {
+                    await Category.findByIdAndUpdate(category._id, { products_count: category.products_count });
+                }
 
                 res.status(201).json({ success: true, product });
             } catch (error) {

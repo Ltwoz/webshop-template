@@ -50,7 +50,7 @@ const NewProductModal = ({ setIsNewModalOpen }) => {
             clearErrors();
         }
 
-        if (success === true) {
+        if (success) {
             Swal.fire({
                 title: "เพิ่มสินค้าแล้ว",
                 text: "",
@@ -62,17 +62,16 @@ const NewProductModal = ({ setIsNewModalOpen }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newForm = new FormData();
 
-        newForm.set("name", name);
-        newForm.set("description", description);
-        newForm.set("price", price);
-        newForm.set("category", category);
-        newForm.set("type", type);
-        newForm.set("image", image);
-        newForm.set("slug", slug);
-
-        createProduct(newForm);
+        createProduct({
+            name: name,
+            description: description,
+            price: price,
+            category: category,
+            type: type,
+            image: image,
+            slug: slug,
+        });
         setIsNewModalOpen(false);
     };
 
@@ -112,8 +111,7 @@ const NewProductModal = ({ setIsNewModalOpen }) => {
                         </div>
                         <form
                             autoComplete="off"
-                            onSubmit={handleSubmit}
-                            className="px-6 py-4 grid grid-cols-6 gap-6"
+                            className="px-6 py-6 w-[40rem] grid grid-cols-6 gap-6"
                         >
                             <div className="col-span-6 md:col-span-3">
                                 <label className="block text-sm font-medium tracking-wide">
@@ -163,7 +161,7 @@ const NewProductModal = ({ setIsNewModalOpen }) => {
                                 <Select
                                     options={categoryOptions}
                                     className="mt-1"
-                                    placeholder={'เลือกหมวดหมู่'}
+                                    placeholder={"เลือกหมวดหมู่"}
                                     styles={colourStyles}
                                     onChange={(e) => setCategory(e.value)}
                                 />
@@ -175,7 +173,7 @@ const NewProductModal = ({ setIsNewModalOpen }) => {
                                 <Select
                                     options={typeOptions}
                                     className="mt-1"
-                                    placeholder={'เลือกประเภท'}
+                                    placeholder={"เลือกประเภท"}
                                     styles={colourStyles}
                                     onChange={(e) => setType(e.value)}
                                 />
@@ -206,8 +204,32 @@ const NewProductModal = ({ setIsNewModalOpen }) => {
                                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                                 />
                             </div>
+                        </form>
+                        <div className="w-full px-6 py-4 flex items-center justify-end gap-x-4">
                             <button
-                                type="submit"
+                                type="button"
+                                onClick={() => setIsUpdateModalOpen(false)}
+                                className="inline-flex items-center font-medium text-black hover:bg-gray-200/80 py-2 px-4 rounded-md transition-all hover:scale-105"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={2}
+                                    stroke="currentColor"
+                                    className="w-5 h-5 mr-2"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                                <span>ยกเลิก</span>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleSubmit}
                                 className="inline-flex items-center font-medium text-white bg-primary hover:bg-violet-700 py-2 px-4 rounded-md transition-all hover:scale-105"
                             >
                                 <svg
@@ -226,7 +248,7 @@ const NewProductModal = ({ setIsNewModalOpen }) => {
                                 </svg>
                                 <span>เพิ่ม</span>
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>,
                 document.getElementById("modals")

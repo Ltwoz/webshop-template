@@ -1,13 +1,31 @@
 import dbConnect from "../../../lib/db-connect";
 import Category from "../../../models/category";
 
-export default async function handler (req, res) {
+export default async function handler(req, res) {
     await dbConnect();
 
     switch (req.method) {
         case "GET":
             try {
-                const categories = await Category.find();
+                const categories = await Category.aggregate([
+                    {
+                        $lookup: {
+                            from: "products",
+                            localField: "_id",
+                            foreignField: "category",
+                            as: "products"
+                        }
+                    },
+                    {
+                        $addFields: {
+                            products_count: { $size: "$products" }
+                        }
+                    }
+                ]);
+
+                for (let category of categories) {
+                    await Category.findByIdAndUpdate(category._id, { products_count: category.products_count });
+                }
 
                 res.status(200).json({
                     success: true,

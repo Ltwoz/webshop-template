@@ -43,15 +43,14 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newForm = new FormData();
 
-        newForm.set("name", name);
-        newForm.set("description", description);
-        newForm.set("type", type);
-        newForm.set("image", image);
-        newForm.set("slug", slug);
-
-        createCategory(newForm);
+        createCategory({
+            name: name,
+            description: description,
+            type: type,
+            image: image,
+            slug: slug
+        });
         setIsNewModalOpen(false);
     };
 

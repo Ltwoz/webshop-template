@@ -83,7 +83,7 @@ const StatCard = ({stats}) => {
                             ขายไปแล้ว
                         </h4>
                         <h1 className="text-3xl md:text-2xl lg:text-3xl font-semibold">
-                            257 ชิ้น
+                        {stats?.orderCount} ชิ้น
                         </h1>
                     </div>
                 </div>

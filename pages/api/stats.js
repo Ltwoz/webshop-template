@@ -1,5 +1,6 @@
 import dbConnect from "../../lib/db-connect";
 import Product from "../../models/product";
+import Order from "../../models/order";
 import User from "../../models/user";
 
 export default async function handler(req, res) {
@@ -9,11 +10,13 @@ export default async function handler(req, res) {
         case "GET":
             try {
                 const productCount = await Product.countDocuments();
+                const orderCount = await Order.countDocuments();
                 const userCount = await User.countDocuments();
 
                 res.status(200).json({
                     success: true,
                     productCount,
+                    orderCount,
                     userCount,
                 });
             } catch (error) {

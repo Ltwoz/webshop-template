@@ -24,6 +24,10 @@ const CategorySchema = new mongoose.Schema({
         required: [true, "Please provide a slug for this category."],
         unique: true,
     },
+    products_count: {
+        type: Number,
+        default: 0
+    },
     isActive: {
         type: Boolean,
         default: true,

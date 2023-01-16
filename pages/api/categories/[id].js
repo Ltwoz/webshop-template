@@ -7,7 +7,41 @@ export default async function handler(req, res) {
     switch (req.method) {
         case "GET":
             try {
-                const category = await Category.findById(req.query.id);
+                let category = await Category.findById(req.query.id);
+
+                if (!category) {
+                    res.status(404).json({
+                        success: false,
+                        message: "Category not found.",
+                    });
+                }
+
+                category = await Category.aggregate([
+                    {
+                        $match: { _id: category._id },
+                    },
+                    {
+                        $lookup: {
+                            from: "products",
+                            localField: "_id",
+                            foreignField: "category",
+                            as: "products",
+                        },
+                    },
+                    {
+                        $addFields: {
+                            products_count: { $size: "$products" },
+                        },
+                    },
+                ]);
+
+                await Category.findByIdAndUpdate(
+                    req.query.id,
+                    {
+                        products_count: category.products_count,
+                    },
+                    { new: true }
+                );
 
                 res.status(200).json({
                     success: true,

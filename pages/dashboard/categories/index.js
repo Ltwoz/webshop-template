@@ -35,7 +35,7 @@ const AdminCategories = () => {
 
         Swal.fire({
             title: `ลบหมวดหมู่ ${category.name} ?`,
-            text: "หากลบแล้วไม่สามารถกู้คืนได้!",
+            text: "สินค้าในหมวดหมู่จะถูกลบด้วย!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -120,7 +120,7 @@ const AdminCategories = () => {
                                         ประเภท
                                     </th>
                                     <th className="py-3 px-6 text-center">
-                                        สถานะ
+                                        จำนวนสินค้า
                                     </th>
                                     <th className="py-3 px-6 text-center w-36">
                                         <span className="sr-only">Action</span>
@@ -140,15 +140,7 @@ const AdminCategories = () => {
                                             {category.type}
                                         </td>
                                         <td className="py-3 px-6 text-center">
-                                            {category.isActive ? (
-                                                <span className="bg-blue-100 text-green-800 text-base font-medium px-4 py-0.5 rounded-full dark:bg-green-600 dark:text-green-100">
-                                                    เปิด
-                                                </span>
-                                            ) : (
-                                                <span className="bg-blue-100 text-red-800 text-sm font-medium px-2.5 py-0.5 rounded-full dark:bg-red-600 dark:text-red-100">
-                                                    ปิด
-                                                </span>
-                                            )}
+                                            {category.products_count}
                                         </td>
                                         <td className="py-3 px-6 text-center">
                                             <div className="flex item-center justify-end gap-x-2">

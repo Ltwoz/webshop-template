@@ -37,7 +37,7 @@ const AdminProducts = () => {
 
         Swal.fire({
             title: `ลบสินค้า ${product.name} ?`,
-            text: "หากลบแล้วไม่สามารถกู้คืนได้!",
+            text: "สต็อกของสินค้านี้จะถูกลบด้วย!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -132,9 +132,6 @@ const AdminProducts = () => {
                                     <th className="py-3 px-6 text-center">
                                         สต็อก
                                     </th>
-                                    <th className="py-3 px-6 text-center">
-                                        สถานะ
-                                    </th>
                                     <th className="py-3 px-6 text-center w-36">
                                         <span className="sr-only">Action</span>
                                     </th>
@@ -157,17 +154,6 @@ const AdminProducts = () => {
                                         </td>
                                         <td className="py-3 px-6 text-center">
                                             {product.stock.length}
-                                        </td>
-                                        <td className="py-3 px-6 text-center">
-                                            {product.isActive ? (
-                                                <span className="bg-blue-100 text-green-800 text-base font-medium px-4 py-0.5 rounded-full dark:bg-green-600 dark:text-green-100">
-                                                    เปิด
-                                                </span>
-                                            ) : (
-                                                <span className="bg-blue-100 text-red-800 text-sm font-medium px-2.5 py-0.5 rounded-full dark:bg-red-600 dark:text-red-100">
-                                                    ปิด
-                                                </span>
-                                            )}
                                         </td>
                                         <td className="py-3 px-6 text-center">
                                             <div className="flex item-center justify-end gap-x-2">

@@ -22,25 +22,11 @@ const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
         dispatch,
     } = useContext(CategoryContext);
 
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [type, setType] = useState("");
-    const [image, setImage] = useState("");
-    const [slug, setSlug] = useState("");
-
-    useEffect(() => {
-        setName(category.name);
-        setDescription(category.description);
-        setType(category.type);
-        setImage(category.image);
-        setSlug(category.slug);
-    }, [
-        category.description,
-        category.image,
-        category.name,
-        category.slug,
-        category.type,
-    ]);
+    const [name, setName] = useState(category.name);
+    const [description, setDescription] = useState(category.description);
+    const [type, setType] = useState(category.type);
+    const [image, setImage] = useState(category.image);
+    const [slug, setSlug] = useState(category.slug);
 
     useEffect(() => {
         if (error) {
@@ -64,15 +50,14 @@ const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newForm = new FormData();
 
-        newForm.set("name", name);
-        newForm.set("description", description);
-        newForm.set("type", type);
-        newForm.set("image", image);
-        newForm.set("slug", slug);
-
-        updateCategory(category._id, newForm);
+        updateCategory(category._id, {
+            name: name,
+            description: description,
+            type: type,
+            image: image,
+            slug: slug
+        });
         setIsUpdateModalOpen(false);
     };
 

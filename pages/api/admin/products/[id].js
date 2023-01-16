@@ -4,6 +4,7 @@ import {
     isAuthenticatedUser,
 } from "../../../../middlewares/auth";
 import Product from "../../../../models/product";
+import { updateProductCount } from "../../../../utils/product-count";
 
 const handler = async (req, res) => {
     await dbConnect();
@@ -25,8 +26,6 @@ const handler = async (req, res) => {
             try {
                 const { stock } = req.body;
 
-                console.log(stock);
-
                 if (!stock) {
                     return res.status(404).json({
                         success: false,
@@ -43,15 +42,7 @@ const handler = async (req, res) => {
                     });
                 }
 
-                // //* If req.body.stock is array use concat instead of push
-                // if (Array.isArray(stock)) {
-                //     product.stock = product.stock.concat(stock);
-                // } else {
-                //     product.stock.push(stock);
-                // }
-
                 product.stock = stock
-
                 product.save();
 
                 res.status(200).json({ success: true, product });
@@ -83,6 +74,9 @@ const handler = async (req, res) => {
                     }
                 );
 
+                //* Update Category Products Count
+                updateProductCount();
+
                 res.status(200).json({ success: true, product });
             } catch (error) {
                 res.status(400).json({
@@ -103,6 +97,9 @@ const handler = async (req, res) => {
                 }
 
                 await product.remove();
+
+                //* Update Category Products Count
+                updateProductCount();
 
                 res.status(200).json({
                     success: true,
