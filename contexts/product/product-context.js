@@ -23,6 +23,11 @@ import {
     UPDATE_STOCK_REQUEST,
     UPDATE_STOCK_SUCCESS,
     UPDATE_STOCK_FAIL,
+    FEATURED_PRODUCT_REQUEST,
+    FEATURED_PRODUCT_SUCCESS,
+    FEATURED_PRODUCT_FAIL,
+    PRODUCT_PURCHASE_REQUEST,
+    PRODUCT_PURCHASE_SUCCESS,
 } from "../../types/product-constants";
 import ProductReducer from "./product-reducer";
 
@@ -33,6 +38,8 @@ export const ProductContextProvider = (props) => {
         products: [],
         product: {},
         loading: false,
+        new: { loading: false },
+        delUpdate: { loading: false },
         error: null,
         success: false,
         isUpdated: false,
@@ -42,11 +49,17 @@ export const ProductContextProvider = (props) => {
     const [state, dispatch] = useReducer(ProductReducer, initialState);
 
     //* Get All Products
-    const getAllProducts = async () => {
+    const getAllProducts = async (cid) => {
         try {
             dispatch({ type: ALL_PRODUCT_REQUEST });
 
-            const { data } = await axios.get(`/api/products`);
+            let link = `/api/products?cid=${cid}`;
+
+            if (cid) {
+                link = `/api/products?cid=${cid}`;
+            }
+
+            const { data } = await axios.get(link);
 
             dispatch({ type: ALL_PRODUCT_SUCCESS, payload: data.products });
         } catch (error) {
@@ -57,18 +70,43 @@ export const ProductContextProvider = (props) => {
         }
     };
 
+    //* Get Featured Products
+    const getFeaturedProducts = async () => {
+        try {
+            dispatch({ type: FEATURED_PRODUCT_REQUEST });
+
+            const { data } = await axios.get(`/api/products?isFeatured=true`);
+
+            dispatch({
+                type: FEATURED_PRODUCT_SUCCESS,
+                payload: data.products,
+            });
+        } catch (error) {
+            dispatch({
+                type: FEATURED_PRODUCT_FAIL,
+                payload: error.response.data.message,
+            });
+        }
+    };
+
     //* Get All Products -- Admin
-    const getAdminProducts = async () => {
+    const getAdminProducts = async (cid) => {
         try {
             dispatch({ type: ADMIN_PRODUCT_REQUEST });
 
-            const { data } = await axios.get(`/api/admin/products`);
+            let link = `/api/admin/products`;
+
+            if (cid) {
+                link = `/api/admin/products?cid=${cid}`;
+            }
+
+            const { data } = await axios.get(link);
 
             dispatch({ type: ADMIN_PRODUCT_SUCCESS, payload: data.products });
         } catch (error) {
             dispatch({
                 type: ADMIN_PRODUCT_FAIL,
-                payload: error.response.data.message,
+                payload: error,
             });
         }
     };
@@ -171,6 +209,31 @@ export const ProductContextProvider = (props) => {
         }
     };
 
+    //* Purchase Product
+    const purchaseProduct = async (id, amount) => {
+        try {
+            dispatch({ type: PRODUCT_PURCHASE_REQUEST });
+
+            const config = { headers: { "Content-Type": "application/json" } };
+
+            const { data } = await axios.post(
+                `/api/admin/products/purchase`,
+                {
+                    product_id: id,
+                    amount: amount,
+                },
+                config
+            );
+
+            dispatch({ type: PRODUCT_PURCHASE_SUCCESS, payload: data.product });
+        } catch (error) {
+            dispatch({
+                type: PRODUCT_PURCHASE_FAIL,
+                payload: error.response.data.message,
+            });
+        }
+    };
+
     //* Clear Errors
     const clearErrors = async () => {
         dispatch({ type: CLEAR_ERRORS });
@@ -187,12 +250,14 @@ export const ProductContextProvider = (props) => {
                 isUpdated: state.isUpdated,
                 isDeleted: state.isDeleted,
                 getAllProducts,
+                getFeaturedProducts,
                 getAdminProducts,
                 createProduct,
                 updateProduct,
                 updateStock,
                 deleteProduct,
                 getProductDetails,
+                purchaseProduct,
                 clearErrors,
                 dispatch,
             }}

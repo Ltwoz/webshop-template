@@ -39,11 +39,17 @@ export const CategoryContextProvider = (props) => {
     const [state, dispatch] = useReducer(CategoryReducer, initialState);
 
     //* Get All Categories
-    const getAllCategories = async () => {
+    const getAllCategories = async (id) => {
         try {
             dispatch({ type: ALL_CATEGORY_REQUEST });
 
-            const { data } = await axios.get(`/api/categories`);
+            let link = `/api/categories`
+
+            if (id) {
+                link = `/api/categories?_id=${id}`
+            }
+
+            const { data } = await axios.get(link);
 
             dispatch({ type: ALL_CATEGORY_SUCCESS, payload: data.categories });
         } catch (error) {

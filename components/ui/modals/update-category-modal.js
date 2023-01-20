@@ -69,7 +69,7 @@ const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
                 >
                     <div className="absolute inset-0 bg-black opacity-50" />
                     <div
-                        className="modalContent z-10 flex justify-center items-center flex-col max-h-[calc(100vh-100px)] overflow-y-auto bg-white shadow-md rounded-lg divide-y"
+                        className="modalContent z-10 flex md:justify-center items-center flex-col max-h-[calc(100vh-100px)] overflow-y-auto bg-white shadow-md rounded-lg divide-y"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="w-full px-6 py-4 flex items-center justify-between">

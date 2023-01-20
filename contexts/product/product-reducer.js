@@ -25,22 +25,30 @@ import {
     UPDATE_STOCK_SUCCESS,
     UPDATE_STOCK_FAIL,
     UPDATE_STOCK_RESET,
+    FEATURED_PRODUCT_REQUEST,
+    FEATURED_PRODUCT_SUCCESS,
+    FEATURED_PRODUCT_FAIL,
+    PRODUCT_PURCHASE_REQUEST,
+    PRODUCT_PURCHASE_SUCCESS,
+    PRODUCT_PURCHASE_FAIL,
 } from "../../types/product-constants";
 
 const ProductReducer = (state, action) => {
     switch (action.type) {
         //* Get All Products
         case ALL_PRODUCT_REQUEST:
+        case FEATURED_PRODUCT_REQUEST:
         case ADMIN_PRODUCT_REQUEST:
             return {
                 ...state,
                 loading: true,
             };
         case ALL_PRODUCT_SUCCESS:
+        case FEATURED_PRODUCT_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                products: action.payload.products,
+                products: action.payload,
                 // productsCount: action.payload.productsCount,
                 // resultPerPage: action.payload.resultPerPage,
                 // filteredProductsCount: action.payload.filteredProductsCount,
@@ -52,6 +60,7 @@ const ProductReducer = (state, action) => {
                 products: action.payload,
             };
         case ALL_PRODUCT_FAIL:
+        case FEATURED_PRODUCT_FAIL:
         case ADMIN_PRODUCT_FAIL:
             return {
                 ...state,
@@ -63,19 +72,25 @@ const ProductReducer = (state, action) => {
         case NEW_PRODUCT_REQUEST:
             return {
                 ...state,
-                loading: true,
+                new: {
+                    loading: true,
+                },
             };
         case NEW_PRODUCT_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                new: {
+                    loading: false,
+                },
                 success: action.payload.success,
                 product: action.payload.product,
             };
         case NEW_PRODUCT_FAIL:
             return {
                 ...state,
-                loading: false,
+                new: {
+                    loading: false,
+                },
                 error: action.payload,
             };
         case NEW_PRODUCT_RESET:
@@ -90,12 +105,16 @@ const ProductReducer = (state, action) => {
         case UPDATE_STOCK_REQUEST:
             return {
                 ...state,
-                loading: true,
+                delUpdate: {
+                    loading: true,
+                },
             };
         case DELETE_PRODUCT_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                delUpdate: {
+                    loading: false,
+                },
                 isDeleted: action.payload,
             };
 
@@ -103,7 +122,9 @@ const ProductReducer = (state, action) => {
         case UPDATE_STOCK_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                delUpdate: {
+                    loading: false,
+                },
                 isUpdated: action.payload,
             };
         case DELETE_PRODUCT_FAIL:
@@ -111,7 +132,9 @@ const ProductReducer = (state, action) => {
         case UPDATE_STOCK_FAIL:
             return {
                 ...state,
-                loading: false,
+                delUpdate: {
+                    loading: false,
+                },
                 error: action.payload,
             };
         case DELETE_PRODUCT_RESET:
@@ -144,6 +167,24 @@ const ProductReducer = (state, action) => {
                 loading: false,
                 error: action.payload,
             };
+
+        //* Purchase Product
+        case PRODUCT_PURCHASE_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case PRODUCT_PURCHASE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+            }
+        case PRODUCT_PURCHASE_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            }
 
         case CLEAR_ERRORS:
             return {

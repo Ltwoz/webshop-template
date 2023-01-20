@@ -1,31 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const TopupCard = () => {
+const TopupCard = ({ title, image }) => {
     return (
-        // <div className="overflow-hidden rounded-lg border shadow-sm text-center w-full sm:w-[345px] h-fit">
-        //     <div className="w-full h-[90vw] sm:h-[345px] relative flex items-center">
-        //         <Image
-        //             alt="truemoney_angpao"
-        //             src={`https://media.discordapp.net/attachments/717327142978977834/1058664433213259806/345_x_345_px.png`}
-        //             draggable="false"
-        //             // width={334}
-        //             // height={334}
-        //             fill
-        //             className="select-none object-cover"
-        //         />
-        //     </div>
-        // </div>
-        <div className="overflow-hidden rounded-xl border shadow-md w-full divide-y bg-white">
-            <div id="payment-method" className=" px-6 py-6">
-                <h2 className="text-md md:text-lg font-medium">ช่องทางการเติมเงิน</h2>
-                <div id="payment-group">
-                    <div id="payment-item" className="flex flex-col">
-                        test
-                    </div>
+        <Link
+            href={`/topup/#`}
+            className="
+            overflow-hidden rounded-xl border shadow-lg relative 
+            hover:border-red-600
+            transition-all duration-150 ease-in-out
+            "
+        >
+            <div className="w-full bg-white relative">
+                <div className="w-[70%] aspect-[1/1] relative flex items-center mx-auto">
+                    <Image
+                        alt="product_img"
+                        src={image}
+                        unoptimized
+                        draggable="false"
+                        // width={334}
+                        // height={334}
+                        fill
+                        className="select-none object-cover"
+                    />
+                </div>
+                <div className="text-center text-sm text-red-600">
+                    ไม่มีค่าธรรมเนียม
                 </div>
             </div>
-        </div>
+            <div className="w-full p-6 text-center bg-gray-200/80">
+                <h1 className="text-lg font-semibold">{title}</h1>
+            </div>
+        </Link>
     );
 };
 

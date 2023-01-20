@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+}
+
 img {
     max-width: 100%;
     height: auto;

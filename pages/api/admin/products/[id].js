@@ -43,6 +43,7 @@ const handler = async (req, res) => {
                 }
 
                 product.stock = stock
+                product.stock_count = product.stock.length
                 product.save();
 
                 res.status(200).json({ success: true, product });
@@ -73,6 +74,9 @@ const handler = async (req, res) => {
                         useFindAndModify: true,
                     }
                 );
+
+                product.stock_count = product.stock.length
+                product.save({new: true});
 
                 //* Update Category Products Count
                 updateProductCount();

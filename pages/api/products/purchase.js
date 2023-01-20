@@ -63,7 +63,7 @@ async function handler(req, res) {
                 //* Map stock_data to create order one by one
                 const order = await Promise.all(stock_data.map(async (stock) => {
                     const order = await Order.create({
-                        product: product_id,
+                        product_name: product.name,
                         price: product.price,
                         stock_data: stock,
                         user: req.user.id

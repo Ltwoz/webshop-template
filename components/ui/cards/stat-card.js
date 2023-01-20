@@ -62,7 +62,7 @@ const StatCard = ({stats}) => {
                             ></path>
                         </svg>
                     </div>
-                    <div className="">
+                    <div className="my-auto">
                         <h4 className="text-lg md:text-base lg:text-lg font-medium text-black/70 mb-2">
                             สินค้าทั้งหมด
                         </h4>
@@ -78,7 +78,7 @@ const StatCard = ({stats}) => {
                     <div className="w-[80px]">
                         <MdOutlineSell className="text-[65px] lg:text-[70px]" />
                     </div>
-                    <div className="">
+                    <div className="my-auto">
                         <h4 className="text-lg md:text-base lg:text-lg font-medium text-black/70 mb-2">
                             ขายไปแล้ว
                         </h4>
@@ -94,7 +94,7 @@ const StatCard = ({stats}) => {
                     <div className="w-[80px]">
                         <FiUsers className="text-[65px] lg:text-[70px]" />
                     </div>
-                    <div className="">
+                    <div className="my-auto">
                         <h4 className="text-lg md:text-base lg:text-lg font-medium text-black/70 mb-2">
                             ผู้ใช้งานทั้งหมด
                         </h4>

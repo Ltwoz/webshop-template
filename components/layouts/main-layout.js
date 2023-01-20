@@ -16,20 +16,20 @@ const Layout = ({ children }) => {
 
     return (
         <>
-            <style jsx global>{`
+            {/* <style jsx global>{`
                 html {
                     font-family: ${ibm.style.fontFamily};
                 }
-            `}</style>
+            `}</style> */}
             <Head>
-                <title>{configs?.website_title || "SRVT"}</title>
+                <title>{configs?.website_title || "Skitzer"}</title>
                 <meta
                     name="description"
-                    content={configs?.website_desc || "SRVT"}
+                    content={configs?.website_desc || "Skitzer"}
                 />
                 <meta
                     name="keywords"
-                    content={configs?.website_name || "SRVT"}
+                    content={configs?.website_name || "SKTZ"}
                 />
                 <meta
                     name="viewport"
@@ -43,9 +43,9 @@ const Layout = ({ children }) => {
                     }
                 />
             </Head>
-            <div className="bg-gray-50 text-gray-800 min-h-screen">
+            <div className="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
                 <Navbar />
-                {children}
+                <div className="flex-grow">{children}</div>
                 <Footer />
             </div>
         </>

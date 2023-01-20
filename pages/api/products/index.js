@@ -10,16 +10,18 @@ export default async function handler(req, res) {
             try {
                 const ApiFeature = new ApiFeatures(
                     Product.find().select("-stock"),
-                    req.query
-                ).filter();
+                    req.query,
+                )
+                    .cid()
+                    .filter();
 
-                let products = await ApiFeature.query;
+                let products = await ApiFeature.query
 
                 res.status(200).json({ success: true, products });
             } catch (error) {
                 res.status(404).json({
                     success: false,
-                    message: "Products not found.",
+                    message: error.message,
                 });
             }
             break;

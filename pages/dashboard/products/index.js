@@ -85,11 +85,11 @@ const AdminProducts = () => {
                     setIsStockModalOpen={setIsStockModalOpen}
                 />
             </CSSTransition>
-            <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto min-h-screen items-center">
+            <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
                 <DashboardNavbar />
                 <section className="bg-white border rounded-md shadow mb-6 divide-y">
                     <div className="p-6 flex items-center justify-between max-h-[88px]">
-                        <h2 className="text-lg font-semibold">จัดการสินค้า</h2>
+                        <h2 className="text-lg font-semibold">จัดการสินค้าทั้งหมด</h2>
                         <button
                             type="button"
                             onClick={() =>
@@ -117,22 +117,22 @@ const AdminProducts = () => {
                         </button>
                     </div>
                     <div className="flex flex-col items-center">
-                        <table className="w-full table-auto">
+                        <table className="w-full">
                             <thead>
                                 <tr className="bg-gray-200 text-gray-600 text-sm leading-normal">
-                                    <th className="py-3 px-6 text-left">
+                                    <th className="py-3 px-6 text-left w-96">
                                         ชื่อสินค้า
                                     </th>
-                                    <th className="py-3 px-6 text-left">
+                                    <th className="py-3 px-6 text-left w-40">
                                         หมวดหมู่
                                     </th>
-                                    <th className="py-3 px-6 text-left">
+                                    <th className="py-3 px-6 text-left w-28">
                                         ราคา
                                     </th>
-                                    <th className="py-3 px-6 text-center">
+                                    <th className="py-3 px-6 text-center w-28">
                                         สต็อก
                                     </th>
-                                    <th className="py-3 px-6 text-center w-36">
+                                    <th className="py-3 px-6 text-center w-60">
                                         <span className="sr-only">Action</span>
                                     </th>
                                 </tr>
@@ -150,10 +150,10 @@ const AdminProducts = () => {
                                             {product.category?.name}
                                         </td>
                                         <td className="py-3 px-6 text-left">
-                                            {product.price.toFixed(2)}
+                                            {product.price?.toFixed(2)}
                                         </td>
                                         <td className="py-3 px-6 text-center">
-                                            {product.stock.length}
+                                            {product?.stock?.length}
                                         </td>
                                         <td className="py-3 px-6 text-center">
                                             <div className="flex item-center justify-end gap-x-2">

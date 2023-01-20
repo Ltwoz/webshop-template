@@ -36,10 +36,22 @@ const ProductSchema = new mongoose.Schema({
         type: Array,
         default: [],
     },
+    stock_count: {
+        type: Number,
+        default: 0,
+    },
+    isFeatured: {
+        type: Boolean,
+        default: false,
+    },
     isActive: {
         type: Boolean,
         default: true,
     },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 export default mongoose.models.Product ||

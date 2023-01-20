@@ -56,7 +56,7 @@ const UpdateStockModal = ({ product, setIsStockModalOpen }) => {
                 <div className="z-[99] flex justify-center items-center fixed inset-0 transition-opacity">
                     <div className="absolute inset-0 bg-black opacity-50" />
                     <div
-                        className="modalContent z-10 flex justify-center items-center flex-col max-h-[calc(100vh-100px)] overflow-y-auto bg-white shadow-md rounded-lg divide-y"
+                        className="modalContent z-10 flex md:justify-center items-center flex-col max-h-[calc(100vh-100px)] overflow-y-auto bg-white shadow-md rounded-lg divide-y"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="w-full px-6 py-4 flex items-center justify-between">
@@ -86,7 +86,7 @@ const UpdateStockModal = ({ product, setIsStockModalOpen }) => {
                         </div>
                         <form
                             autoComplete="off"
-                            className="px-6 py-6 w-[30rem] flex flex-col gap-4"
+                            className="px-6 py-6 w-[90vw] md:w-[30rem] flex flex-col gap-4"
                         >
                             <div className="col-span-6 md:col-span-3">
                                 <label className="block text-sm font-medium tracking-wide">

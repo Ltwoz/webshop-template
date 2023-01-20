@@ -35,7 +35,7 @@ const AdminUsers = () => {
 
     return (
         <Layout>
-            <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto min-h-screen items-center">
+            <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
                 <DashboardNavbar />
                 <section className="bg-white border rounded-md shadow mb-6 divide-y">
                     <div className="p-6 flex items-center justify-between max-h-[88px]">

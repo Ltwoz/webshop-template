@@ -88,7 +88,12 @@ const AdminConfig = () => {
 
     return (
         <Layout>
-            <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto min-h-screen items-center">
+            <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-20 md:pt-28 mx-auto items-center">
+                <section id="header" className="md:hidden border-b-2 mx-8 py-4 mb-6">
+                    <h1 className="text-4xl font-semibold text-center">
+                        จัดการเว็บไซต์
+                    </h1>
+                </section>
                 <DashboardNavbar />
                 <section className="flex flex-col md:flex-row">
                     <form
@@ -99,7 +104,7 @@ const AdminConfig = () => {
                     >
                         <div className="p-6 flex items-center justify-between">
                             <h2 className="text-lg font-semibold">
-                                จัดการเว็บไซต์
+                                ตั้งค่าทั่วไป
                             </h2>
                             <button
                                 type="submit"
@@ -243,7 +248,7 @@ const AdminConfig = () => {
                     >
                         <div className="p-6 flex items-center justify-between">
                             <h2 className="text-lg font-semibold">
-                                จัดการระบบเติมเงิน
+                                ระบบเติมเงิน
                             </h2>
                             <button className="inline-flex items-center font-medium text-white bg-primary hover:bg-primary py-2 px-4 rounded-md">
                                 <svg
