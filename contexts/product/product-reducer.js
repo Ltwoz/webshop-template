@@ -31,6 +31,11 @@ import {
     PRODUCT_PURCHASE_REQUEST,
     PRODUCT_PURCHASE_SUCCESS,
     PRODUCT_PURCHASE_FAIL,
+    PRODUCT_PURCHASE_RESET,
+    PRODUCT_QUEUE_PURCHASE_REQUEST,
+    PRODUCT_QUEUE_PURCHASE_SUCCESS,
+    PRODUCT_QUEUE_PURCHASE_FAIL,
+    PRODUCT_QUEUE_PURCHASE_RESET,
 } from "../../types/product-constants";
 
 const ProductReducer = (state, action) => {
@@ -170,20 +175,34 @@ const ProductReducer = (state, action) => {
 
         //* Purchase Product
         case PRODUCT_PURCHASE_REQUEST:
+        case PRODUCT_QUEUE_PURCHASE_REQUEST:
             return {
                 ...state,
                 loading: true
             }
         case PRODUCT_PURCHASE_SUCCESS:
+        case PRODUCT_QUEUE_PURCHASE_SUCCESS:
             return {
                 ...state,
                 loading: false,
+                purchase: {
+                    success: true
+                }
             }
         case PRODUCT_PURCHASE_FAIL:
+        case PRODUCT_QUEUE_PURCHASE_FAIL:
             return {
                 ...state,
                 loading: false,
-                error: action.error
+                error: action.payload
+            }
+        case PRODUCT_PURCHASE_RESET:
+        case PRODUCT_QUEUE_PURCHASE_RESET:
+            return {
+                ...state,
+                purchase: {
+                    success: false
+                }
             }
 
         case CLEAR_ERRORS:

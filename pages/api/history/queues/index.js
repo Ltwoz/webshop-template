@@ -1,6 +1,5 @@
-import dbConnect from "../../../lib/db-connect";
-import Category from "../../../models/category";
-import Product from "../../../models/product";
+import dbConnect from "../../../../lib/db-connect";
+import Queue from "../../../../models/queue";
 
 export default async function handler(req, res) {
     await dbConnect();
@@ -8,16 +7,13 @@ export default async function handler(req, res) {
     switch (req.method) {
         case "GET":
             try {
-                const product = await Product.findById(req.query.id)
-                    .populate({
-                        path: "category",
-                        model: Category,
-                    })
-                    .select("-stock");
+                const userId = req.query.user;
+
+                const queues = await Queue.find({ user: userId }).select("-form");
 
                 res.status(200).json({
                     success: true,
-                    product,
+                    queues,
                 });
             } catch (error) {
                 res.status(500).json({

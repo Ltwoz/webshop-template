@@ -118,21 +118,21 @@ const AdminCategories = () => {
                             </span>
                         </button>
                     </div>
-                    <div className="flex flex-col items-center">
-                        <table className="w-full table-auto">
+                    <div className="flex flex-col overflow-x-scroll">
+                        <table className="w-full table-fixed">
                             <thead>
                                 <tr className="bg-gray-200 text-gray-600 text-sm leading-normal">
-                                    <th className="py-3 px-6 text-left w-96">
+                                    <th className="py-3 px-6 text-left w-52">
                                         ชื่อหมวดหมู่
                                     </th>
-                                    <th className="py-3 px-6 text-left w-40">
+                                    <th className="py-3 px-6 text-left w-32">
                                         ประเภท
                                     </th>
-                                    <th className="py-3 px-6 text-center w-40">
+                                    <th className="py-3 px-6 text-center w-32">
                                         จำนวนสินค้า
                                     </th>
-                                    <th className="py-3 px-6 text-center w-48">
-                                        <span className="sr-only">Action</span>
+                                    <th className="py-3 px-6 text-center w-60">
+                                        <span className="hidden">Action</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -154,7 +154,12 @@ const AdminCategories = () => {
                                         <td className="py-3 px-6 text-center">
                                             <div className="flex item-center justify-end gap-x-2">
                                                 <Link
-                                                    href={`/dashboard/categories/${category._id}`}
+                                                    href={
+                                                        category?.type ===
+                                                        "STOCK"
+                                                            ? `/store/${category._id}`
+                                                            : `/store/idpass/${category._id}`
+                                                    }
                                                     className="transform hover:text-purple-500 hover:scale-110 transition-all border hover:border-purple-500 rounded-full p-2"
                                                 >
                                                     <svg

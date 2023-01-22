@@ -19,11 +19,6 @@ const CategorySchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide a image for this category."],
     },
-    slug: {
-        type: String,
-        required: [true, "Please provide a slug for this category."],
-        unique: true,
-    },
     products_count: {
         type: Number,
         default: 0

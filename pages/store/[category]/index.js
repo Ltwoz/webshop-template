@@ -1,22 +1,36 @@
 import { useRouter } from "next/router";
 import Layout from "../../../components/layouts/main-layout";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import ProductContext from "../../../contexts/product/product-context";
 import ProductCard from "../../../components/ui/cards/product-card";
 import { withInitProps } from "../../../utils/get-init-data";
 import axios from "axios";
+import ThreeDotsLoader from "../../../components/ui/loader/threedots";
 
-const DynamicCategory = () => {
+const DynamicCategory = (props) => {
     const router = useRouter();
     const cid = router.query.category;
 
-    const { getAllProducts, products, loading, error, dispatch } =
+    const { getAllProducts, products, error, dispatch } =
         useContext(ProductContext);
+
+    const [loading, setLoading] = useState(true);
+    const [ssrProducts, setSsrProducts] = useState(props.products);
 
     useEffect(() => {
         getAllProducts(cid);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [cid]);
+
+    // useEffect(() => {
+    //     setSsrProducts(products)
+    // }, [products, cid]);
+
+    useEffect(() => {
+        setTimeout(function () {
+            setLoading(false);
+        }, 300);
+    }, [products]);
 
     return (
         <Layout>
@@ -24,11 +38,15 @@ const DynamicCategory = () => {
                 <h1 className="text-center text-4xl font-bold mb-8">
                     หมวดหมู่สินค้า
                 </h1>
-                <div className="flex flex-wrap justify-start gap-y-4">
-                    {products?.map((product, i) => (
-                        <ProductCard key={i} product={product} />
-                    ))}
-                </div>
+                {loading ? (
+                    <ThreeDotsLoader />
+                ) : (
+                    <div className="flex flex-wrap justify-start gap-y-4">
+                        {ssrProducts?.map((product, i) => (
+                            <ProductCard key={i} product={product} />
+                        ))}
+                    </div>
+                )}
             </main>
         </Layout>
     );
@@ -54,12 +72,27 @@ export const getServerSideProps = withInitProps(async (ctx) => {
             `${protocal}://${ctx.req.headers.host}/api/categories/${cid}`
         );
 
+        if (res.data.category?.type === "ID_PASS") {
+            return {
+                redirect: {
+                    destination: `/store/idpass/${cid}`,
+                    permanent: true,
+                },
+            };
+        }
+
+        const { data } = await axios.get(
+            `${protocal}://${ctx.req.headers.host}/api/products?cid=${cid}`
+        );
+
         return {
-            props: {},
+            props: {
+                products: data.products
+            },
         };
     } catch (error) {
         return {
-            notFound: true
+            notFound: true,
         };
     }
 });

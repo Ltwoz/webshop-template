@@ -28,6 +28,10 @@ import {
     FEATURED_PRODUCT_FAIL,
     PRODUCT_PURCHASE_REQUEST,
     PRODUCT_PURCHASE_SUCCESS,
+    PRODUCT_PURCHASE_FAIL,
+    PRODUCT_QUEUE_PURCHASE_REQUEST,
+    PRODUCT_QUEUE_PURCHASE_SUCCESS,
+    PRODUCT_QUEUE_PURCHASE_FAIL
 } from "../../types/product-constants";
 import ProductReducer from "./product-reducer";
 
@@ -37,9 +41,10 @@ export const ProductContextProvider = (props) => {
     const initialState = {
         products: [],
         product: {},
-        loading: false,
+        loading: true,
         new: { loading: false },
         delUpdate: { loading: false },
+        purchase: { success: false },
         error: null,
         success: false,
         isUpdated: false,
@@ -217,7 +222,7 @@ export const ProductContextProvider = (props) => {
             const config = { headers: { "Content-Type": "application/json" } };
 
             const { data } = await axios.post(
-                `/api/admin/products/purchase`,
+                `/api/products/purchase`,
                 {
                     product_id: id,
                     amount: amount,
@@ -225,10 +230,45 @@ export const ProductContextProvider = (props) => {
                 config
             );
 
-            dispatch({ type: PRODUCT_PURCHASE_SUCCESS, payload: data.product });
+            dispatch({ type: PRODUCT_PURCHASE_SUCCESS, payload: data });
         } catch (error) {
             dispatch({
                 type: PRODUCT_PURCHASE_FAIL,
+                payload: error.response.data.message,
+            });
+        }
+    };
+
+    //* Purchase Product
+    const queuePurchaseProduct = async (id, form) => {
+        try {
+            dispatch({ type: PRODUCT_QUEUE_PURCHASE_REQUEST });
+
+            const config = { headers: { "Content-Type": "application/json" } };
+
+            let body = {
+                product_id: id,
+                username: form.username,
+                password: form.password,
+            };
+
+            if (form.uid) {
+                body = {
+                    product_id: id,
+                    uid: form.uid,
+                };
+            }
+
+            const { data } = await axios.post(
+                `/api/products/queue-purchase`,
+                body,
+                config
+            );
+
+            dispatch({ type: PRODUCT_QUEUE_PURCHASE_SUCCESS, payload: data });
+        } catch (error) {
+            dispatch({
+                type: PRODUCT_QUEUE_PURCHASE_FAIL,
                 payload: error.response.data.message,
             });
         }
@@ -249,6 +289,9 @@ export const ProductContextProvider = (props) => {
                 success: state.success,
                 isUpdated: state.isUpdated,
                 isDeleted: state.isDeleted,
+                new: state.new,
+                delUpdate: state.delUpdate,
+                purchase: state.purchase,
                 getAllProducts,
                 getFeaturedProducts,
                 getAdminProducts,
@@ -258,6 +301,7 @@ export const ProductContextProvider = (props) => {
                 deleteProduct,
                 getProductDetails,
                 purchaseProduct,
+                queuePurchaseProduct,
                 clearErrors,
                 dispatch,
             }}

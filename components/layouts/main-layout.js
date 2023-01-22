@@ -2,25 +2,17 @@ import Head from "next/head";
 import Footer from "./footer";
 import Navbar from "./navbar";
 
-import { IBM_Plex_Sans_Thai } from "@next/font/google";
 import { useContext } from "react";
 import ConfigContext from "../../contexts/config/config-context";
-
-const ibm = IBM_Plex_Sans_Thai({
-    weight: ["300", "400", "500", "600", "700"],
-    subsets: ["latin", "thai"],
-});
 
 const Layout = ({ children }) => {
     const { configs, loading, error } = useContext(ConfigContext);
 
+    const bgImage =
+        "https://cdnb.artstation.com/p/assets/images/images/028/704/049/large/roroto-sic-panda-chapeaute-miror.jpg?1595265084";
+
     return (
         <>
-            {/* <style jsx global>{`
-                html {
-                    font-family: ${ibm.style.fontFamily};
-                }
-            `}</style> */}
             <Head>
                 <title>{configs?.website_title || "Skitzer"}</title>
                 <meta
@@ -43,10 +35,17 @@ const Layout = ({ children }) => {
                     }
                 />
             </Head>
-            <div className="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-                <Navbar />
-                <div className="flex-grow">{children}</div>
-                <Footer />
+            <div
+                className="bg-no-repeat bg-cover bg-fixed text-gray-800"
+                style={{
+                    backgroundImage: `url(${bgImage})`,
+                }}
+            >
+                <div className="min-h-screen flex flex-col bg-[rgba(255,255,255,0.9)]">
+                    <Navbar />
+                    <div className="flex-grow">{children}</div>
+                    <Footer />
+                </div>
             </div>
         </>
     );

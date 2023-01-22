@@ -6,11 +6,6 @@ import Swal from "sweetalert2";
 import { UPDATE_CATEGORY_RESET } from "../../../types/category-constants";
 import { colourStyles } from "../../../styles/select-style";
 
-const typeOptions = [
-    { value: "STOCK", label: "Stock" },
-    { value: "ID_PASS", label: "ID/Pass" },
-];
-
 const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
     const {
         updateCategory,
@@ -26,7 +21,6 @@ const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
     const [description, setDescription] = useState(category.description);
     const [type, setType] = useState(category.type);
     const [image, setImage] = useState(category.image);
-    const [slug, setSlug] = useState(category.slug);
 
     useEffect(() => {
         if (error) {
@@ -54,9 +48,7 @@ const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
         updateCategory(category._id, {
             name: name,
             description: description,
-            type: type,
             image: image,
-            slug: slug
         });
         setIsUpdateModalOpen(false);
     };
@@ -100,7 +92,7 @@ const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
                         <form
                             autoComplete="off"
                             onSubmit={handleSubmit}
-                            className="px-6 py-4 grid grid-cols-3 gap-6"
+                            className="px-6 py-4 w-[95vw] md:w-[25rem] grid grid-cols-3 gap-6"
                         >
                             <div className="col-span-6 md:col-span-3">
                                 <label
@@ -138,30 +130,10 @@ const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
                             </div>
                             <div className="col-span-6 md:col-span-3">
                                 <label
-                                    htmlFor="type"
-                                    className="block text-sm font-medium tracking-wide"
-                                >
-                                    ประเภท
-                                </label>
-                                <Select
-                                    options={typeOptions}
-                                    styles={colourStyles}
-                                    value={{
-                                        value: type,
-                                        label:
-                                            type === "STOCK"
-                                                ? "Stock"
-                                                : "ID/Pass",
-                                    }}
-                                    onChange={(e) => setType(e.value)}
-                                />
-                            </div>
-                            <div className="col-span-6 md:col-span-3">
-                                <label
                                     htmlFor="image"
                                     className="block text-sm font-medium tracking-wide"
                                 >
-                                    รูปภาพ
+                                    รูปภาพ (348x200)
                                 </label>
                                 <input
                                     type="text"
@@ -169,22 +141,6 @@ const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
                                     id="image"
                                     value={image}
                                     onChange={(e) => setImage(e.target.value)}
-                                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                                />
-                            </div>
-                            <div className="col-span-6 md:col-span-3">
-                                <label
-                                    htmlFor="slug"
-                                    className="block text-sm font-medium tracking-wide"
-                                >
-                                    Slug ( ชื่อลิ้งค์ )
-                                </label>
-                                <input
-                                    type="text"
-                                    name="slug"
-                                    id="slug"
-                                    value={slug}
-                                    onChange={(e) => setSlug(e.target.value)}
                                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                                 />
                             </div>

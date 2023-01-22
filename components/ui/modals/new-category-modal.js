@@ -19,7 +19,6 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
     const [description, setDescription] = useState("");
     const [type, setType] = useState("");
     const [image, setImage] = useState("");
-    const [slug, setSlug] = useState("");
 
     useEffect(() => {
         if (error) {
@@ -49,7 +48,6 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
             description: description,
             type: type,
             image: image,
-            slug: slug
         });
         setIsNewModalOpen(false);
     };
@@ -93,7 +91,7 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
                         <form
                             autoComplete="off"
                             onSubmit={handleSubmit}
-                            className="px-6 py-4 grid grid-cols-3 gap-6"
+                            className="px-6 py-4 w-[95vw] md:w-[25rem] grid grid-cols-3 gap-6"
                         >
                             <div className="col-span-6 md:col-span-3">
                                 <label className="block text-sm font-medium tracking-wide">
@@ -135,7 +133,7 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
                             </div>
                             <div className="col-span-6 md:col-span-3">
                                 <label className="block text-sm font-medium tracking-wide">
-                                    รูปภาพ
+                                    รูปภาพ (348x200)
                                 </label>
                                 <input
                                     type="text"
@@ -143,19 +141,6 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
                                     id="image"
                                     value={image}
                                     onChange={(e) => setImage(e.target.value)}
-                                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                                />
-                            </div>
-                            <div className="col-span-6 md:col-span-3">
-                                <label className="block text-sm font-medium tracking-wide">
-                                    Slug ( ชื่อลิ้งค์ )
-                                </label>
-                                <input
-                                    type="text"
-                                    name="slug"
-                                    id="slug"
-                                    value={slug}
-                                    onChange={(e) => setSlug(e.target.value)}
                                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                                 />
                             </div>

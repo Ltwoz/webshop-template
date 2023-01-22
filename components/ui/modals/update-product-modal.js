@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Select from "react-select";
@@ -7,12 +8,10 @@ import ProductContext from "../../../contexts/product/product-context";
 import { colourStyles } from "../../../styles/select-style";
 import { UPDATE_PRODUCT_RESET } from "../../../types/product-constants";
 
-const typeOptions = [
-    { value: "STOCK", label: "Stock" },
-    { value: "ID_PASS", label: "ID/Pass" },
-];
-
 const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
+    const router = useRouter();
+    const cid = router.query.cid;
+
     const {
         updateProduct,
         clearErrors,
@@ -23,31 +22,18 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
         dispatch,
     } = useContext(ProductContext);
 
-    const { getAdminCategories, categories } = useContext(CategoryContext);
+    const { getAdminDetailsCategories, category } = useContext(CategoryContext);
 
     const [name, setName] = useState(product.name);
     const [description, setDescription] = useState(product.description);
     const [price, setPrice] = useState(product.price);
-    const [category, setCategory] = useState(product.category?._id);
-    const [categoryName, setCategoryName] = useState(product.category?.name);
-    const [type, setType] = useState(product.type);
     const [image, setImage] = useState(product.image);
-    const [slug, setSlug] = useState(product.slug);
     const [isFeatured, setIsFeatured] = useState(product.isFeatured);
 
-    const [categoryOptions, setCategoryOptions] = useState([]);
-
     useEffect(() => {
-        getAdminCategories();
+        getAdminDetailsCategories(cid);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-        const categoryObj = categories.map((category) => {
-            return { value: category._id, label: category.name };
-        });
-        setCategoryOptions(categoryObj);
-    }, [categories]);
+    }, [cid]);
 
     useEffect(() => {
         if (error) {
@@ -75,11 +61,8 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
         updateProduct(product._id, {
             name: name,
             description: description,
-            price: price,
-            category: category,
             type: type,
             image: image,
-            slug: slug,
             isFeatured: isFeatured,
         });
         setIsUpdateModalOpen(false);
@@ -121,7 +104,7 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                         </div>
                         <form
                             autoComplete="off"
-                            className="px-6 py-6 w-[90vw] md:w-[40rem] grid grid-cols-6 gap-6"
+                            className="px-6 py-6 w-[95vw] md:w-[40rem] grid grid-cols-6 gap-6"
                         >
                             <div className="col-span-6 md:col-span-3">
                                 <label className="block text-sm font-medium tracking-wide">
@@ -168,38 +151,13 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                                 <label className="block text-sm font-medium tracking-wide">
                                     หมวดหมู่
                                 </label>
-                                <Select
-                                    options={categoryOptions}
-                                    className="mt-1"
-                                    placeholder={"เลือกหมวดหมู่"}
-                                    styles={colourStyles}
-                                    value={{
-                                        value: category,
-                                        label: categoryName,
-                                    }}
-                                    onChange={(e) => {
-                                        setCategory(e.value);
-                                        setCategoryName(e.label);
-                                    }}
-                                />
-                            </div>
-                            <div className="col-span-6 md:col-span-3">
-                                <label className="block text-sm font-medium tracking-wide">
-                                    ประเภท
-                                </label>
-                                <Select
-                                    options={typeOptions}
-                                    className="mt-1"
-                                    placeholder={"เลือกประเภท"}
-                                    styles={colourStyles}
-                                    value={{
-                                        value: type,
-                                        label:
-                                            type === "STOCK"
-                                                ? "Stock"
-                                                : "ID/Pass",
-                                    }}
-                                    onChange={(e) => setType(e.value)}
+                                <input
+                                    type="text"
+                                    name="description"
+                                    id="description"
+                                    readOnly
+                                    value={category.name}
+                                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                                 />
                             </div>
                             <div className="col-span-6 md:col-span-3">
@@ -215,38 +173,27 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                                 />
                             </div>
-                            <div className="col-span-6 md:col-span-3">
-                                <label className="block text-sm font-medium tracking-wide">
-                                    Slug ( ชื่อลิ้งค์ )
-                                </label>
-                                <input
-                                    type="text"
-                                    name="slug"
-                                    id="slug"
-                                    value={slug}
-                                    onChange={(e) => setSlug(e.target.value)}
-                                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                                />
-                            </div>
-                            <div className="col-span-6 md:col-span-3">
-                                <label class="inline-flex relative items-center">
-                                    <input
-                                        type="checkbox"
-                                        className="sr-only peer"
-                                        checked={isFeatured}
-                                        readOnly
-                                    />
-                                    <div
-                                        onClick={() => {
-                                            setIsFeatured(!isFeatured);
-                                        }}
-                                        className="w-11 h-6 cursor-pointer bg-gray-300 rounded-full peer peer-focus:ring-green-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"
-                                    ></div>
-                                    <span className="ml-4 text-base font-medium text-gray-900">
-                                        แสดงสินค้าในหน้าหลัก
-                                    </span>
-                                </label>
-                            </div>
+                            {category?.type === "STOCK" && (
+                                <div className="col-span-6 md:col-span-3">
+                                    <label class="inline-flex relative items-center">
+                                        <input
+                                            type="checkbox"
+                                            className="sr-only peer"
+                                            checked={isFeatured}
+                                            readOnly
+                                        />
+                                        <div
+                                            onClick={() => {
+                                                setIsFeatured(!isFeatured);
+                                            }}
+                                            className="w-11 h-6 cursor-pointer bg-gray-300 rounded-full peer peer-focus:ring-green-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"
+                                        ></div>
+                                        <span className="ml-4 text-base font-medium text-gray-900">
+                                            แสดงสินค้าในหน้าหลัก
+                                        </span>
+                                    </label>
+                                </div>
+                            )}
                         </form>
                         <div className="w-full px-6 py-4 flex items-center justify-end gap-x-4">
                             <button

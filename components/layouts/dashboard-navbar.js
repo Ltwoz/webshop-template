@@ -22,12 +22,6 @@ export const DashboardNavList = () => {
                 จัดการหมวดหมู่
             </Link>
             <Link
-                href={`/dashboard/products`}
-                className="appearance-none py-2 md:py-4 text-grey-dark"
-            >
-                จัดการสินค้า
-            </Link>
-            <Link
                 href={`/dashboard`}
                 className="appearance-none py-2 md:py-4 text-grey-dark"
             >

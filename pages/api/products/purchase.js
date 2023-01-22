@@ -17,11 +17,11 @@ async function handler(req, res) {
                 const stocks = product.stock;
 
                 //* point remaining after bougth
-                const calPoint = req.user.point - product.price;
+                const calPoint = req.user.point - (product.price * amount);
 
                 //* if not enough point return error
                 if (calPoint < 0) {
-                    const needPoint = product.price - req.user.point;
+                    const needPoint = (product.price * amount) - req.user.point;
                     return res.status(402).json({
                         success: false,
                         message: `Not enough money. Need more ${needPoint} points.`,
@@ -46,6 +46,7 @@ async function handler(req, res) {
 
                 //* get stock by amount
                 const stock_data = stocks.splice(0, amount);
+                product.stock_count = product.stock.length;
                 const savedProduct = await product.save();
 
                 if (!savedProduct) {

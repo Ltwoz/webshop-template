@@ -13,13 +13,34 @@ const handler = async (req, res) => {
     switch (req.method) {
         case "GET":
             try {
-                const ApiFeature = new ApiFeatures(Product.find(), req.query)
+                const ApiFeature = new ApiFeatures(
+                    Product.find().populate({
+                        path: "category",
+                        model: Category,
+                    }),
+                    req.query
+                )
                     .cid()
                     .filter();
 
                 let products = await ApiFeature.query;
 
-                res.status(200).json({ success: true, products });
+                const modifiedProducts = products.map((product) => {
+                    if (product.category.type === "ID_PASS") {
+                        return {
+                            ...product._doc,
+                            stock: undefined,
+                            stock_count: undefined,
+                            isFeatured: undefined,
+                        };
+                    }
+                    return product;
+                });
+
+                res.status(200).json({
+                    success: true,
+                    products: modifiedProducts,
+                });
             } catch (error) {
                 res.status(404).json({
                     success: false,

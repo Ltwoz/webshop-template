@@ -42,6 +42,22 @@ const ConfigSchema = mongoose.Schema(
             required: [true, "Please provide a Truemoney Phone Number."],
             maxLength: [10, "Phone number cannot be more than 10 characters"],
         },
+        style: {
+            primary_color: {
+                type: String,
+                default: "#5c6ac4"
+            },
+            secondary_color: {
+                type: String,
+                default: "#05386b"
+            },
+            background_image: {
+                type: String,
+            },
+            background_color: {
+                type: String,
+            }
+        }
     },
     {
         capped: { size: 1024, max: 1 },

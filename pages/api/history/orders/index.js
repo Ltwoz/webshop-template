@@ -15,7 +15,12 @@ export default async function handler(req, res) {
                     success: true,
                     orders,
                 });
-            } catch (error) {}
+            } catch (error) {
+                res.status(500).json({
+                    success: false,
+                    message: error.message,
+                });
+            }
             break;
         default:
             res.status(405).json({

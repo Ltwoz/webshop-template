@@ -1,14 +1,17 @@
 import { useContext, useEffect } from "react";
 import Layout from "../../../components/layouts/main-layout";
-import OrderContext from "../../../contexts/order/order-context";
+import HistoryContext from "../../../contexts/history/history-context";
 import UserContext from "../../../contexts/user/user-context";
 
-const HistoryTopup = () => {
+const HistoryOrder = () => {
     const { user } = useContext(UserContext);
-    const { getAllOrders, orders, loading } = useContext(OrderContext);
+    const {
+        getAllQueues,
+        queue: { queues, loading },
+    } = useContext(HistoryContext);
 
     useEffect(() => {
-        getAllOrders(user._id);
+        getAllQueues(user._id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -16,12 +19,12 @@ const HistoryTopup = () => {
         <Layout>
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
                 <h1 className="text-center text-4xl font-bold mb-8">
-                    ประวัติการเติมเงิน
+                    ประวัติการสั่งซื้อ
                 </h1>
                 <section className="bg-white border rounded-md shadow mb-6 divide-y">
                     <div className="p-6 flex items-center justify-between max-h-[88px]">
                         <h2 className="text-lg font-semibold">
-                            ประวัติการเติมเงิน
+                            ประวัติการสั่งซื้อ
                         </h2>
                         <input
                             type="text"
@@ -43,7 +46,7 @@ const HistoryTopup = () => {
                                         ราคา
                                     </th>
                                     <th className="py-3 px-6 text-left">
-                                        ข้อมูล
+                                        สถานะ
                                     </th>
                                     <th className="py-3 px-6 text-center">
                                         วันที่
@@ -51,23 +54,23 @@ const HistoryTopup = () => {
                                 </tr>
                             </thead>
                             <tbody className="text-gray-600 text-sm md:text-base">
-                                {orders?.map((order, i) => (
+                                {queues?.map((queue, i) => (
                                     <tr
                                         key={i}
                                         className="border-b border-gray-200 hover:bg-gray-100"
                                     >
                                         <td className="py-3 px-6 text-left">
-                                            {order.product_name}
+                                            {queue.product_name}
                                         </td>
                                         <td className="py-3 px-6 text-left">
-                                            {order.price} บาท
+                                            {queue.price} บาท
                                         </td>
                                         <td className="py-3 px-6 text-left">
-                                            {order.stock_data}
+                                            {queue.status}
                                         </td>
                                         <td className="py-3 px-6 text-center">
                                             {new Date(
-                                                order.createdAt
+                                                queue.createdAt
                                             ).toLocaleString("en", {
                                                 dateStyle: "short",
                                                 timeStyle: "short",
@@ -85,6 +88,6 @@ const HistoryTopup = () => {
     );
 };
 
-export default HistoryTopup;
+export default HistoryOrder;
 
 export { getServerSideProps } from "../../../utils/get-init-data";

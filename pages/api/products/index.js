@@ -1,4 +1,5 @@
 import dbConnect from "../../../lib/db-connect";
+import Category from "../../../models/category";
 import Product from "../../../models/product";
 import ApiFeatures from "../../../utils/api-features";
 
@@ -9,17 +10,32 @@ export default async function handler(req, res) {
         case "GET":
             try {
                 const ApiFeature = new ApiFeatures(
-                    Product.find().select("-stock"),
-                    req.query,
+                    Product.find()
+                        .populate({
+                            path: "category",
+                            model: Category,
+                        })
+                        .select("-stock"),
+                    req.query
                 )
                     .cid()
                     .filter();
 
-                let products = await ApiFeature.query
+                let products = await ApiFeature.query;
 
-                res.status(200).json({ success: true, products });
+                const modifiedProducts = products.map((product) => {
+                    if (product.category.type === "ID_PASS") {
+                        return { ...product._doc, stock_count: undefined };
+                    }
+                    return product;
+                });
+
+                res.status(200).json({
+                    success: true,
+                    products: modifiedProducts,
+                });
             } catch (error) {
-                res.status(404).json({
+                res.status(500).json({
                     success: false,
                     message: error.message,
                 });

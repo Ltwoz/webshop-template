@@ -45,7 +45,7 @@ export default async function handler(req, res) {
 
                 res.status(200).json({
                     success: true,
-                    category,
+                    category: category[0],
                 });
             } catch (error) {
                 res.status(404).json({

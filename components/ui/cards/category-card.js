@@ -4,9 +4,9 @@ import Link from "next/link";
 const CategoryCard = ({ category }) => {
     return (
         <Link
-            href={`/store/${category._id}`}
+            href={category.type === "STOCK" ? `/store/${category._id}` : `/store/idpass/${category._id}`}
             className="
-            overflow-hidden rounded-xl border shadow-lg relative
+            overflow-hidden rounded-lg shadow-lg relative
             transition-all hover:scale-105
             "
         >

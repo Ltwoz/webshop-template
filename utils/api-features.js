@@ -1,5 +1,3 @@
-import Category from "../models/category";
-
 export default class ApiFeatures {
     constructor(query, queryStr) {
         this.query = query;
@@ -8,12 +6,9 @@ export default class ApiFeatures {
 
     cid() {
         if (this.queryStr.cid) {
-            this.query = this.query
-                .find({ category: this.queryStr.cid })
-                .populate({
-                    path: "category",
-                    model: Category,
-                });
+            this.query = this.query.find({
+                category: { _id: this.queryStr.cid },
+            });
         }
 
         return this;

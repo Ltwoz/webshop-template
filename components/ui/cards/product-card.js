@@ -7,7 +7,7 @@ const ProductCard = ({product}) => {
 
     return (
         <div className="px-2 w-full md:w-1/4 h-fit">
-            <div className="overflow-hidden rounded-lg border shadow-lg">
+            <div className="overflow-hidden rounded-xl shadow-lg">
                 <div className="w-full aspect-square relative flex items-center">
                     <Image
                         alt="product_img"

@@ -86,7 +86,7 @@ const UpdateStockModal = ({ product, setIsStockModalOpen }) => {
                         </div>
                         <form
                             autoComplete="off"
-                            className="px-6 py-6 w-[90vw] md:w-[30rem] flex flex-col gap-4"
+                            className="px-6 py-6 w-[95vw] md:w-[30rem] flex flex-col gap-4"
                         >
                             <div className="col-span-6 md:col-span-3">
                                 <label className="block text-sm font-medium tracking-wide">

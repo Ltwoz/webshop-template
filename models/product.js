@@ -27,11 +27,6 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide a image for this product."],
     },
-    slug: {
-        type: String,
-        required: [true, "Please provide a slug for this product."],
-        unique: true,
-    },
     stock: {
         type: Array,
         default: [],

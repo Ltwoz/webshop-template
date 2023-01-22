@@ -21,6 +21,9 @@ import {
     DELETE_CATEGORY_FAIL,
     DELETE_CATEGORY_RESET,
     CLEAR_ERRORS,
+    ADMIN_DETAILS_CATEGORY_REQUEST,
+    ADMIN_DETAILS_CATEGORY_SUCCESS,
+    ADMIN_DETAILS_CATEGORY_FAIL,
 } from "../../types/category-constants";
 
 const CategoryReducer = (state, action) => {
@@ -54,17 +57,20 @@ const CategoryReducer = (state, action) => {
 
         //* Category Details
         case CATEGORY_DETAILS_REQUEST:
+        case ADMIN_DETAILS_CATEGORY_REQUEST:
             return {
                 ...state,
                 loading: true,
             };
         case CATEGORY_DETAILS_SUCCESS:
+        case ADMIN_DETAILS_CATEGORY_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 category: action.payload,
             };
         case CATEGORY_DETAILS_REQUEST:
+        case ADMIN_DETAILS_CATEGORY_FAIL:
             return {
                 ...state,
                 loading: false,

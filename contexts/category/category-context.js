@@ -20,6 +20,9 @@ import {
     DELETE_CATEGORY_SUCCESS,
     DELETE_CATEGORY_FAIL,
     CLEAR_ERRORS,
+    ADMIN_DETAILS_CATEGORY_REQUEST,
+    ADMIN_DETAILS_CATEGORY_SUCCESS,
+    ADMIN_DETAILS_CATEGORY_FAIL,
 } from "../../types/category-constants";
 import CategoryReducer from "./category-reducer";
 
@@ -71,6 +74,22 @@ export const CategoryContextProvider = (props) => {
         } catch (error) {
             dispatch({
                 type: ADMIN_CATEGORY_FAIL,
+                payload: error.response.data.message,
+            });
+        }
+    };
+
+    //* Get Details Categories -- Admin
+    const getAdminDetailsCategories = async (cid) => {
+        try {
+            dispatch({ type: ADMIN_DETAILS_CATEGORY_REQUEST });
+
+            const { data } = await axios.get(`/api/admin/categories/${cid}`);
+
+            dispatch({ type: ADMIN_DETAILS_CATEGORY_SUCCESS, payload: data.category });
+        } catch (error) {
+            dispatch({
+                type: ADMIN_DETAILS_CATEGORY_FAIL,
                 payload: error.response.data.message,
             });
         }
@@ -153,6 +172,7 @@ export const CategoryContextProvider = (props) => {
                 isDeleted: state.isDeleted,
                 getAllCategories,
                 getAdminCategories,
+                getAdminDetailsCategories,
                 createCategory,
                 updateCategory,
                 deleteCategory,
