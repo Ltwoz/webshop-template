@@ -3,7 +3,7 @@ import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 import Layout from "../../../components/layouts/main-layout";
 import CategoryContext from "../../../contexts/category/category-context";
 import Swal from "sweetalert2";
-import { DELETE_CATEGORY_RESET } from "../../../types/category-constants";
+import { DELETE_CATEGORY_RESET, NEW_CATEGORY_RESET, UPDATE_CATEGORY_RESET } from "../../../types/category-constants";
 import { CSSTransition } from "react-transition-group";
 import NewCategoryModal from "../../../components/ui/modals/new-category-modal";
 import UpdateCategoryModal from "../../../components/ui/modals/update-category-modal";
@@ -20,6 +20,7 @@ const AdminCategories = () => {
         isUpdated,
         isDeleted,
         dispatch,
+        clearErrors,
     } = useContext(CategoryContext);
 
     const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -30,6 +31,44 @@ const AdminCategories = () => {
         getAdminCategories();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [success, isUpdated, isDeleted]);
+
+    useEffect(() => {
+        if (error) {
+            Swal.fire({
+                title: "เกิดข้อผิดพลาด",
+                text: error,
+                icon: "error",
+            });
+            clearErrors();
+        }
+
+        if (success) {
+            Swal.fire({
+                title: "เพิ่มหมวดหมู่แล้ว",
+                text: "",
+                icon: "success",
+            });
+            dispatch({ type: NEW_CATEGORY_RESET });
+        }
+
+        if (isUpdated) {
+            Swal.fire({
+                title: "แก้ไขหมวดหมู่แล้ว",
+                text: "",
+                icon: "success",
+            });
+            dispatch({ type: UPDATE_CATEGORY_RESET });
+        }
+
+        if (isDeleted) {
+            Swal.fire({
+                title: "ลบหมวดหมู่แล้ว!",
+                text: "ไม่มีหมวดหมู่นี้อีกแล้ว",
+                icon: "success",
+            });
+            dispatch({ type: DELETE_CATEGORY_RESET });
+        }
+    }, [clearErrors, dispatch, error, isDeleted, isUpdated, success]);
 
     const deleteHandler = (e, category) => {
         e.preventDefault();
@@ -46,13 +85,13 @@ const AdminCategories = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteCategory(category._id);
-                Swal.fire(
-                    "ลบหมวดหมู่แล้ว!",
-                    "ไม่มีหมวดหมู่นี้อีกแล้ว",
-                    "success"
-                );
+                // Swal.fire(
+                //     "ลบหมวดหมู่แล้ว!",
+                //     "ไม่มีหมวดหมู่นี้อีกแล้ว",
+                //     "success"
+                // );
             }
-            dispatch({ type: DELETE_CATEGORY_RESET });
+            // dispatch({ type: DELETE_CATEGORY_RESET });
         });
     };
 
