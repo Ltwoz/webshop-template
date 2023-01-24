@@ -8,15 +8,25 @@ import ConfigsContext from "../contexts/config/config-context";
 import ProductContext from "../contexts/product/product-context";
 import { withInitProps } from "../utils/get-init-data";
 
-export default function Home({ stats }) {
+export default function Home() {
     const { configs } = useContext(ConfigsContext);
     const { getFeaturedProducts, products, loading, error } =
         useContext(ProductContext);
+
+    const [stats, setStats] = {};
 
     useEffect(() => {
         getFeaturedProducts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        const getStats = async () => {
+            const { data } = await axios.get(`/api/stats`);
+            setStats(data);
+        };
+        getStats();
+    }, [setStats]);
 
     return (
         <Layout>
@@ -60,9 +70,7 @@ export default function Home({ stats }) {
                     </section>
 
                     <section id="products" className="px-4 md:px-2">
-                        <h1 className="text-2xl font-bold mb-8">
-                            สินค้าแนะนำ
-                        </h1>
+                        <h1 className="text-2xl font-bold mb-8">สินค้าแนะนำ</h1>
                         <div className="grid md:grid-cols-4 justify-start gap-4 md:gap-6">
                             {products?.map((product, i) => (
                                 <ProductCard key={i} product={product} />
@@ -75,23 +83,23 @@ export default function Home({ stats }) {
     );
 }
 
-// export { getServerSideProps } from "../utils/get-init-data";
-export const getServerSideProps = withInitProps(async (ctx) => {
-    const nextRequestMeta =
-        ctx.req[
-            Reflect.ownKeys(ctx.req).find(
-                (s) => String(s) === "Symbol(NextRequestMeta)"
-            )
-        ];
-    const protocal = nextRequestMeta._protocol;
+export { getServerSideProps } from "../utils/get-init-data";
+// export const getServerSideProps = withInitProps(async (ctx) => {
+//     const nextRequestMeta =
+//         ctx.req[
+//             Reflect.ownKeys(ctx.req).find(
+//                 (s) => String(s) === "Symbol(NextRequestMeta)"
+//             )
+//         ];
+//     const protocal = nextRequestMeta._protocol;
 
-    const { data } = await axios.get(
-        `${protocal}://${ctx.req.headers.host}/api/stats`
-    );
+//     const { data } = await axios.get(
+//         `${protocal}://${ctx.req.headers.host}/api/stats`
+//     );
 
-    return {
-        props: {
-            stats: data,
-        },
-    };
-});
+//     return {
+//         props: {
+//             stats: data,
+//         },
+//     };
+// });
