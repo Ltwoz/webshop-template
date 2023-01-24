@@ -31,7 +31,7 @@ import {
     PRODUCT_PURCHASE_FAIL,
     PRODUCT_QUEUE_PURCHASE_REQUEST,
     PRODUCT_QUEUE_PURCHASE_SUCCESS,
-    PRODUCT_QUEUE_PURCHASE_FAIL
+    PRODUCT_QUEUE_PURCHASE_FAIL,
 } from "../../types/product-constants";
 import ProductReducer from "./product-reducer";
 
@@ -48,13 +48,14 @@ export const ProductContextProvider = (props) => {
         error: null,
         success: false,
         isUpdated: false,
+        isStockUpdated: false,
         isDeleted: false,
     };
 
     const [state, dispatch] = useReducer(ProductReducer, initialState);
 
     const clearProduct = () => {
-        dispatch({ type: 'CLEAR_PRODUCT' });
+        dispatch({ type: "CLEAR_PRODUCT" });
     };
 
     //* Get All Products
@@ -296,6 +297,7 @@ export const ProductContextProvider = (props) => {
                 new: state.new,
                 delUpdate: state.delUpdate,
                 purchase: state.purchase,
+                isStockUpdated: state.isStockUpdated,
                 getAllProducts,
                 getFeaturedProducts,
                 getAdminProducts,

@@ -2,8 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Select from "react-select";
 import CategoryContext from "../../../contexts/category/category-context";
-import Swal from "sweetalert2";
-import { NEW_CATEGORY_RESET } from "../../../types/category-constants";
 import { colourStyles } from "../../../styles/select-style";
 
 const typeOptions = [

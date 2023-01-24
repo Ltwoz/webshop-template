@@ -1,41 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import Swal from "sweetalert2";
 import ProductContext from "../../../contexts/product/product-context";
-import { UPDATE_STOCK_RESET } from "../../../types/product-constants";
 
 const UpdateStockModal = ({ product, setIsStockModalOpen }) => {
     const {
         updateStock,
-        clearErrors,
-        loading,
-        error,
-        success,
-        isUpdated,
-        dispatch,
     } = useContext(ProductContext);
 
     const [stocks, setStocks] = useState(product.stock);
-
-    useEffect(() => {
-        if (error) {
-            Swal.fire({
-                title: "เกิดข้อผิดพลาด",
-                text: error,
-                icon: "error",
-            });
-            clearErrors();
-        }
-
-        if (isUpdated === true) {
-            Swal.fire({
-                title: "แก้ไขสต็อกแล้ว",
-                text: "",
-                icon: "success",
-            });
-            dispatch({ type: UPDATE_STOCK_RESET });
-        }
-    }, [clearErrors, dispatch, error, isUpdated]);
 
     const handleTextareaChange = (e) => {
         const text = e.target.value;

@@ -30,7 +30,7 @@ const AdminCategories = () => {
     useEffect(() => {
         getAdminCategories();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [success, isUpdated, isDeleted]);
 
     useEffect(() => {
         if (error) {
@@ -49,7 +49,6 @@ const AdminCategories = () => {
                 icon: "success",
             });
             dispatch({ type: NEW_CATEGORY_RESET });
-            getAdminCategories();
         }
 
         if (isUpdated) {
@@ -59,7 +58,6 @@ const AdminCategories = () => {
                 icon: "success",
             });
             dispatch({ type: UPDATE_CATEGORY_RESET });
-            getAdminCategories();
         }
 
         if (isDeleted) {
@@ -69,9 +67,7 @@ const AdminCategories = () => {
                 icon: "success",
             });
             dispatch({ type: DELETE_CATEGORY_RESET });
-            getAdminCategories();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [clearErrors, dispatch, categories, error, isDeleted, isUpdated, success]);
 
     const deleteHandler = (e, category) => {

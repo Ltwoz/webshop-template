@@ -10,7 +10,12 @@ import UpdateStockModal from "../../../components/ui/modals/update-stock-modal";
 import UpdateProductModal from "../../../components/ui/modals/update-product-modal";
 
 import ProductContext from "../../../contexts/product/product-context";
-import { DELETE_PRODUCT_RESET } from "../../../types/product-constants";
+import {
+    DELETE_PRODUCT_RESET,
+    NEW_PRODUCT_RESET,
+    UPDATE_PRODUCT_RESET,
+    UPDATE_STOCK_RESET,
+} from "../../../types/product-constants";
 import CategoryContext from "../../../contexts/category/category-context";
 import Link from "next/link";
 
@@ -29,6 +34,8 @@ const AdminProducts = () => {
         success,
         isUpdated,
         isDeleted,
+        isStockUpdated,
+        clearErrors,
         dispatch,
     } = useContext(ProductContext);
     const { getAdminDetailsCategory, category } = useContext(CategoryContext);
@@ -43,7 +50,54 @@ const AdminProducts = () => {
     useEffect(() => {
         getAdminProducts(cid);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [success, isUpdated, isDeleted, cid]);
+    }, [success, isUpdated, isDeleted, isStockUpdated, cid]);
+
+    useEffect(() => {
+        if (error) {
+            Swal.fire({
+                title: "เกิดข้อผิดพลาด",
+                text: error,
+                icon: "error",
+            });
+            clearErrors();
+        }
+
+        if (success) {
+            Swal.fire({
+                title: "เพิ่มสินค้าแล้ว",
+                text: "",
+                icon: "success",
+            });
+            dispatch({ type: NEW_PRODUCT_RESET });
+        }
+
+        if (isUpdated) {
+            Swal.fire({
+                title: "แก้ไขสินค้าแล้ว",
+                text: "",
+                icon: "success",
+            });
+            dispatch({ type: UPDATE_PRODUCT_RESET });
+        }
+
+        if (isStockUpdated) {
+            Swal.fire({
+                title: "แก้ไขสต็อกแล้ว",
+                text: "",
+                icon: "success",
+            });
+            dispatch({ type: UPDATE_STOCK_RESET });
+        }
+
+        if (isDeleted) {
+            Swal.fire({
+                title: "ลบสินค้าแล้ว!",
+                text: "ไม่มีสินค้านี้อีกแล้ว",
+                icon: "success",
+            });
+            dispatch({ type: DELETE_PRODUCT_RESET });
+        }
+    }, [clearErrors, dispatch, error, isDeleted, isUpdated, isStockUpdated, success]);
 
     useEffect(() => {
         setTimeout(function () {
@@ -71,9 +125,7 @@ const AdminProducts = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteProduct(product._id);
-                Swal.fire("ลบสินค้าแล้ว!", "ไม่มีสินค้านี้อีกแล้ว", "success");
             }
-            dispatch({ type: DELETE_PRODUCT_RESET });
         });
     };
 

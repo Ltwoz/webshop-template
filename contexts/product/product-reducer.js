@@ -40,7 +40,7 @@ import {
 
 const ProductReducer = (state, action) => {
     switch (action.type) {
-        case 'CLEAR_PRODUCT':
+        case "CLEAR_PRODUCT":
             return {
                 ...state,
                 products: [],
@@ -130,13 +130,20 @@ const ProductReducer = (state, action) => {
             };
 
         case UPDATE_PRODUCT_SUCCESS:
-        case UPDATE_STOCK_SUCCESS:
             return {
                 ...state,
                 delUpdate: {
                     loading: false,
                 },
                 isUpdated: action.payload,
+            };
+        case UPDATE_STOCK_SUCCESS:
+            return {
+                ...state,
+                delUpdate: {
+                    loading: false,
+                },
+                isStockUpdated: action.payload,
             };
         case DELETE_PRODUCT_FAIL:
         case UPDATE_PRODUCT_FAIL:
@@ -154,10 +161,14 @@ const ProductReducer = (state, action) => {
                 isDeleted: false,
             };
         case UPDATE_PRODUCT_RESET:
-        case UPDATE_STOCK_RESET:
             return {
                 ...state,
                 isUpdated: false,
+            };
+        case UPDATE_STOCK_RESET:
+            return {
+                ...state,
+                isStockUpdated: false,
             };
 
         //* Get Product Details
@@ -184,32 +195,32 @@ const ProductReducer = (state, action) => {
         case PRODUCT_QUEUE_PURCHASE_REQUEST:
             return {
                 ...state,
-                loading: true
-            }
+                loading: true,
+            };
         case PRODUCT_PURCHASE_SUCCESS:
         case PRODUCT_QUEUE_PURCHASE_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 purchase: {
-                    success: true
-                }
-            }
+                    success: true,
+                },
+            };
         case PRODUCT_PURCHASE_FAIL:
         case PRODUCT_QUEUE_PURCHASE_FAIL:
             return {
                 ...state,
                 loading: false,
-                error: action.payload
-            }
+                error: action.payload,
+            };
         case PRODUCT_PURCHASE_RESET:
         case PRODUCT_QUEUE_PURCHASE_RESET:
             return {
                 ...state,
                 purchase: {
-                    success: false
-                }
-            }
+                    success: false,
+                },
+            };
 
         case CLEAR_ERRORS:
             return {

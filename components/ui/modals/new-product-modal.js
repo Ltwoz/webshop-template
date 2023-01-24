@@ -1,18 +1,15 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import Select from "react-select";
-import Swal from "sweetalert2";
 import CategoryContext from "../../../contexts/category/category-context";
 import ProductContext from "../../../contexts/product/product-context";
 import { colourStyles } from "../../../styles/select-style";
-import { NEW_PRODUCT_RESET } from "../../../types/product-constants";
 
 const NewProductModal = ({ setIsNewModalOpen }) => {
     const router = useRouter();
     const cid = router.query.cid;
 
-    const { createProduct, clearErrors, loading, error, success, dispatch } =
+    const { createProduct } =
         useContext(ProductContext);
 
     const { getAdminDetailsCategory, category } = useContext(CategoryContext);
@@ -27,26 +24,6 @@ const NewProductModal = ({ setIsNewModalOpen }) => {
         getAdminDetailsCategory(cid);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cid]);
-
-    useEffect(() => {
-        if (error) {
-            Swal.fire({
-                title: "เกิดข้อผิดพลาด",
-                text: error,
-                icon: "error",
-            });
-            clearErrors();
-        }
-
-        if (success) {
-            Swal.fire({
-                title: "เพิ่มสินค้าแล้ว",
-                text: "",
-                icon: "success",
-            });
-            dispatch({ type: NEW_PRODUCT_RESET });
-        }
-    }, [clearErrors, dispatch, error, success]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
