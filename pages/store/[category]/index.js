@@ -95,7 +95,10 @@ export const getServerSideProps = withInitProps(async (ctx) => {
     } catch (error) {
         console.log(error);
         return {
-            notFound: true,
+            // notFound: true,
+            props: {
+                error: error
+            }
         };
     }
 });
