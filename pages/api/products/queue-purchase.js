@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import dbConnect from "../../../lib/db-connect";
 import { isAuthenticatedUser } from "../../../middlewares/auth";
 import Product from "../../../models/product";
@@ -44,6 +45,7 @@ async function handler(req, res) {
                 if (uid) {
                     console.log("is uid");
                     queue = await Queue.create({
+                        _id: nanoid(10),
                         product_name: product.name,
                         price: product.price,
                         form: {
@@ -53,6 +55,7 @@ async function handler(req, res) {
                     });
                 } else {
                     queue = await Queue.create({
+                        _id: nanoid(10),
                         product_name: product.name,
                         price: product.price,
                         form: {

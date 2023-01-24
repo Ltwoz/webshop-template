@@ -85,13 +85,24 @@ const CategoryIDPASS = (props) => {
             return;
         }
 
-        if (!username.trim() || !password.trim()) {
-            Swal.fire({
-                title: "เกิดข้อผิดพลาด",
-                text: "โปรดใส่ข้อมูลรหัสของท่าน!",
-                icon: "error",
-            });
-            return;
+        if (props?.category?.form_uid) {
+            if (!uid.trim()) {
+                Swal.fire({
+                    title: "เกิดข้อผิดพลาด",
+                    text: "โปรดใส่ข้อมูลรหัสของท่าน!",
+                    icon: "error",
+                });
+                return;
+            }
+        } else {
+            if (!username.trim() || !password.trim()) {
+                Swal.fire({
+                    title: "เกิดข้อผิดพลาด",
+                    text: "โปรดใส่ข้อมูลรหัสของท่าน!",
+                    icon: "error",
+                });
+                return;
+            }
         }
 
         Swal.fire({
@@ -105,10 +116,16 @@ const CategoryIDPASS = (props) => {
             cancelButtonText: "ยกเลิก",
         }).then((result) => {
             if (result.isConfirmed) {
-                queuePurchaseProduct(selectedProduct?._id, {
-                    username: username,
-                    password: password,
-                });
+                if (props?.category?.form_uid) {
+                    queuePurchaseProduct(selectedProduct?._id, {
+                        uid: uid,
+                    });
+                } else {
+                    queuePurchaseProduct(selectedProduct?._id, {
+                        username: username,
+                        password: password,
+                    });
+                }
             }
         });
     };
@@ -191,7 +208,14 @@ const CategoryIDPASS = (props) => {
                         </div>
                         <div className="w-full md:w-2/3 grid grid-cols-2 md:grid-cols-3 gap-4">
                             {products?.map((product, i) => (
-                                <IdPassProductCard key={i} {...{handlerProductSelect, selectedProduct, product}} />
+                                <IdPassProductCard
+                                    key={i}
+                                    {...{
+                                        handlerProductSelect,
+                                        selectedProduct,
+                                        product,
+                                    }}
+                                />
                             ))}
                         </div>
                     </div>

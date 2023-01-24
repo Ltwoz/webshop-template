@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import dbConnect from "../../../lib/db-connect";
 import { isAuthenticatedUser } from "../../../middlewares/auth";
 import Order from "../../../models/order";
@@ -47,23 +48,15 @@ async function handler(req, res) {
                 //* get stock by amount
                 const stock_data = stocks.splice(0, amount);
                 product.stock_count = product.stock.length;
-                const savedProduct = await product.save();
-
-                if (!savedProduct) {
-                    return res.status(500).json({
-                        success: false,
-                        message: "Could not save the product",
-                    });
-                }
 
                 //* update user point
                 const user = await User.findById(req.user.id);
                 user.point = calPoint;
-                await user.save({ validateBeforeSave: false });
 
                 //* Map stock_data to create order one by one
                 const order = await Promise.all(stock_data.map(async (stock) => {
                     const order = await Order.create({
+                        _id: nanoid(10),
                         product_name: product.name,
                         price: product.price,
                         stock_data: stock,
@@ -71,6 +64,16 @@ async function handler(req, res) {
                     })
                     return order;
                 }));
+
+                const savedProduct = await product.save();
+                await user.save({ validateBeforeSave: false });
+
+                if (!savedProduct) {
+                    return res.status(500).json({
+                        success: false,
+                        message: "Could not save the product",
+                    });
+                }
 
                 res.status(200).json({
                     success: true,

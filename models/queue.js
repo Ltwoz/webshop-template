@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
-import { nanoid } from "nanoid";
 
 const QueueSchema = new mongoose.Schema({
     _id: {
         type: String,
-        default: nanoid(10)
     },
     product_name: {
         type: String,
