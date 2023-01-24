@@ -1,6 +1,6 @@
 import axios from "axios";
 import Image from "next/image";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Layout from "../components/layouts/main-layout";
 import ProductCard from "../components/ui/cards/product-card";
 import StatCard from "../components/ui/cards/stat-card";
@@ -13,7 +13,7 @@ export default function Home() {
     const { getFeaturedProducts, products, loading, error } =
         useContext(ProductContext);
 
-    const [stats, setStats] = {};
+    const [stats, setStats] = useState({});
 
     useEffect(() => {
         getFeaturedProducts();
