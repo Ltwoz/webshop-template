@@ -47,9 +47,6 @@ const ConfigSchema = mongoose.Schema(
             }
         }
     },
-    {
-        capped: { size: 1024, max: 1 },
-    }
 );
 
 export default mongoose.models.Config || mongoose.model("Config", ConfigSchema);
