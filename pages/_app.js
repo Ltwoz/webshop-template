@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }) {
                         <HistoryContextProvider>
                             <NextNProgress
                                 color="#29D"
-                                startPosition={0.7}
+                                startPosition={0.3}
                                 stopDelayMs={200}
                                 height={2}
                                 showOnShallow={true}

@@ -68,7 +68,7 @@ const AdminCategories = () => {
             });
             dispatch({ type: DELETE_CATEGORY_RESET });
         }
-    }, [clearErrors, dispatch, error, isDeleted, isUpdated, success]);
+    }, [clearErrors, dispatch, categories, error, isDeleted, isUpdated, success]);
 
     const deleteHandler = (e, category) => {
         e.preventDefault();
@@ -85,13 +85,7 @@ const AdminCategories = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteCategory(category._id);
-                // Swal.fire(
-                //     "ลบหมวดหมู่แล้ว!",
-                //     "ไม่มีหมวดหมู่นี้อีกแล้ว",
-                //     "success"
-                // );
             }
-            // dispatch({ type: DELETE_CATEGORY_RESET });
         });
     };
 

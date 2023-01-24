@@ -22,26 +22,6 @@ const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
     const [type, setType] = useState(category.type);
     const [image, setImage] = useState(category.image);
 
-    // useEffect(() => {
-    //     if (error) {
-    //         Swal.fire({
-    //             title: "เกิดข้อผิดพลาด",
-    //             text: error,
-    //             icon: "error",
-    //         });
-    //         clearErrors();
-    //     }
-
-    //     if (isUpdated) {
-    //         Swal.fire({
-    //             title: "แก้ไขหมวดหมู่แล้ว",
-    //             text: "",
-    //             icon: "success",
-    //         });
-    //         dispatch({ type: UPDATE_CATEGORY_RESET });
-    //     }
-    // }, [clearErrors, dispatch, error, isUpdated]);
-
     const handleSubmit = (e) => {
         e.preventDefault();
 

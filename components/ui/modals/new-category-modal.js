@@ -21,26 +21,6 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
     const [isUid, setIsUid] = useState(false);
     const [image, setImage] = useState("");
 
-    // useEffect(() => {
-    //     if (error) {
-    //         Swal.fire({
-    //             title: "เกิดข้อผิดพลาด",
-    //             text: error,
-    //             icon: "error",
-    //         });
-    //         clearErrors();
-    //     }
-
-    //     if (success) {
-    //         Swal.fire({
-    //             title: "เพิ่มหมวดหมู่แล้ว",
-    //             text: "",
-    //             icon: "success",
-    //         });
-    //         dispatch({ type: NEW_CATEGORY_RESET });
-    //     }
-    // }, [clearErrors, dispatch, error, success]);
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
