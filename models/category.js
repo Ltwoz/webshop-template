@@ -12,8 +12,12 @@ const CategorySchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        required:[true, "Please provide a type for this category."],
+        required: [true, "Please provide a type for this category."],
         enum: ["STOCK", "ID_PASS"],
+    },
+    form_uid: {
+        type: Boolean,
+        default: false,
     },
     image: {
         type: String,
@@ -21,7 +25,7 @@ const CategorySchema = new mongoose.Schema({
     },
     products_count: {
         type: Number,
-        default: 0
+        default: 0,
     },
     isActive: {
         type: Boolean,

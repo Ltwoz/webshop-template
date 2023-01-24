@@ -12,7 +12,7 @@ module.exports = {
                 main: ["IBM Plex Sans Thai", ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary: "#5c6ac4",
+                primary: "#fa8223",
                 secondary: "#05386b",
             },
         },

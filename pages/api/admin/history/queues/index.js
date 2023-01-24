@@ -1,5 +1,5 @@
-import dbConnect from "../../lib/db-connect";
-import Config from "../../models/config";
+import dbConnect from "../../../../../lib/db-connect";
+import Queue from "../../../../../models/queue";
 
 export default async function handler(req, res) {
     await dbConnect();
@@ -7,11 +7,11 @@ export default async function handler(req, res) {
     switch (req.method) {
         case "GET":
             try {
-                const configs = await Config.findOne().select("-__v -_id");
+                const queues = await Queue.find();
 
                 res.status(200).json({
                     success: true,
-                    configs,
+                    queues,
                 });
             } catch (error) {
                 res.status(500).json({

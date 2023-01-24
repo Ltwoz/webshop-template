@@ -79,8 +79,24 @@ export const CategoryContextProvider = (props) => {
         }
     };
 
+    //* Get All Categories
+    const getDetailsCategory = async (id) => {
+        try {
+            dispatch({ type: CATEGORY_DETAILS_REQUEST });
+
+            const { data } = await axios.get(`/api/categories/${id}`);
+
+            dispatch({ type: CATEGORY_DETAILS_SUCCESS, payload: data.category });
+        } catch (error) {
+            dispatch({
+                type: CATEGORY_DETAILS_FAIL,
+                payload: error.response.data.message,
+            });
+        }
+    };
+
     //* Get Details Categories -- Admin
-    const getAdminDetailsCategories = async (cid) => {
+    const getAdminDetailsCategory = async (cid) => {
         try {
             dispatch({ type: ADMIN_DETAILS_CATEGORY_REQUEST });
 
@@ -172,7 +188,8 @@ export const CategoryContextProvider = (props) => {
                 isDeleted: state.isDeleted,
                 getAllCategories,
                 getAdminCategories,
-                getAdminDetailsCategories,
+                getDetailsCategory,
+                getAdminDetailsCategory,
                 createCategory,
                 updateCategory,
                 deleteCategory,

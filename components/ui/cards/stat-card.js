@@ -67,7 +67,7 @@ const StatCard = ({stats}) => {
                             สินค้าทั้งหมด
                         </h4>
                         <h1 className="text-3xl md:text-2xl lg:text-3xl font-semibold">
-                            {stats?.productCount} ชิ้น
+                            {stats?.productCount?.toLocaleString()} ชิ้น
                         </h1>
                     </div>
                 </div>
@@ -83,7 +83,7 @@ const StatCard = ({stats}) => {
                             ขายไปแล้ว
                         </h4>
                         <h1 className="text-3xl md:text-2xl lg:text-3xl font-semibold">
-                        {stats?.orderCount} ชิ้น
+                        {stats?.orderCount?.toLocaleString()} ชิ้น
                         </h1>
                     </div>
                 </div>
@@ -99,7 +99,7 @@ const StatCard = ({stats}) => {
                             ผู้ใช้งานทั้งหมด
                         </h4>
                         <h1 className="text-3xl md:text-2xl lg:text-3xl font-semibold">
-                            {stats?.userCount} คน
+                            {stats?.userCount?.toLocaleString()} คน
                         </h1>
                     </div>
                 </div>

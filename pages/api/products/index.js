@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
                 const modifiedProducts = products.map((product) => {
                     if (product.category.type === "ID_PASS") {
-                        return { ...product._doc, stock_count: undefined };
+                        return { ...product._doc, stock_count: undefined, isFeatured: undefined };
                     }
                     return product;
                 });

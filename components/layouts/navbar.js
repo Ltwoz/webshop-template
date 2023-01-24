@@ -50,17 +50,17 @@ const Navbar = () => {
     };
 
     const navList = (
-        <div className="mt-2 md:mt-0 md:space-x-8 flex flex-col md:flex-row font-medium text-sm md:text-[17px]">
-            <Link href={`/`} className="py-2">
+        <div className="mt-2 md:mt-0 md:space-x-8 flex flex-col md:flex-row font-medium text-sm md:text-[17px] [&>*]:transition-all [&>*]:duration-200">
+            <Link href={`/`} className="py-2 hover:text-primary">
                 หน้าแรก
             </Link>
-            <Link href={`/store`} className="py-2">
+            <Link href={`/store`} className="py-2 hover:text-primary">
                 สินค้า
             </Link>
-            <Link href={`/topup`} className="py-2">
+            <Link href={`/topup`} className="py-2 hover:text-primary">
                 เติมเงิน
             </Link>
-            <Link href={`#`} target="_blank" className="py-2">
+            <Link href={`#`} target="_blank" className="py-2 hover:text-primary">
                 ช่วยเหลือ
             </Link>
             {user.role === "admin" && (
@@ -115,7 +115,10 @@ const Navbar = () => {
                             href="#"
                             className="text-gray-700 block px-4 py-2 text-sm"
                         >
-                            {user?.point.toFixed(2)} บาท
+                            {new Intl.NumberFormat("en-US", {
+                                minimumFractionDigits: 2,
+                            }).format(user?.point)}{" "}
+                            บาท
                         </div>
                     </div>
                     {user?.role === "admin" && (

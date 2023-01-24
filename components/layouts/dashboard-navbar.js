@@ -22,7 +22,7 @@ export const DashboardNavList = () => {
                 จัดการหมวดหมู่
             </Link>
             <Link
-                href={`/dashboard`}
+                href={`/dashboard/history/queues`}
                 className="appearance-none py-2 md:py-4 text-grey-dark"
             >
                 จัดการคิว

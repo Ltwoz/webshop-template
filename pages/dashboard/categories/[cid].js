@@ -31,7 +31,7 @@ const AdminProducts = () => {
         isDeleted,
         dispatch,
     } = useContext(ProductContext);
-    const { getAdminDetailsCategories, category } = useContext(CategoryContext);
+    const { getAdminDetailsCategory, category } = useContext(CategoryContext);
 
     const [isNewModalOpen, setIsNewModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -52,7 +52,7 @@ const AdminProducts = () => {
     }, [products]);
 
     useEffect(() => {
-        getAdminDetailsCategories(cid);
+        getAdminDetailsCategory(cid);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

@@ -31,9 +31,17 @@ const handler = async (req, res) => {
                     await Category.findByIdAndUpdate(category._id, { products_count: category.products_count });
                 }
 
+                const modifiedCategories = categories.map((category) => {
+                    if (category.type === "STOCK") {
+                        delete category.form_uid;
+                        return category;
+                    }
+                    return category;
+                });
+
                 res.status(200).json({
                     success: true,
-                    categories,
+                    categories: modifiedCategories,
                 });
             } catch (error) {
                 res.status(404).json({

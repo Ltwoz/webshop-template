@@ -12,40 +12,19 @@ const AdminConfig = () => {
         updateConfig,
         clearErrors,
         configs,
-        loading,
         error,
         isUpdated,
         dispatch,
     } = useContext(ConfigContext);
 
-    const [title, setTitle] = useState("");
-    const [name, setName] = useState("");
-    const [desc, setDesc] = useState("");
-    const [icon, setIcon] = useState("");
-    const [logo, setLogo] = useState("");
-    const [banner, setBanner] = useState("");
-    const [announcement, setAnnouncement] = useState("");
-    const [twPhone, setTwPhone] = useState("");
-
-    useEffect(() => {
-        setTitle(configs?.website_title);
-        setName(configs?.website_name);
-        setDesc(configs?.website_desc);
-        setIcon(configs?.website_icon);
-        setLogo(configs?.website_logo);
-        setBanner(configs?.website_banner);
-        setAnnouncement(configs?.announcement);
-        setTwPhone(configs?.payment_tw_phone);
-    }, [
-        configs.announcement,
-        configs.payment_tw_phone,
-        configs.website_banner,
-        configs.website_desc,
-        configs.website_icon,
-        configs.website_logo,
-        configs.website_name,
-        configs.website_title,
-    ]);
+    const [title, setTitle] = useState(configs?.website_title);
+    const [name, setName] = useState(configs?.website_name);
+    const [desc, setDesc] = useState(configs?.website_desc);
+    const [icon, setIcon] = useState(configs?.website_icon);
+    const [logo, setLogo] = useState(configs?.website_logo);
+    const [banner, setBanner] = useState(configs?.website_banner);
+    const [announcement, setAnnouncement] = useState(configs?.announcement);
+    const [twPhone, setTwPhone] = useState(configs?.payment_tw_phone);
 
     useEffect(() => {
         if (error) {
@@ -72,18 +51,17 @@ const AdminConfig = () => {
 
     const handleSave = (e) => {
         e.preventDefault();
-        const configsForm = new FormData();
-
-        configsForm.set("website_title", title);
-        configsForm.set("website_name", name);
-        configsForm.set("website_desc", desc);
-        configsForm.set("website_icon", icon);
-        configsForm.set("website_logo", logo);
-        configsForm.set("website_banner", banner);
-        configsForm.set("announcement", announcement);
-        configsForm.set("payment_tw_phone", twPhone);
-
-        updateConfig(configsForm);
+        
+        updateConfig({
+            website_title: title,
+            website_name: name,
+            website_desc: desc,
+            website_icon: icon,
+            website_logo: logo,
+            website_banner: banner,
+            announcement: announcement,
+            payment_tw_phone: twPhone
+        });
     };
 
     return (
@@ -100,7 +78,7 @@ const AdminConfig = () => {
                         id="left"
                         autoComplete="off"
                         onSubmit={handleSave}
-                        className="w-full md:w-2/3 mr-6 bg-white border rounded-md shadow mb-6 divide-y"
+                        className="w-full md:w-2/4 mr-6 bg-white border rounded-md shadow mb-6 divide-y"
                     >
                         <div className="p-6 flex items-center justify-between">
                             <h2 className="text-lg font-semibold">
@@ -244,7 +222,7 @@ const AdminConfig = () => {
                     <form
                         id="right"
                         autoComplete="off"
-                        className="w-full md:w-1/3 bg-white border rounded-md shadow mb-6 h-full divide-y"
+                        className="w-full md:w-2/4 bg-white border rounded-md shadow mb-6 h-full divide-y"
                     >
                         <div className="p-6 flex items-center justify-between">
                             <h2 className="text-lg font-semibold">

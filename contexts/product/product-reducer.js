@@ -40,6 +40,12 @@ import {
 
 const ProductReducer = (state, action) => {
     switch (action.type) {
+        case 'CLEAR_PRODUCT':
+            return {
+                ...state,
+                products: [],
+                product: {},
+            };
         //* Get All Products
         case ALL_PRODUCT_REQUEST:
         case FEATURED_PRODUCT_REQUEST:

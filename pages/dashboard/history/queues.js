@@ -1,104 +1,56 @@
 import { useContext, useEffect } from "react";
+import Select from "react-select";
+import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 import Layout from "../../../components/layouts/main-layout";
 import HistoryContext from "../../../contexts/history/history-context";
 import UserContext from "../../../contexts/user/user-context";
+import { colourStyles } from "../../../styles/select-style";
 
-const HistoryOrder = () => {
+const statusOptions = [
+    { value: "กำลังดำเนินการ", label: "กำลังดำเนินการ" },
+    { value: "สำเร็จ", label: "สำเร็จ" },
+    { value: "ไม่สำเร็จ", label: "ไม่สำเร็จ" },
+    { value: "ยกเลิก", label: "ยกเลิก" },
+];
+
+const AdminQueues = () => {
     const { user } = useContext(UserContext);
     const {
-        getAllOrders,
-        order: { orders },
-        getAllQueues,
+        getAdminQueues,
         queue: { queues },
     } = useContext(HistoryContext);
 
     useEffect(() => {
-        getAllOrders(user._id);
-        getAllQueues(user._id);
+        getAdminQueues();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <Layout>
-            <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
-                <h1 className="text-center text-4xl font-bold mb-8">
-                    ประวัติการสั่งซื้อ
-                </h1>
-                <section className="bg-white border rounded-md shadow mb-6 divide-y">
-                    <div className="p-6 flex items-center justify-between max-h-[88px]">
-                        <h2 className="text-lg font-semibold">ประเภทสต็อก</h2>
-                        <input
-                            type="text"
-                            name="website-title"
-                            id="website-title"
-                            placeholder="ค้นหาประวัติ"
-                            autoComplete="off"
-                            className="p-2 rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                        />
-                    </div>
-                    <div className="flex flex-col overflow-x-scroll">
-                        <table className="w-full table-fixed">
-                            <thead>
-                                <tr className="bg-gray-200 text-gray-600 text-sm leading-normal">
-                                    <th className="py-3 px-6 text-left w-40">
-                                        #
-                                    </th>
-                                    <th className="py-3 px-6 text-left w-44 md:w-80">
-                                        ชื่อสินค้า
-                                    </th>
-                                    <th className="py-3 px-6 text-left w-28">
-                                        ราคา
-                                    </th>
-                                    <th className="py-3 px-6 text-left w-56">
-                                        ข้อมูล
-                                    </th>
-                                    <th className="py-3 px-6 text-left w-52">
-                                        วันที่
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="text-gray-600 text-sm md:text-base">
-                                {orders?.map((order, i) => (
-                                    <tr
-                                        key={i}
-                                        className="border-b border-gray-200 hover:bg-gray-100"
-                                    >
-                                        <td className="py-3 px-6 text-left">
-                                            {order._id}
-                                        </td>
-                                        <td className="py-3 px-6 text-left">
-                                            {order.product_name}
-                                        </td>
-                                        <td className="py-3 px-6 text-left">
-                                            {order.price} บาท
-                                        </td>
-                                        <td className="py-3 px-6 text-left">
-                                            {order.stock_data}
-                                        </td>
-                                        <td className="py-3 px-6 text-left">
-                                            {new Date(
-                                                order.createdAt
-                                            ).toLocaleString("en", {
-                                                dateStyle: "short",
-                                                timeStyle: "short",
-                                                hour12: false,
-                                            })}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+            <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-20 md:pt-28 mx-auto items-center">
+                <section
+                    id="header"
+                    className="md:hidden border-b-2 mx-8 py-4 mb-6"
+                >
+                    <h1 className="text-4xl font-semibold text-center">
+                        จัดการคิว
+                    </h1>
                 </section>
-
+                <DashboardNavbar />
                 <section className="bg-white border rounded-md shadow mb-6 divide-y">
                     <div className="p-6 flex items-center justify-between max-h-[88px]">
-                        <h2 className="text-lg font-semibold">ประเภทคิว</h2>
+                        <h2 className="text-lg font-semibold">ประเภท Queue</h2>
+                        <Select
+                            options={statusOptions}
+                            styles={colourStyles}
+                            placeholder="สถานะ"
+                            className="w-44"
+                        />
                         <input
                             type="text"
                             name="website-title"
                             id="website-title"
-                            placeholder="ค้นหาประวัติ"
+                            placeholder="ค้นหา"
                             autoComplete="off"
                             className="p-2 rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                         />
@@ -187,6 +139,6 @@ const HistoryOrder = () => {
     );
 };
 
-export default HistoryOrder;
+export default AdminQueues;
 
 export { getServerSideProps } from "../../../utils/get-init-data";

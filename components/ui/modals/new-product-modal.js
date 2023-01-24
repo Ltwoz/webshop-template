@@ -15,7 +15,7 @@ const NewProductModal = ({ setIsNewModalOpen }) => {
     const { createProduct, clearErrors, loading, error, success, dispatch } =
         useContext(ProductContext);
 
-    const { getAdminDetailsCategories, category } = useContext(CategoryContext);
+    const { getAdminDetailsCategory, category } = useContext(CategoryContext);
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -24,7 +24,7 @@ const NewProductModal = ({ setIsNewModalOpen }) => {
     const [isFeatured, setIsFeatured] = useState(false);
 
     useEffect(() => {
-        getAdminDetailsCategories(cid);
+        getAdminDetailsCategory(cid);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cid]);
 

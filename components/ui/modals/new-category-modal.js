@@ -18,6 +18,7 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [type, setType] = useState("");
+    const [isUid, setIsUid] = useState(false);
     const [image, setImage] = useState("");
 
     useEffect(() => {
@@ -47,6 +48,7 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
             name: name,
             description: description,
             type: type,
+            form_uid: isUid,
             image: image,
         });
         setIsNewModalOpen(false);
@@ -55,9 +57,7 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
     return (
         <>
             {createPortal(
-                <div
-                    className="z-[99] flex justify-center items-center fixed inset-0 transition-opacity"
-                >
+                <div className="z-[99] flex justify-center items-center fixed inset-0 transition-opacity">
                     <div className="absolute inset-0 bg-black opacity-50" />
                     <div
                         className="modalContent z-10 flex md:justify-center items-center flex-col max-h-[calc(100vh-100px)] overflow-y-auto bg-white shadow-md rounded-lg divide-y"
@@ -90,7 +90,6 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
                         </div>
                         <form
                             autoComplete="off"
-                            onSubmit={handleSubmit}
                             className="px-6 py-4 w-[95vw] md:w-[25rem] grid grid-cols-3 gap-6"
                         >
                             <div className="col-span-6 md:col-span-3">
@@ -144,8 +143,32 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
                                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                                 />
                             </div>
+                            {type === "ID_PASS" && (
+                                <div className="col-span-6 md:col-span-3 flex items-center">
+                                    <label className="inline-flex relative items-center">
+                                        <input
+                                            type="checkbox"
+                                            className="sr-only peer"
+                                            checked={isUid}
+                                            readOnly
+                                        />
+                                        <div
+                                            onClick={() => {
+                                                setIsUid(!isUid);
+                                            }}
+                                            className="w-11 h-6 cursor-pointer bg-gray-300 rounded-full peer peer-focus:ring-green-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"
+                                        ></div>
+                                        <span className="ml-4 text-base font-medium text-gray-900">
+                                            ฟอร์มประเภท UID
+                                        </span>
+                                    </label>
+                                </div>
+                            )}
+                        </form>
+                        <div className="w-full px-6 py-4 flex items-center justify-end gap-x-4">
                             <button
                                 type="submit"
+                                onClick={handleSubmit}
                                 className="inline-flex items-center font-medium text-white bg-primary hover:bg-violet-700 py-2 px-4 rounded-md transition-all hover:scale-105"
                             >
                                 <svg
@@ -164,7 +187,7 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
                                 </svg>
                                 <span>สร้าง</span>
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>,
                 document.getElementById("modals")

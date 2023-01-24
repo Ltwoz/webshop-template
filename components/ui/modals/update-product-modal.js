@@ -22,7 +22,7 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
         dispatch,
     } = useContext(ProductContext);
 
-    const { getAdminDetailsCategories, category } = useContext(CategoryContext);
+    const { getAdminDetailsCategory, category } = useContext(CategoryContext);
 
     const [name, setName] = useState(product.name);
     const [description, setDescription] = useState(product.description);
@@ -31,7 +31,7 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
     const [isFeatured, setIsFeatured] = useState(product.isFeatured);
 
     useEffect(() => {
-        getAdminDetailsCategories(cid);
+        getAdminDetailsCategory(cid);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cid]);
 
@@ -61,7 +61,6 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
         updateProduct(product._id, {
             name: name,
             description: description,
-            type: type,
             image: image,
             isFeatured: isFeatured,
         });

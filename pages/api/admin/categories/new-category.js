@@ -11,12 +11,13 @@ const handler = async (req, res) => {
     switch (req.method) {
         case "POST":
             try {
-                const { name, description, type, image, slug } = req.body;
+                const { name, description, type, form_uid, image, slug } = req.body;
 
                 const category = await Category.create({
                     name,
                     description,
                     type,
+                    form_uid,
                     image,
                     slug
                 });

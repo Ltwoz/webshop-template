@@ -53,6 +53,10 @@ export const ProductContextProvider = (props) => {
 
     const [state, dispatch] = useReducer(ProductReducer, initialState);
 
+    const clearProduct = () => {
+        dispatch({ type: 'CLEAR_PRODUCT' });
+    };
+
     //* Get All Products
     const getAllProducts = async (cid) => {
         try {
@@ -203,7 +207,7 @@ export const ProductContextProvider = (props) => {
         try {
             dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-            const { data } = await axios.get(`/api/admin/products/${id}`);
+            const { data } = await axios.get(`/api/products/${id}`);
 
             dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data.product });
         } catch (error) {

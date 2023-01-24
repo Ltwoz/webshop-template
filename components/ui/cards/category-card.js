@@ -13,8 +13,8 @@ const CategoryCard = ({ category }) => {
             <div
                 className="w-full h-[200px] relative flex items-center"
             >
-                <div class="absolute z-[1] right-0 bottom-0 left-0 w-full h-[50%] overflow-hidden bg-gradient-to-t from-black to-white/0 opacity-100"></div>
-                <div class="absolute z-[1] top-0 right-0 left-0 w-full h-[30%] overflow-hidden bg-gradient-to-b from-black to-white/0 opacity-70"></div>
+                <div className="absolute z-[1] right-0 bottom-0 left-0 w-full h-[50%] overflow-hidden bg-gradient-to-t from-black to-white/0 opacity-100"></div>
+                <div className="absolute z-[1] top-0 right-0 left-0 w-full h-[30%] overflow-hidden bg-gradient-to-b from-black to-white/0 opacity-70"></div>
                 <Image
                     alt="product_img"
                     src={category.image}

@@ -36,12 +36,12 @@ const Layout = ({ children }) => {
                 />
             </Head>
             <div
-                className="bg-no-repeat bg-cover bg-fixed text-gray-800"
+                className="bg-no-repeat bg-center bg-cover bg-fixed text-gray-800"
                 style={{
                     backgroundImage: `url(${bgImage})`,
                 }}
             >
-                <div className="min-h-screen flex flex-col bg-[rgba(255,255,255,0.9)]">
+                <div className="min-h-screen flex flex-col bg-[rgba(240,240,240,0.9)]">
                     <Navbar />
                     <div className="flex-grow">{children}</div>
                     <Footer />
