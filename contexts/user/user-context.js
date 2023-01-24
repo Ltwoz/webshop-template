@@ -109,7 +109,7 @@ export const UserContextProvider = (props) => {
                 config
             );
 
-            dispatch({ type: USER_REGISTER_SUCCESS, payload: data.user });
+            dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
         } catch (error) {
             dispatch({
                 type: USER_REGISTER_FAIL,

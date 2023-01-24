@@ -5,20 +5,22 @@ import Layout from "../../components/layouts/main-layout";
 import ConfigContext from "../../contexts/config/config-context";
 import UserContext from "../../contexts/user/user-context";
 
-const LoginPage = () => {
+const RegisterPage = () => {
     const router = useRouter();
     const usernameRef = useRef();
+    const emailRef = useRef();
     const passwordRef = useRef();
 
-    const { login, loading, error, success } = useContext(UserContext);
+    const { register, loading, error, success } = useContext(UserContext);
     const { configs } = useContext(ConfigContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const enteredUsername = usernameRef.current.value;
+        const enteredEmail = emailRef.current.value;
         const enteredPassword = passwordRef.current.value;
 
-        login(enteredUsername, enteredPassword);
+        register(enteredUsername, enteredEmail, enteredPassword);
         router.replace("/");
     };
 
@@ -29,7 +31,7 @@ const LoginPage = () => {
                     <div className="w-[30rem] p-6 bg-white rounded-xl shadow-md">
                         <div className="mb-7 text-center">
                             <h3 className="font-semibold text-2xl text-gray-800">
-                                เข้าสู่ระบบ{" "}
+                                สร้างบัญชี{" "}
                             </h3>
                         </div>
                         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -41,7 +43,15 @@ const LoginPage = () => {
                                     placeholder="ชื่อผู้ใช้งาน"
                                 />
                             </div>
-                            <div className="relative">
+                            <div className="">
+                                <input
+                                    className=" w-full text-sm px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-primary"
+                                    type="text"
+                                    ref={emailRef}
+                                    placeholder="อีเมล"
+                                />
+                            </div>
+                            <div className="relative" x-data="{ show: true }">
                                 <input
                                     placeholder="รหัสผ่าน"
                                     type="password"
@@ -49,31 +59,22 @@ const LoginPage = () => {
                                     className="text-sm px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-primary"
                                 />
                             </div>
-
-                            <div className="flex items-center justify-end text-sm">
-                                <a
-                                    href="#"
-                                    className="text-primary hover:text-purple-600 hover:underline"
-                                >
-                                    ลืมรหัสผ่าน?
-                                </a>
-                            </div>
                             <div>
                                 <button
                                     type="submit"
                                     className="w-full flex justify-center bg-primary  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold cursor-pointer transition-all"
                                 >
-                                    เข้าสู่ระบบ
+                                    สร้างบัญชี
                                 </button>
                             </div>
                         </form>
                         <p className="text-gray-400 text-center text-sm mt-8">
-                            ยังไม่มีบัญชีใช่ไหม?{" "}
+                            มีบัญชีอยู่แล้ว?{" "}
                             <Link
-                                href="/auth/register"
+                                href="/auth/login"
                                 className="text-sm ml-1 text-primary hover:text-purple-700 hover:underline"
                             >
-                                สร้างบัญชี
+                                เข้าสู่ระบบ
                             </Link>
                         </p>
                     </div>
@@ -83,6 +84,6 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default RegisterPage;
 
 export { getServerSideProps } from "../../utils/get-init-data";

@@ -21,6 +21,7 @@ const Footer = () => {
                     <Link
                         href={"https://discord.com/"}
                         target="_blank"
+                        name="discord"
                         className="inline-block p-2 font-medium text-lg leading-tight rounded-full border border-gray-400/80 transition duration-150 ease-in-out hover:bg-gray-200/80 hover:scale-110"
                     >
                         <FaDiscord />
@@ -28,12 +29,14 @@ const Footer = () => {
                     <Link
                         href={"https://facebook.com/"}
                         target="_blank"
+                        name="facebook"
                         className="inline-block p-2 font-medium text-lg leading-tight rounded-full border border-gray-400/80 transition duration-150 ease-in-out hover:bg-gray-200/80 hover:scale-110"
                     >
                         <FaFacebookF />
                     </Link>
                     <Link
                         href={"#"}
+                        name="support"
                         className="inline-block p-2 font-medium text-lg leading-tight rounded-full border border-gray-400/80 transition duration-150 ease-in-out hover:bg-gray-200/80 hover:scale-110"
                     >
                         <BsQuestionLg />

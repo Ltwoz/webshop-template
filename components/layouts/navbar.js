@@ -164,9 +164,9 @@ const Navbar = () => {
                     เข้าสู่ระบบ
                 </Link>
                 <Link
-                    href={`/`}
+                    href={`/auth/register`}
                     className="items-center px-4 py-2
-                    rounded-md text-white bg-red-500 hover:bg-red-600"
+                    rounded-md text-white bg-primary hover:bg-red-600"
                 >
                     สร้างบัญชี
                 </Link>
@@ -202,7 +202,7 @@ const Navbar = () => {
                         </Link>
                         <div className="hidden md:block">{navList}</div>
                         <div className="flex items-center md:hidden">
-                            <button type="button" onClick={handleNavClick}>
+                            <div type="button" onClick={handleNavClick}>
                                 {openNav ? (
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -233,7 +233,7 @@ const Navbar = () => {
                                         />
                                     </svg>
                                 )}
-                            </button>
+                            </div>
                         </div>
                     </div>
                 </div>
