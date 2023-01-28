@@ -17,7 +17,6 @@ const Navbar = () => {
 
     const mobileNavRef = useRef();
 
-    const [loading, setLoading] = useState(true);
     const [showMenu, setShowMenu] = useState(false);
     const [openNav, setOpenNav] = useState(false);
     const [openDashboardNav, setOpenDashboardNav] = useState(false);
@@ -25,29 +24,36 @@ const Navbar = () => {
     useEffect(() => {
         const menuHandler = () => setShowMenu(false);
         const navHandler = () => setOpenNav(false);
+        const dashboardHandler = () => setOpenDashboardNav(false);
 
         window.addEventListener("click", menuHandler);
         window.addEventListener("click", navHandler);
+        window.addEventListener("click", dashboardHandler);
 
         return () => {
             window.removeEventListener("click", menuHandler);
             window.removeEventListener("click", navHandler);
+            window.removeEventListener("click", dashboardHandler);
         };
     }, []);
 
     const handleMenuClick = (e) => {
         e.stopPropagation();
         setShowMenu(!showMenu);
+        setOpenDashboardNav(false);
     };
 
     const handleNavClick = (e) => {
         e.stopPropagation();
         setOpenNav(!openNav);
+        setShowMenu(false);
+        setOpenDashboardNav(false);
     };
 
     const handleDashboardNavClick = (e) => {
         e.stopPropagation();
         setOpenDashboardNav(!openDashboardNav);
+        setShowMenu(false);
     };
 
     const logoutHandler = (e) => {
@@ -74,11 +80,11 @@ const Navbar = () => {
             </Link>
             {user?.role === "admin" && (
                 <div
-                    className="flex items-center justify-between text-blue-700 md:hidden py-2 cursor-pointer"
+                    className="flex items-center justify-between text-blue-700 md:hidden py-2"
                     onClick={handleDashboardNavClick}
                 >
                     จัดการหลังบ้าน
-                    <button className="inline-flex items-center">
+                    <div className="inline-flex items-center">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -96,7 +102,7 @@ const Navbar = () => {
                                 d="M19.5 8.25l-7.5 7.5-7.5-7.5"
                             />
                         </svg>
-                    </button>
+                    </div>
                 </div>
             )}
         </div>
@@ -104,7 +110,7 @@ const Navbar = () => {
 
     const userAuthButton =
         status === "authenticated" ? (
-            <div className="relative md:flex text-left items-center">
+            <div className="md:flex text-left items-center">
                 <div className="flex items-center">
                     <button
                         type="button"
@@ -116,7 +122,7 @@ const Navbar = () => {
                 </div>
 
                 <div
-                    className="absolute right-0 top-10 z-10 mt-2 w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+                    className="absolute right-4 md:right-6 top-[18rem] md:top-10 z-[99] mt-2 w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
                     style={{ display: showMenu ? "" : "none" }}
                 >
                     <div className="py-1">
@@ -199,7 +205,7 @@ const Navbar = () => {
 
     return (
         <nav className="fixed top-0 px-2 md:px-0 py-2 md:py-5 w-full md:bg-gray-100/80 md:backdrop-blur-sm z-30">
-            <div className="block md:flex justify-between items-center max-w-[1150px] w-full border md:border-0 border-gray-300/50 rounded-lg md:rounded-none shadow-md md:shadow-none px-4 sm:px-6 py-3 md:py-0 mx-auto bg-gray-200/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none">
+            <div className="block md:flex relative justify-between items-center max-w-[1150px] w-full border md:border-0 border-gray-300/50 rounded-lg md:rounded-none shadow-md md:shadow-none px-4 sm:px-6 py-3 md:py-0 mx-auto bg-gray-200/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none">
                 <div className="flex items-center w-full md:w-auto">
                     <div className="flex items-center justify-between w-full md:w-auto">
                         <Link
@@ -221,7 +227,7 @@ const Navbar = () => {
                         </Link>
                         <div className="hidden md:block">{navList}</div>
                         <div className="flex items-center md:hidden">
-                            <div type="button" onClick={handleNavClick}>
+                            <div onClick={handleNavClick}>
                                 {openNav ? (
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -290,34 +296,32 @@ const Navbar = () => {
                             },
                         }}
                     >
-                        <div>
-                            {navList}
-                            {user?.role === "admin" && (
-                                <motion.div
-                                    className="pl-6"
-                                    animate={
-                                        openDashboardNav ? "mount" : "unmount"
-                                    }
-                                    initial="unmount"
-                                    exit="unmount"
-                                    variants={{
-                                        unmount: {
-                                            height: 0,
-                                            opacity: 0,
-                                            transition: { duration: 0.2 },
-                                        },
-                                        mount: {
-                                            height: `220px`,
-                                            opacity: 1,
-                                            transition: { duration: 0.2 },
-                                        },
-                                    }}
-                                >
-                                    <DashboardNavList />
-                                </motion.div>
-                            )}
-                            {userAuthButton}
-                        </div>
+                        {navList}
+                        {user?.role === "admin" && (
+                            <motion.div
+                                className="pl-6"
+                                animate={openDashboardNav ? "mount" : "unmount"}
+                                initial="unmount"
+                                exit="unmount"
+                                variants={{
+                                    unmount: {
+                                        height: 0,
+                                        opacity: 0,
+                                        visibility: "hidden",
+                                        transition: { duration: 0.2 },
+                                    },
+                                    mount: {
+                                        height: `220px`,
+                                        opacity: 1,
+                                        visibility: "visible",
+                                        transition: { duration: 0.2 },
+                                    },
+                                }}
+                            >
+                                <DashboardNavList />
+                            </motion.div>
+                        )}
+                        {userAuthButton}
                     </motion.div>
                 </AnimatePresence>
             </div>

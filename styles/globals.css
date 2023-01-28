@@ -3,8 +3,21 @@
 @tailwind utilities;
 
 html {
-    font-family: 'IBM Plex Sans Thai', sans-serif;
+    font-family: "IBM Plex Sans Thai", sans-serif;
     overflow-y: overlay;
+}
+
+body::-webkit-scrollbar {
+    width: 5px;
+}
+
+body::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: rgba(40, 40, 40, 0.4);
+    border-radius: 20px;
 }
 
 img {

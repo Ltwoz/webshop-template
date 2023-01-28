@@ -1,13 +1,25 @@
 import { useContext, useEffect, useState } from "react";
-import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
-import Layout from "../../../components/layouts/main-layout";
-import CategoryContext from "../../../contexts/category/category-context";
 import Swal from "sweetalert2";
-import { DELETE_CATEGORY_RESET, NEW_CATEGORY_RESET, UPDATE_CATEGORY_RESET } from "../../../types/category-constants";
-import { CSSTransition } from "react-transition-group";
-import NewCategoryModal from "../../../components/ui/modals/new-category-modal";
-import UpdateCategoryModal from "../../../components/ui/modals/update-category-modal";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+import Layout from "../../../components/layouts/main-layout";
+import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
+
+const NewCategoryModal = dynamic(() =>
+    import("../../../components/ui/modals/new-category-modal")
+);
+const UpdateCategoryModal = dynamic(() =>
+    import("../../../components/ui/modals/update-category-modal")
+);
+
+import CategoryContext from "../../../contexts/category/category-context";
+import {
+    DELETE_CATEGORY_RESET,
+    NEW_CATEGORY_RESET,
+    UPDATE_CATEGORY_RESET,
+} from "../../../types/category-constants";
+import { AnimatePresence } from "framer-motion";
 
 const AdminCategories = () => {
     const {
@@ -68,7 +80,15 @@ const AdminCategories = () => {
             });
             dispatch({ type: DELETE_CATEGORY_RESET });
         }
-    }, [clearErrors, dispatch, categories, error, isDeleted, isUpdated, success]);
+    }, [
+        clearErrors,
+        dispatch,
+        categories,
+        error,
+        isDeleted,
+        isUpdated,
+        success,
+    ]);
 
     const deleteHandler = (e, category) => {
         e.preventDefault();
@@ -91,25 +111,18 @@ const AdminCategories = () => {
 
     return (
         <Layout>
-            <CSSTransition
-                in={isNewModalOpen}
-                timeout={250}
-                classNames="modal"
-                unmountOnExit
-            >
-                <NewCategoryModal setIsNewModalOpen={setIsNewModalOpen} />
-            </CSSTransition>
-            <CSSTransition
-                in={isUpdateModalOpen}
-                timeout={250}
-                classNames="modal"
-                unmountOnExit
-            >
-                <UpdateCategoryModal
-                    category={category}
-                    setIsUpdateModalOpen={setIsUpdateModalOpen}
-                />
-            </CSSTransition>
+            <AnimatePresence>
+                {isNewModalOpen && (
+                    <NewCategoryModal setIsNewModalOpen={setIsNewModalOpen} />
+                )}
+                {isUpdateModalOpen && (
+                    <UpdateCategoryModal
+                        category={category}
+                        setIsUpdateModalOpen={setIsUpdateModalOpen}
+                    />
+                )}
+            </AnimatePresence>
+
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-20 md:pt-28 mx-auto items-center">
                 <section
                     id="header"

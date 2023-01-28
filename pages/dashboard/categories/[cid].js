@@ -1,13 +1,20 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { CSSTransition } from "react-transition-group";
 import Swal from "sweetalert2";
+import dynamic from "next/dynamic";
 
-import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 import Layout from "../../../components/layouts/main-layout";
-import NewProductModal from "../../../components/ui/modals/new-product-modal";
-import UpdateStockModal from "../../../components/ui/modals/update-stock-modal";
-import UpdateProductModal from "../../../components/ui/modals/update-product-modal";
+import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
+
+const NewProductModal = dynamic(() =>
+    import("../../../components/ui/modals/new-product-modal")
+);
+const UpdateStockModal = dynamic(() =>
+    import("../../../components/ui/modals/update-stock-modal")
+);
+const UpdateProductModal = dynamic(() =>
+    import("../../../components/ui/modals/update-product-modal")
+);
 
 import ProductContext from "../../../contexts/product/product-context";
 import {
@@ -21,6 +28,7 @@ import Link from "next/link";
 
 import { TbArrowBack } from "react-icons/tb";
 import ThreeDotsLoader from "../../../components/ui/loader/threedots";
+import { AnimatePresence } from "framer-motion";
 
 const AdminProducts = () => {
     const router = useRouter();
@@ -97,7 +105,15 @@ const AdminProducts = () => {
             });
             dispatch({ type: DELETE_PRODUCT_RESET });
         }
-    }, [clearErrors, dispatch, error, isDeleted, isUpdated, isStockUpdated, success]);
+    }, [
+        clearErrors,
+        dispatch,
+        error,
+        isDeleted,
+        isUpdated,
+        isStockUpdated,
+        success,
+    ]);
 
     useEffect(() => {
         setTimeout(function () {
@@ -131,36 +147,24 @@ const AdminProducts = () => {
 
     return (
         <Layout>
-            <CSSTransition
-                in={isNewModalOpen}
-                timeout={250}
-                classNames="modal"
-                unmountOnExit
-            >
-                <NewProductModal setIsNewModalOpen={setIsNewModalOpen} />
-            </CSSTransition>
-            <CSSTransition
-                in={isUpdateModalOpen}
-                timeout={250}
-                classNames="modal"
-                unmountOnExit
-            >
-                <UpdateProductModal
-                    product={product}
-                    setIsUpdateModalOpen={setIsUpdateModalOpen}
-                />
-            </CSSTransition>
-            <CSSTransition
-                in={isStockModalOpen}
-                timeout={250}
-                classNames="modal"
-                unmountOnExit
-            >
-                <UpdateStockModal
-                    product={product}
-                    setIsStockModalOpen={setIsStockModalOpen}
-                />
-            </CSSTransition>
+            <AnimatePresence>
+                {isNewModalOpen && (
+                    <NewProductModal setIsNewModalOpen={setIsNewModalOpen} />
+                )}
+                {isUpdateModalOpen && (
+                    <UpdateProductModal
+                        product={product}
+                        setIsUpdateModalOpen={setIsUpdateModalOpen}
+                    />
+                )}
+                {isStockModalOpen && (
+                    <UpdateStockModal
+                        product={product}
+                        setIsStockModalOpen={setIsStockModalOpen}
+                    />
+                )}
+            </AnimatePresence>
+
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-20 md:pt-28 mx-auto items-center">
                 <DashboardNavbar />
                 {loading ? (

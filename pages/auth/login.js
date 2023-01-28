@@ -15,8 +15,8 @@ const LoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const enteredUsername = usernameRef.current.value;
-        const enteredPassword = passwordRef.current.value;
+        const enteredUsername = usernameRef.current?.value;
+        const enteredPassword = passwordRef.current?.value;
 
         const result = await signIn("credentials", {
             redirect: false,

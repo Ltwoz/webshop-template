@@ -1,6 +1,8 @@
+import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 import Head from "next/head";
-import Footer from "./footer";
-import Navbar from "./navbar";
+const Navbar = dynamic(() => import("./navbar"));
+const Footer = dynamic(() => import("./footer"));
 
 import { useContext } from "react";
 import ConfigContext from "../../contexts/config/config-context";
@@ -43,7 +45,15 @@ const Layout = ({ children }) => {
             >
                 <div className="min-h-screen flex flex-col bg-[rgba(240,240,240,0.9)]">
                     <Navbar />
-                    <div className="flex-grow">{children}</div>
+                    <motion.div
+                        className="flex-grow"
+                        initial={{ opacity: 0, rotate: 0 }}
+                        animate={{ opacity: 1, rotate: 720 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        {children}
+                    </motion.div>
                     <Footer />
                 </div>
             </div>

@@ -8,8 +8,9 @@ import NextNProgress from "nextjs-progressbar";
 import axios from "axios";
 import { SessionProvider } from "next-auth/react";
 import Protected from "../utils/protected-page";
+import { AnimatePresence } from "framer-motion";
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps, router }) {
     const { configs, session } = pageProps;
 
     return (
@@ -27,13 +28,15 @@ export default function App({ Component, pageProps }) {
                                     showOnShallow={true}
                                     options={{ showSpinner: false }}
                                 />
-                                {Component.auth ? (
-                                    <Protected>
-                                        <Component {...pageProps} />
-                                    </Protected>
-                                ) : (
-                                    <Component {...pageProps} />
-                                )}
+                                <AnimatePresence mode="wait" initial={false}>
+                                    {Component.auth ? (
+                                        <Protected>
+                                            <Component {...pageProps} key={router.pathname} />
+                                        </Protected>
+                                    ) : (
+                                        <Component {...pageProps} key={router.pathname} />
+                                    )}
+                                </AnimatePresence>
                             </HistoryContextProvider>
                         </ProductContextProvider>
                     </CategoryContextProvider>
