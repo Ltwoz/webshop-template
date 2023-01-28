@@ -271,6 +271,7 @@ const Navbar = () => {
                             unmount: {
                                 height: 0,
                                 opacity: 0,
+                                visibility: "hidden",
                                 borderTop: "0px solid",
                                 marginTop: "0px",
                                 paddingTop: "0px",
@@ -281,6 +282,7 @@ const Navbar = () => {
                                     openDashboardNav ? "450px" : "232px"
                                 }`,
                                 opacity: 1,
+                                visibility: "visible",
                                 borderTop: "2px solid rgba(209,213,219,0.8)",
                                 marginTop: "16px",
                                 paddingTop: "8px",
