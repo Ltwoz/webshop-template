@@ -30,7 +30,11 @@ const handler = async (req, res) => {
                     password,
                 });
 
-                sendToken(user, 201, res);
+                res.status(201).json({
+                    success: true,
+                    user,
+                    message: "success",
+                });
             } catch (error) {
                 res.status(400).json({
                     success: false,

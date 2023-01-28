@@ -5,7 +5,13 @@ import Layout from "../../components/layouts/main-layout";
 import ConfigContext from "../../contexts/config/config-context";
 import UserContext from "../../contexts/user/user-context";
 import { withInitProps } from "../../utils/get-init-data";
-import { getSession, signIn, getProviders, getCsrfToken } from "next-auth/react";
+import {
+    getSession,
+    signIn,
+    getProviders,
+    getCsrfToken,
+} from "next-auth/react";
+import axios from "axios";
 
 const RegisterPage = () => {
     const router = useRouter();
@@ -16,13 +22,33 @@ const RegisterPage = () => {
     const { register, loading, error, success } = useContext(UserContext);
     const { configs } = useContext(ConfigContext);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const enteredUsername = usernameRef.current.value;
         const enteredEmail = emailRef.current.value;
         const enteredPassword = passwordRef.current.value;
 
-        register(enteredUsername, enteredEmail, enteredPassword);
+        const config = { headers: { "Content-Type": "application/json" } };
+
+        const res = await axios
+            .post(
+                "/api/auth/register",
+                {
+                    username: enteredUsername,
+                    email: enteredEmail,
+                    password: enteredPassword,
+                },
+                config
+            )
+            .then(async () => {
+                await signIn("credentials", {
+                    redirect: false,
+                    username: enteredUsername,
+                    password: enteredPassword,
+                });
+            })
+            .catch((error) => console.log(error));
+
         router.replace("/");
     };
 
@@ -91,21 +117,21 @@ export default RegisterPage;
 export const getServerSideProps = withInitProps(async (context) => {
     const session = await getSession(context);
 
-	if (session && session.user) {
-		return {
-			redirect: {
-				permanent: false,
-				destination: '/'
-			},
-			props: {}
-		};
-	}
+    if (session && session.user) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/",
+            },
+            props: {},
+        };
+    }
 
-	return {
-		props: {
-			meta: { title: 'Sign In' },
-			providers: await getProviders(),
-			csrfToken: await getCsrfToken(context)
-		}
-	};
+    return {
+        props: {
+            meta: { title: "Sign In" },
+            providers: await getProviders(),
+            csrfToken: await getCsrfToken(context),
+        },
+    };
 });

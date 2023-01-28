@@ -54,44 +54,6 @@ export const UserContextProvider = (props) => {
 
     const [state, dispatch] = useReducer(UserReducer, initialState);
 
-    //* Login User
-    const login = async (username, password) => {
-        try {
-            dispatch({ type: USER_LOGIN_REQUEST });
-
-            const config = { headers: { "Content-Type": "application/json" } };
-
-            const { data } = await axios.post(
-                "/api/auth/login",
-                {
-                    username,
-                    password,
-                },
-                config
-            );
-
-            dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-        } catch (error) {
-            dispatch({
-                type: USER_LOGIN_FAIL,
-                payload:
-                    error.response && error.response.data.message
-                        ? error.response.data.message
-                        : error.message,
-            });
-        }
-    };
-
-    //* Logout User
-    const logout = async () => {
-        try {
-            await axios.get(`/api/auth/logout`);
-
-            dispatch({ type: USER_LOGOUT });
-            dispatch({ type: USER_DETAILS_RESET });
-        } catch (error) {}
-    };
-
     //* Register User
     const register = async (username, email, password) => {
         try {
@@ -175,14 +137,11 @@ export const UserContextProvider = (props) => {
         <UserContext.Provider
             value={{
                 user: state.user,
-                isAuthenticated: Object.keys(state.user).length > 0,
                 userDetailsScreen: state.userDetailsScreen,
                 userListScreen: state.userListScreen,
                 loading: state.loading,
                 error: state.error,
                 success: state.success,
-                login,
-                logout,
                 register,
                 getAllUsers,
                 // deleteUser,
@@ -193,25 +152,5 @@ export const UserContextProvider = (props) => {
         </UserContext.Provider>
     );
 };
-
-//TODO #1 HOC Protected Route.
-// export const ProtectedRoute = (Component) => {
-//     const AuthenticatedComponent = () => {
-//         const { isAuthenticated, loading, user } = useContext(UserContext);
-//         const router = useRouter();
-
-//         if (!isAuthenticated) {
-//             return router.push("/auth/login")
-//         }
-
-//         return <Component />;
-
-//         // if (isAdmin === true && user.role !== "admin") {
-//         //     return router.push("/");
-//         // }
-
-//     };
-//     return AuthenticatedComponent;
-// };
 
 export default UserContext;
