@@ -8,15 +8,14 @@ export const isAuthenticatedUser = (handler) =>
     catchAsyncErrors(async (req, res) => {
         const session = await unstable_getServerSession(req, res, authOptions);
 
-        const { token } = req.cookies;
-        // console.log("auth cookie :", req.cookies);
-
         if (!session) {
             return res.status(401).json({
                 success: false,
                 message: "Please Login to access this resource.",
             });
         }
+
+        req.user = session?.user;
 
         return handler(req, res);
     });

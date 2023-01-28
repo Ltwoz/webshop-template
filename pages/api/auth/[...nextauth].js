@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProviders from "next-auth/providers/credentials";
 import dbConnect from "../../../lib/db-connect";
 import User from "../../../models/user";
+import jwt from "jsonwebtoken";
 
 dbConnect();
 

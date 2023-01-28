@@ -7,7 +7,6 @@ import UserContext from "../../../contexts/user/user-context";
 const HistoryOrder = () => {
     const { data: session, status } = useSession();
     const user = session?.user;
-    console.log(user);
 
     const {
         getAllOrders,
