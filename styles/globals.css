@@ -4,15 +4,12 @@
 
 html {
     font-family: 'IBM Plex Sans Thai', sans-serif;
+    overflow-y: overlay;
 }
 
 img {
     max-width: 100%;
     height: auto;
-}
-
-::-webkit-scrollbar {
-    display: none;
 }
 
 input::-webkit-outer-spin-button,

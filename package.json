@@ -21,6 +21,7 @@
     "cross-env": "^7.0.3",
     "eslint": "8.30.0",
     "eslint-config-next": "13.0.7",
+    "framer-motion": "^8.5.4",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.1",
     "nanoid": "^4.0.0",

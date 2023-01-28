@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ConfigsContext from "../../contexts/config/config-context";
 import { DashboardNavList } from "./dashboard-navbar";
 import { useSession, signOut } from "next-auth/react";
-import { ThreeDots } from "react-loader-spinner";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Navbar = () => {
     const { configs } = useContext(ConfigsContext);
@@ -14,6 +14,8 @@ const Navbar = () => {
 
     const { data: session, status } = useSession();
     const user = session?.user;
+
+    const mobileNavRef = useRef();
 
     const [loading, setLoading] = useState(true);
     const [showMenu, setShowMenu] = useState(false);
@@ -57,7 +59,7 @@ const Navbar = () => {
     };
 
     const navList = (
-        <div className="mt-2 md:mt-0 md:space-x-8 flex flex-col md:flex-row font-medium text-sm md:text-[17px] [&>*]:transition-all [&>*]:duration-200">
+        <div className="md:space-x-8 flex flex-col md:flex-row font-medium text-sm md:text-[17px] [&>*]:transition-all [&>*]:duration-200">
             <Link href={`/`} className="py-2 hover:text-primary">
                 หน้าแรก
             </Link>
@@ -67,10 +69,7 @@ const Navbar = () => {
             <Link href={`/topup`} className="py-2 hover:text-primary">
                 เติมเงิน
             </Link>
-            <Link
-                href={`/dashboard`}
-                className="py-2 hover:text-primary"
-            >
+            <Link href={`/dashboard`} className="py-2 hover:text-primary">
                 ช่วยเหลือ
             </Link>
             {user?.role === "admin" && (
@@ -200,13 +199,8 @@ const Navbar = () => {
 
     return (
         <nav className="fixed top-0 px-2 md:px-0 py-2 md:py-5 w-full md:bg-gray-100/80 md:backdrop-blur-sm z-30">
-            <div className="block md:flex justify-between items-center max-w-[1150px] w-full border md:border-0 divide-y-2 divide-gray-300/80 md:divide-y-0 border-gray-300/50 rounded-lg md:rounded-none shadow-md md:shadow-none px-4 sm:px-6 py-3 md:py-0 mx-auto bg-gray-200/80 md:bg-transparent backdrop-blur-sm md:backdrop-blur-none">
-                <div
-                    className={
-                        "flex items-center w-full md:w-auto" +
-                        (openNav ? " pb-4" : "")
-                    }
-                >
+            <div className="block md:flex justify-between items-center max-w-[1150px] w-full border md:border-0 border-gray-300/50 rounded-lg md:rounded-none shadow-md md:shadow-none px-4 sm:px-6 py-3 md:py-0 mx-auto bg-gray-200/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none">
+                <div className="flex items-center w-full md:w-auto">
                     <div className="flex items-center justify-between w-full md:w-auto">
                         <Link
                             href={`/`}
@@ -265,17 +259,61 @@ const Navbar = () => {
 
                 <div className="hidden md:block">{userAuthButton}</div>
 
-                {openNav && (
-                    <div id="mobile-nav" className="block md:hidden w-full">
+                <AnimatePresence>
+                    <motion.div
+                        id="mobile-nav"
+                        ref={mobileNavRef}
+                        className="block md:hidden w-full"
+                        animate={openNav ? "mount" : "unmount"}
+                        initial="unmount"
+                        exit="unmount"
+                        variants={{
+                            unmount: {
+                                height: 0,
+                                opacity: 0,
+                                borderTop: "0px solid",
+                                marginTop: "0px",
+                                paddingTop: "0px",
+                                transition: { duration: 0.2 },
+                            },
+                            mount: {
+                                height: `${
+                                    openDashboardNav ? "450px" : "232px"
+                                }`,
+                                opacity: 1,
+                                borderTop: "2px solid rgba(209,213,219,0.8)",
+                                marginTop: "16px",
+                                paddingTop: "8px",
+                                transition: { duration: 0.2 },
+                            },
+                        }}
+                    >
                         {navList}
-                        {user.role === "admin" && openDashboardNav && (
-                            <div className="pl-6">
+                        {user?.role === "admin" && (
+                            <motion.div
+                                className="pl-6"
+                                animate={openDashboardNav ? "mount" : "unmount"}
+                                initial="unmount"
+                                exit="unmount"
+                                variants={{
+                                    unmount: {
+                                        height: 0,
+                                        opacity: 0,
+                                        transition: { duration: 0.2 },
+                                    },
+                                    mount: {
+                                        height: `220px`,
+                                        opacity: 1,
+                                        transition: { duration: 0.2 },
+                                    },
+                                }}
+                            >
                                 <DashboardNavList />
-                            </div>
+                            </motion.div>
                         )}
                         {userAuthButton}
-                    </div>
-                )}
+                    </motion.div>
+                </AnimatePresence>
             </div>
         </nav>
     );
