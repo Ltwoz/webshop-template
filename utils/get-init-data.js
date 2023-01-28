@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getServerSideProps = async (ctx) => {
-    const token = ctx.req.cookies.token;
+    // const token = ctx.req.cookies.token;
     // console.log("ssr cookie :", token);
     const nextRequestMeta =
         ctx.req[
@@ -16,24 +16,8 @@ export const getServerSideProps = async (ctx) => {
     );
     const config_data = await config_raw.data;
 
-    let user_data;
-    try {
-        const user_raw = await axios(
-            `${protocal}://${ctx.req.headers.host}/api/auth/@me`,
-            {
-                headers: {
-                    Cookie: `token=${token}`,
-                },
-            }
-        );
-        user_data = await user_raw.data;
-    } catch (error) {
-        // console.log("Not Login.");
-    }
-
     return {
         props: {
-            user: user_data?.success ? user_data.user : null,
             configs: config_data?.configs,
         },
     };

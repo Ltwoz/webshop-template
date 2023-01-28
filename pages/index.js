@@ -6,12 +6,14 @@ import ProductCard from "../components/ui/cards/product-card";
 import StatCard from "../components/ui/cards/stat-card";
 import ConfigsContext from "../contexts/config/config-context";
 import ProductContext from "../contexts/product/product-context";
-import { withInitProps } from "../utils/get-init-data";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
     const { configs } = useContext(ConfigsContext);
     const { getFeaturedProducts, products, loading, error } =
         useContext(ProductContext);
+
+    const { data: session } = useSession();
 
     const [stats, setStats] = useState({});
 

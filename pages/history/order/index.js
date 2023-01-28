@@ -1,10 +1,14 @@
+import { useSession } from "next-auth/react";
 import { useContext, useEffect } from "react";
 import Layout from "../../../components/layouts/main-layout";
 import HistoryContext from "../../../contexts/history/history-context";
 import UserContext from "../../../contexts/user/user-context";
 
 const HistoryOrder = () => {
-    const { user } = useContext(UserContext);
+    const { data: session, status } = useSession();
+    const user = session?.user;
+    console.log(user);
+
     const {
         getAllOrders,
         order: { orders },
@@ -13,10 +17,12 @@ const HistoryOrder = () => {
     } = useContext(HistoryContext);
 
     useEffect(() => {
-        getAllOrders(user._id);
-        getAllQueues(user._id);
+        if (status === "authenticated") {
+            getAllOrders(user?.id);
+            getAllQueues(user?.id);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [status]);
 
     return (
         <Layout>
@@ -188,5 +194,7 @@ const HistoryOrder = () => {
 };
 
 export default HistoryOrder;
+
+HistoryOrder.auth = true
 
 export { getServerSideProps } from "../../../utils/get-init-data";

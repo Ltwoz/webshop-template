@@ -4,6 +4,8 @@ import { useContext, useRef } from "react";
 import Layout from "../../components/layouts/main-layout";
 import ConfigContext from "../../contexts/config/config-context";
 import UserContext from "../../contexts/user/user-context";
+import { withInitProps } from "../../utils/get-init-data";
+import { getSession, signIn, getProviders, getCsrfToken } from "next-auth/react";
 
 const RegisterPage = () => {
     const router = useRouter();
@@ -86,4 +88,24 @@ const RegisterPage = () => {
 
 export default RegisterPage;
 
-export { getServerSideProps } from "../../utils/get-init-data";
+export const getServerSideProps = withInitProps(async (context) => {
+    const session = await getSession(context);
+
+	if (session && session.user) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: '/'
+			},
+			props: {}
+		};
+	}
+
+	return {
+		props: {
+			meta: { title: 'Sign In' },
+			providers: await getProviders(),
+			csrfToken: await getCsrfToken(context)
+		}
+	};
+});

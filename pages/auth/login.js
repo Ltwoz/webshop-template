@@ -3,22 +3,29 @@ import { useRouter } from "next/router";
 import { useContext, useRef } from "react";
 import Layout from "../../components/layouts/main-layout";
 import ConfigContext from "../../contexts/config/config-context";
-import UserContext from "../../contexts/user/user-context";
+import { getSession, signIn, getProviders, getCsrfToken } from "next-auth/react";
+import { withInitProps } from "../../utils/get-init-data";
 
 const LoginPage = () => {
     const router = useRouter();
     const usernameRef = useRef();
     const passwordRef = useRef();
 
-    const { login, loading, error, success } = useContext(UserContext);
     const { configs } = useContext(ConfigContext);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const enteredUsername = usernameRef.current.value;
         const enteredPassword = passwordRef.current.value;
 
-        login(enteredUsername, enteredPassword);
+        const result = await signIn("credentials", {
+            redirect: false,
+            username: enteredUsername,
+            password: enteredPassword,
+        });
+
+        console.log(result);
+
         router.replace("/");
     };
 
@@ -85,4 +92,25 @@ const LoginPage = () => {
 
 export default LoginPage;
 
-export { getServerSideProps } from "../../utils/get-init-data";
+// export { getServerSideProps } from "../../utils/get-init-data";
+
+export const getServerSideProps = withInitProps(async (context) => {
+    const session = await getSession(context);
+
+	if (session && session.user) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: '/'
+			},
+			props: {}
+		};
+	}
+
+	return {
+		props: {
+			providers: await getProviders(),
+			csrfToken: await getCsrfToken(context)
+		}
+	};
+});

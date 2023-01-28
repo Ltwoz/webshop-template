@@ -44,4 +44,6 @@ const Topup = () => {
 
 export default Topup;
 
+Topup.auth = true
+
 export { getServerSideProps } from "../../utils/get-init-data";

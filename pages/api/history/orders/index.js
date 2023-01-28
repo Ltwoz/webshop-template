@@ -1,7 +1,8 @@
 import dbConnect from "../../../../lib/db-connect";
+import { isAuthenticatedUser } from "../../../../middlewares/auth";
 import Order from "../../../../models/order";
 
-export default async function handler(req, res) {
+async function handler(req, res) {
     await dbConnect();
 
     switch (req.method) {
@@ -30,3 +31,5 @@ export default async function handler(req, res) {
             break;
     }
 }
+
+export default isAuthenticatedUser(handler);
