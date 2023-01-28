@@ -263,7 +263,7 @@ const Navbar = () => {
                     <motion.div
                         id="mobile-nav"
                         ref={mobileNavRef}
-                        className="block md:hidden w-full"
+                        className="block md:hidden w-full overflow-hidden"
                         animate={openNav ? "mount" : "unmount"}
                         initial="unmount"
                         exit="unmount"
@@ -290,30 +290,34 @@ const Navbar = () => {
                             },
                         }}
                     >
-                        {navList}
-                        {user?.role === "admin" && (
-                            <motion.div
-                                className="pl-6"
-                                animate={openDashboardNav ? "mount" : "unmount"}
-                                initial="unmount"
-                                exit="unmount"
-                                variants={{
-                                    unmount: {
-                                        height: 0,
-                                        opacity: 0,
-                                        transition: { duration: 0.2 },
-                                    },
-                                    mount: {
-                                        height: `220px`,
-                                        opacity: 1,
-                                        transition: { duration: 0.2 },
-                                    },
-                                }}
-                            >
-                                <DashboardNavList />
-                            </motion.div>
-                        )}
-                        {userAuthButton}
+                        <div>
+                            {navList}
+                            {user?.role === "admin" && (
+                                <motion.div
+                                    className="pl-6"
+                                    animate={
+                                        openDashboardNav ? "mount" : "unmount"
+                                    }
+                                    initial="unmount"
+                                    exit="unmount"
+                                    variants={{
+                                        unmount: {
+                                            height: 0,
+                                            opacity: 0,
+                                            transition: { duration: 0.2 },
+                                        },
+                                        mount: {
+                                            height: `220px`,
+                                            opacity: 1,
+                                            transition: { duration: 0.2 },
+                                        },
+                                    }}
+                                >
+                                    <DashboardNavList />
+                                </motion.div>
+                            )}
+                            {userAuthButton}
+                        </div>
                     </motion.div>
                 </AnimatePresence>
             </div>
