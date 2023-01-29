@@ -6,18 +6,19 @@ const UserSchema = new mongoose.Schema(
     {
         username: {
             type: String,
-            required: [true, "Please enter username."],
+            required: [true, "กรุณาใส่ชื่อผู้ใช้งาน"],
+            maxLength: [16, "ชื่อผู้ใช้งานต้องไม่เกิน 16 ตัว"],
             unique: true,
         },
         email: {
             type: String,
-            required: [true, "Please enter email."],
+            required: [true, "กรุณาใส่อีเมล"],
             unique: true,
         },
         password: {
             type: String,
-            required: [true, "Please enter password."],
-            minLength: [8, "Password should be more than 8 characters"],
+            required: [true, "กรุณาใส่รหัสผ่าน"],
+            minLength: [8, "รหัสผ่านจำเป็นต้องใส่อย่างน้อย 8 ตัว"],
             select: false,
         },
         role: {

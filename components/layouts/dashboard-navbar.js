@@ -1,44 +1,36 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export const DashboardNavList = () => {
+    const Menus = [
+        { name: "ภาพรวม", href: `/dashboard` },
+        { name: "จัดการเว็บไซต์", href: `/dashboard/configs` },
+        { name: "จัดการหมวดหมู่", href: `/dashboard/categories` },
+        { name: "จัดการคิว", href: `/dashboard/history/queues` },
+        { name: "จัดการคูปอง", href: `/dashboard/coupon` },
+        { name: "จัดการผู้ใช้", href: `/dashboard/users` },
+        { name: "ประวัติการเติมเงิน", href: `/dashboard/history/topup` },
+        { name: "ประวัติการสั่งซื้อ", href: `/dashboard/history/orders` },
+    ];
+
+    const router = useRouter();
+
     return (
-        <div className="flex flex-col md:flex-row md:gap-x-8 text-sm md:text-base font-medium">
-            <Link
-                href={`/dashboard`}
-                className="appearance-none py-2 md:py-4 text-blue-dark"
-            >
-                ภาพรวม
-            </Link>
-            <Link
-                href={`/dashboard/configs`}
-                className="appearance-none py-2 md:py-4 text-grey-dark"
-            >
-                จัดการเว็บไซต์
-            </Link>
-            <Link
-                href={`/dashboard/categories`}
-                className="appearance-none py-2 md:py-4 text-grey-dark"
-            >
-                จัดการหมวดหมู่
-            </Link>
-            <Link
-                href={`/dashboard/history/queues`}
-                className="appearance-none py-2 md:py-4 text-grey-dark"
-            >
-                จัดการคิว
-            </Link>
-            <Link
-                href={`/dashboard/users`}
-                className="appearance-none py-2 md:py-4 text-grey-dark"
-            >
-                จัดการผู้ใช้
-            </Link>
-            <Link
-                href={`/dashboard`}
-                className="appearance-none py-2 md:py-4 text-grey-dark"
-            >
-                ประวัติการเติมเงิน
-            </Link>
+        <div className="flex flex-col md:flex-row md:w-full md:justify-between md:gap-x-8 text-sm md:text-base font-medium">
+            {Menus?.map((menu, i) => {
+                const isActive = router.asPath === menu.href;
+                return (
+                    <Link
+                        href={menu.href}
+                        key={i}
+                        className={`${
+                            isActive ? "delay-150 border-b-2 border-primary" : ""
+                        } transition-all hover:text-primary appearance-none pt-2 md:pt-4 pb-[6px] md:pb-[14px]`}
+                    >
+                        {menu.name}
+                    </Link>
+                );
+            })}
         </div>
     );
 };

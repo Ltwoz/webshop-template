@@ -1,6 +1,6 @@
 import dbConnect from "../../../../../lib/db-connect";
 import { authorizeRoles, isAuthenticatedUser } from "../../../../../middlewares/auth";
-import Queue from "../../../../../models/queue";
+import Order from "../../../../../models/order";
 
 async function handler(req, res) {
     await dbConnect();
@@ -8,11 +8,11 @@ async function handler(req, res) {
     switch (req.method) {
         case "GET":
             try {
-                const queues = await Queue.find().populate("user", "username");
+                const orders = await Order.find();
 
                 res.status(200).json({
                     success: true,
-                    queues,
+                    orders,
                 });
             } catch (error) {
                 res.status(500).json({

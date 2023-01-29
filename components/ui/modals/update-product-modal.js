@@ -111,7 +111,7 @@ const UpdateProductModal = ({ product, setIsUpdateModalOpen }) => {
                         type="text"
                         name="description"
                         id="description"
-                        readOnly
+                        disabled
                         value={category.name}
                         className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                     />

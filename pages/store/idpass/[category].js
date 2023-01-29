@@ -14,9 +14,7 @@ const CategoryIDPASS = (props) => {
     const cid = router.query?.category;
 
     const {
-        getAllProducts,
         queuePurchaseProduct,
-        products,
         clearErrors,
         error,
         dispatch,
@@ -29,11 +27,19 @@ const CategoryIDPASS = (props) => {
     const [uid, setUid] = useState("");
 
     const [loading, setLoading] = useState(true);
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        getAllProducts(cid);
+        const getAllProducts = async () => {
+            setLoading(true);
+            const { data } = await axios.get(`/api/products?cid=${cid}`);
+            setProducts(data.products)
+        };
+
+        getAllProducts().catch(console.error);
+        setLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [success, cid]);
+    }, [success]);
 
     useEffect(() => {
         if (error) {
@@ -54,16 +60,6 @@ const CategoryIDPASS = (props) => {
             dispatch({ type: PRODUCT_QUEUE_PURCHASE_RESET });
         }
     }, [clearErrors, dispatch, error, success]);
-
-    useEffect(() => {
-        console.log("Selected :", selectedProduct);
-    }, [selectedProduct]);
-
-    useEffect(() => {
-        setTimeout(function () {
-            setLoading(false);
-        }, 250);
-    }, []);
 
     const handlerProductSelect = (product) => {
         if (selectedProduct._id === product._id) {

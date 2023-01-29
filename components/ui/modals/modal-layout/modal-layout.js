@@ -1,12 +1,21 @@
 import { motion } from "framer-motion";
 import { createPortal } from "react-dom";
 
-const ModalLayout = ({ children }) => {
+const ModalLayout = ({ children, setIsOpen, allowOutsideClick }) => {
+    const handleOutsideClick = (e) => {
+        e.preventDefault();
+
+        if (allowOutsideClick) {
+            setIsOpen(false)
+        }
+    }
+
     return (
         <>
             {createPortal(
                 <motion.div
                     className="z-[99] fixed h-screen w-screen top-0 left-0 bg-black/40"
+                    onClick={handleOutsideClick}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}

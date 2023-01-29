@@ -8,6 +8,7 @@ import NextNProgress from "nextjs-progressbar";
 import axios from "axios";
 import { SessionProvider } from "next-auth/react";
 import Protected from "../utils/protected-page";
+
 import { AnimatePresence } from "framer-motion";
 
 export default function App({ Component, pageProps, router }) {
@@ -57,14 +58,13 @@ App.getInitialProps = async (appContext) => {
         ];
     const protocal = nextRequestMeta._protocol;
 
-    const config_raw = await axios(
+    const { data } = await axios(
         `${protocal}://${ctx.req.headers.host}/api/configs`
     );
-    const config_data = await config_raw.data;
 
     return {
         pageProps: {
-            configs: config_data?.configs,
+            configs: data?.configs,
         },
     };
 };

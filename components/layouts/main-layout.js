@@ -4,12 +4,7 @@ import Head from "next/head";
 const Navbar = dynamic(() => import("./navbar"));
 const Footer = dynamic(() => import("./footer"));
 
-import { useContext } from "react";
-import ConfigContext from "../../contexts/config/config-context";
-
-const Layout = ({ children }) => {
-    const { configs, loading, error } = useContext(ConfigContext);
-
+const Layout = ({ children, configs }) => {
     const bgImage =
         "https://cdnb.artstation.com/p/assets/images/images/028/704/049/large/roroto-sic-panda-chapeaute-miror.jpg?1595265084";
 
@@ -47,10 +42,10 @@ const Layout = ({ children }) => {
                     <Navbar />
                     <motion.div
                         className="flex-grow"
-                        initial={{ opacity: 0, rotate: 0 }}
-                        animate={{ opacity: 1, rotate: 720 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
+                        initial={{ opacity: 0, y: "-3vh" }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: "-3vh" }}
+                        transition={{ duration: 0.3 }}
                     >
                         {children}
                     </motion.div>

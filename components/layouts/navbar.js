@@ -154,7 +154,7 @@ const Navbar = () => {
                             ประวัติการเติมเงิน
                         </Link>
                         <Link
-                            href={`/history/order`}
+                            href={`/history/orders`}
                             className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100/50"
                         >
                             ประวัติการสั่งซื้อ

@@ -75,46 +75,6 @@ export const HistoryContextProvider = (props) => {
         }
     };
 
-    //* Get All Queues
-    const getAllQueues = async (userId) => {
-        try {
-            dispatch({ type: GET_QUEUE_REQUEST });
-
-            const { data } = await axios.get(
-                `/api/history/queues?user=${userId}`
-            );
-
-            dispatch({
-                type: GET_QUEUE_SUCCESS,
-                payload: data.queues,
-            });
-        } catch (error) {
-            dispatch({
-                type: GET_QUEUE_FAIL,
-                payload: error.response.data.message,
-            });
-        }
-    };
-
-    //* Get Admin Queues
-    const getAdminQueues = async () => {
-        try {
-            dispatch({ type: ADMIN_QUEUE_REQUEST });
-
-            const { data } = await axios.get(`/api/admin/history/queues`);
-
-            dispatch({
-                type: ADMIN_QUEUE_SUCCESS,
-                payload: data.queues,
-            });
-        } catch (error) {
-            dispatch({
-                type: ADMIN_QUEUE_FAIL,
-                payload: error.response.data.message,
-            });
-        }
-    };
-
     //* Clear Errors
     const clearErrors = async () => {
         dispatch({ type: CLEAR_ERRORS });
@@ -127,8 +87,6 @@ export const HistoryContextProvider = (props) => {
                 queue: state.queue,
                 getAllOrders,
                 getAdminOrders,
-                getAllQueues,
-                getAdminQueues,
                 clearErrors,
             }}
         >

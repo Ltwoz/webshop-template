@@ -1,27 +1,37 @@
+import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useContext, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../../../components/layouts/main-layout";
-import HistoryContext from "../../../contexts/history/history-context";
-import UserContext from "../../../contexts/user/user-context";
 
 const HistoryOrder = () => {
     const { data: session, status } = useSession();
     const user = session?.user;
 
-    const {
-        getAllOrders,
-        order: { orders },
-        getAllQueues,
-        queue: { queues },
-    } = useContext(HistoryContext);
+    const [orders, setOrders] = useState([]);
+    const [queues, setQueues] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (status === "authenticated") {
-            getAllOrders(user?.id);
-            getAllQueues(user?.id);
-        }
+        const getOrders = async () => {
+            setLoading(true);
+            const { data } = await axios.get(
+                `/api/history/orders?user=${user?.id}`
+            );
+            setOrders(data.orders);
+        };
+        const getQueues = async () => {
+            setLoading(true);
+            const { data } = await axios.get(
+                `/api/history/queues?user=${user?.id}`
+            );
+            setQueues(data.queues);
+        };
+
+        getOrders().catch(console.error);
+        getQueues().catch(console.error);
+        setLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [status]);
+    }, []);
 
     return (
         <Layout>
@@ -41,7 +51,7 @@ const HistoryOrder = () => {
                             className="p-2 rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                         />
                     </div>
-                    <div className="flex flex-col overflow-x-scroll">
+                    <div className="flex flex-col overflow-x-auto">
                         <table className="w-full table-fixed">
                             <thead>
                                 <tr className="bg-gray-200 text-gray-600 text-sm leading-normal">
@@ -108,14 +118,14 @@ const HistoryOrder = () => {
                             className="p-2 rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                         />
                     </div>
-                    <div className="flex flex-col overflow-x-scroll">
+                    <div className="flex flex-col overflow-x-auto">
                         <table className="w-full table-fixed">
                             <thead>
                                 <tr className="bg-gray-200 text-gray-600 text-sm leading-normal">
                                     <th className="py-3 px-6 text-left w-40">
                                         #
                                     </th>
-                                    <th className="py-3 px-6 text-left w-44 md:w-64">
+                                    <th className="py-3 px-6 text-left w-44 md:w-48">
                                         ชื่อสินค้า
                                     </th>
                                     <th className="py-3 px-6 text-left w-32">
@@ -194,6 +204,6 @@ const HistoryOrder = () => {
 
 export default HistoryOrder;
 
-HistoryOrder.auth = true
+HistoryOrder.auth = true;
 
 export { getServerSideProps } from "../../../utils/get-init-data";

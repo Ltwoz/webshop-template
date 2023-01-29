@@ -1,50 +1,64 @@
 import axios from "axios";
+import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import Layout from "../../../../components/layouts/main-layout";
 import ThreeDotsLoader from "../../../../components/ui/loader/threedots";
 import ProductContext from "../../../../contexts/product/product-context";
 import { PRODUCT_PURCHASE_RESET } from "../../../../types/product-constants";
 import { withInitProps } from "../../../../utils/get-init-data";
+import dynamic from "next/dynamic";
+
+const CheckoutModal = dynamic(() =>
+    import("../../../../components/ui/modals/alert-modal/checkout-modal")
+);
+const SuccessModal = dynamic(() =>
+    import("../../../../components/ui/modals/alert-modal/success-modal")
+);
+const ErrorModal = dynamic(() =>
+    import("../../../../components/ui/modals/alert-modal/error-modal")
+);
 
 const HistoryStock = (props) => {
     const router = useRouter();
     const pid = router.query.product;
 
     const {
-        getProductDetails,
         purchaseProduct,
-        product,
         clearErrors,
         error,
         dispatch,
         purchase: { success },
     } = useContext(ProductContext);
 
-    const [clientProduct, setClientProduct] = useState(props.product);
+    const [product, setProduct] = useState(props.product);
     const [quantity, setQuantity] = useState(1);
     const [price, setPrice] = useState(product?.price);
     const [loading, setLoading] = useState(true);
+    const [checkoutModal, setCheckoutModal] = useState(false);
+    const [successModal, setSuccesModal] = useState(false);
+    const [errorModal, setErrorModal] = useState(false);
 
     useEffect(() => {
-        getProductDetails(pid);
+        const getProductDetails = async () => {
+            setLoading(true);
+            const { data } = await axios.get(`/api/products/${pid}`);
+            setProduct(data.product);
+        };
+
+        getProductDetails().catch(console.error);
+        setLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [success, pid]);
+    }, [success]);
 
     useEffect(() => {
-        setClientProduct(product);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [product]);
-
-    useEffect(() => {
-        setPrice(clientProduct?.price * quantity);
-    }, [clientProduct?.price, quantity]);
+        setPrice(product?.price * quantity);
+    }, [product?.price, quantity]);
 
     const increment = () => {
         setQuantity((prevState) => {
-            return prevState >= 0 && prevState < clientProduct?.stock_count
+            return prevState >= 0 && prevState < product?.stock_count
                 ? prevState + 1
                 : prevState;
         });
@@ -52,7 +66,7 @@ const HistoryStock = (props) => {
 
     const decrement = () => {
         setQuantity((prevState) => {
-            return prevState > 1 && prevState <= clientProduct?.stock_count
+            return prevState > 1 && prevState <= product?.stock_count
                 ? prevState - 1
                 : prevState;
         });
@@ -60,53 +74,58 @@ const HistoryStock = (props) => {
 
     useEffect(() => {
         if (error) {
-            Swal.fire({
-                title: "เกิดข้อผิดพลาด",
-                text: error,
-                icon: "error",
-            });
+            setErrorModal(true);
             clearErrors();
         }
 
         if (success) {
-            Swal.fire(
-                "ซื้อสินค้าสำเร็จ!",
-                "เช็คข้อมูลได้ที่หน้าประวัติ",
-                "success"
-            );
+            setSuccesModal(true);
             dispatch({ type: PRODUCT_PURCHASE_RESET });
         }
     }, [clearErrors, dispatch, error, success]);
 
-    useEffect(() => {
-        setTimeout(function () {
-            setLoading(false);
-        }, 250);
-    }, []);
+    const prePurchaseHandler = (e) => {
+        e.preventDefault();
+        setCheckoutModal(true);
+    };
 
     const purchaseHandler = (e) => {
         e.preventDefault();
-        Swal.fire({
-            title: `ซื้อสินค้า ${clientProduct.name} ?`,
-            text: `จำนวน ${quantity} ชิ้น ราคา ${price} บาท`,
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "ตกลง, ซื้อเลย!",
-            cancelButtonText: "ยกเลิก",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                purchaseProduct(clientProduct?._id, quantity);
-            }
-        });
+        purchaseProduct(product?._id, quantity);
+        setCheckoutModal(false);
     };
 
-    const text = clientProduct?.description;
+    const text = product?.description;
     const str = text?.replace(/(?:\r\n|\r|\n)/g, "<br>");
 
     return (
         <Layout>
+            <AnimatePresence>
+                {checkoutModal && (
+                    <CheckoutModal
+                        handler={purchaseHandler}
+                        setIsOpen={setCheckoutModal}
+                    />
+                )}
+                {successModal && (
+                    <SuccessModal
+                        setIsOpen={setSuccesModal}
+                        title={"ชำระเงินสำเร็จ"}
+                        message={
+                            "ตรวจสอบรายละเอียดได้ที่หน้าประวัติการสั่งซื้อ"
+                        }
+                        href={"/history/order"}
+                        confirmText={"ไปที่หน้าประวัติการสั่งซื้อ"}
+                    />
+                )}
+                {errorModal && (
+                    <ErrorModal
+                        setIsOpen={setErrorModal}
+                        title={"เกิดข้อผิดพลาด"}
+                        message={error}
+                    />
+                )}
+            </AnimatePresence>
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
                 {loading ? (
                     <ThreeDotsLoader />
@@ -115,7 +134,7 @@ const HistoryStock = (props) => {
                         <div className="w-full aspect-square relative flex items-center rounded-lg overflow-hidden">
                             <Image
                                 alt="product_img"
-                                src={clientProduct?.image}
+                                src={product?.image}
                                 unoptimized
                                 draggable="false"
                                 fill
@@ -124,7 +143,7 @@ const HistoryStock = (props) => {
                         </div>
                         <div className="w1/2 flex flex-col mt-6 md:mt-0 md:ml-10 self-start">
                             <h1 className="text-2xl font-bold mb-4">
-                                {clientProduct.name}
+                                {product.name}
                             </h1>
                             <p
                                 className="text-md font-normal overflow-hidden mb-6"
@@ -138,14 +157,14 @@ const HistoryStock = (props) => {
                                     <label
                                         className={
                                             "block text-base font-medium tracking-wide" +
-                                            (clientProduct?.stock_count === 0
+                                            (product?.stock_count === 0
                                                 ? " text-red-600"
                                                 : "")
                                         }
                                     >
-                                        {clientProduct?.stock_count === 0
+                                        {product?.stock_count === 0
                                             ? "สินค้าหมด"
-                                            : `เหลือ ${clientProduct?.stock_count} ชิ้น`}
+                                            : `เหลือ ${product?.stock_count} ชิ้น`}
                                     </label>
                                 </div>
                                 <div className="flex w-full">
@@ -177,10 +196,8 @@ const HistoryStock = (props) => {
                                 <div className="flex">
                                     <button
                                         type="button"
-                                        disabled={
-                                            clientProduct?.stock_count === 0
-                                        }
-                                        onClick={purchaseHandler}
+                                        disabled={product?.stock_count === 0}
+                                        onClick={prePurchaseHandler}
                                         className="inline-flex items-center font-medium text-white bg-primary hover:bg-violet-700 py-2 px-4 rounded-md transition-all hover:scale-105 disabled:bg-gray-500/80 disabled:hover:scale-100 disabled:cursor-not-allowed"
                                     >
                                         <span>ชำระเงิน</span>

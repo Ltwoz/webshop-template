@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import Layout from "../../../components/layouts/main-layout";
-import { useEffect, useContext, useState } from "react";
-import ProductContext from "../../../contexts/product/product-context";
+import { useEffect, useState } from "react";
 import ProductCard from "../../../components/ui/cards/product-card";
 import { withInitProps } from "../../../utils/get-init-data";
 import axios from "axios";
@@ -11,26 +10,19 @@ const DynamicCategory = (props) => {
     const router = useRouter();
     const cid = router.query.category;
 
-    const { getAllProducts, products, error, dispatch } =
-        useContext(ProductContext);
-
+    const [products, setProducts] = useState(props.products);
     const [loading, setLoading] = useState(true);
-    const [ssrProducts, setSsrProducts] = useState(props.products);
 
     useEffect(() => {
-        getAllProducts(cid);
+        const getAllProducts = async () => {
+            setLoading(true);
+            const { data } = await axios.get(`/api/products?cid=${cid}`);
+            setProducts(data.products);
+        };
+        getAllProducts().catch(console.error);
+        setLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cid]);
-
-    // useEffect(() => {
-    //     setSsrProducts(products)
-    // }, [products, cid]);
-
-    useEffect(() => {
-        setTimeout(function () {
-            setLoading(false);
-        }, 250);
-    }, [products]);
+    }, []);
 
     return (
         <Layout>
@@ -43,7 +35,7 @@ const DynamicCategory = (props) => {
                             หมวดหมู่สินค้า
                         </h1>
                         <div className="grid md:grid-cols-4 justify-start gap-4 md:gap-6">
-                            {ssrProducts?.map((product, i) => (
+                            {products?.map((product, i) => (
                                 <ProductCard key={i} product={product} />
                             ))}
                         </div>

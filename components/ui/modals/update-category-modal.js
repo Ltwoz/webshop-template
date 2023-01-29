@@ -34,13 +34,13 @@ const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke-width="2.5"
+                        strokeWidth="2.5"
                         stroke="currentColor"
-                        class="w-5 h-5"
+                        className="w-5 h-5"
                     >
                         <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             d="M6 18L18 6M6 6l12 12"
                         />
                     </svg>
@@ -99,8 +99,11 @@ const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
                         className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                     />
                 </div>
+            </form>
+            <div className="w-full px-6 py-4 flex items-center justify-end gap-x-4">
                 <button
                     type="submit"
+                    onClick={handleSubmit}
                     className="inline-flex items-center font-medium text-white bg-primary hover:bg-violet-700 py-2 px-4 rounded-md transition-all hover:scale-105"
                 >
                     <svg
@@ -119,7 +122,7 @@ const UpdateCategoryModal = ({ category, setIsUpdateModalOpen }) => {
                     </svg>
                     <span>บันทึก</span>
                 </button>
-            </form>
+            </div>
         </ModalLayout>
     );
 };

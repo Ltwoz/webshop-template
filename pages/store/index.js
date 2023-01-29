@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import Layout from "../../components/layouts/main-layout";
 import CategoryCard from "../../components/ui/cards/category-card";
@@ -5,20 +6,20 @@ import ThreeDotsLoader from "../../components/ui/loader/threedots";
 import CategoryContext from "../../contexts/category/category-context";
 
 const Store = () => {
-    const { getAllCategories, categories } = useContext(CategoryContext);
-
     const [loading, setLoading] = useState(true);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        getAllCategories();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        const getCategories = async () => {
+            setLoading(true);
+            const { data } = await axios.get(`/api/categories`);
+            setCategories(data.categories)
+        }
+
+        getCategories().catch(console.error);
+        setLoading(false);
     }, []);
 
-    useEffect(() => {
-        setTimeout(function () {
-            setLoading(false);
-        }, 250);
-    }, []);
 
     return (
         <Layout>
