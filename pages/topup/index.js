@@ -1,7 +1,10 @@
+import { useState } from "react";
 import Layout from "../../components/layouts/main-layout";
 import TopupCard from "../../components/ui/cards/topup-card";
 
 const Topup = () => {
+    const [loading, setLoading] = useState(true);
+
     return (
         <Layout>
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">

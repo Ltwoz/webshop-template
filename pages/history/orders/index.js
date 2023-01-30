@@ -13,23 +13,29 @@ const HistoryOrder = () => {
 
     useEffect(() => {
         const getOrders = async () => {
-            setLoading(true);
             const { data } = await axios.get(
                 `/api/history/orders?user=${user?.id}`
             );
             setOrders(data.orders);
+            setLoading(false);
         };
         const getQueues = async () => {
-            setLoading(true);
             const { data } = await axios.get(
                 `/api/history/queues?user=${user?.id}`
             );
             setQueues(data.queues);
+            setLoading(false);
         };
 
-        getOrders().catch(console.error);
-        getQueues().catch(console.error);
-        setLoading(false);
+        getOrders().catch(() => {
+            console.error;
+            setLoading(false);
+        });
+
+        getQueues().catch(() => {
+            console.error;
+            setLoading(false);
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

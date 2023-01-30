@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import Layout from "../../../../components/layouts/main-layout";
-import ThreeDotsLoader from "../../../../components/ui/loader/threedots";
+import LoadingSpiner from "../../../../components/ui/loader/threedots";
 import ProductContext from "../../../../contexts/product/product-context";
 import { PRODUCT_PURCHASE_RESET } from "../../../../types/product-constants";
 import { withInitProps } from "../../../../utils/get-init-data";
@@ -42,13 +42,15 @@ const HistoryStock = (props) => {
 
     useEffect(() => {
         const getProductDetails = async () => {
-            setLoading(true);
             const { data } = await axios.get(`/api/products/${pid}`);
             setProduct(data.product);
+            setLoading(false);
         };
 
-        getProductDetails().catch(console.error);
-        setLoading(false);
+        getProductDetails().catch(() => {
+            console.error;
+            setLoading(false);
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [success]);
 
@@ -128,7 +130,7 @@ const HistoryStock = (props) => {
             </AnimatePresence>
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
                 {loading ? (
-                    <ThreeDotsLoader />
+                    <LoadingSpiner />
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center md:mt-10">
                         <div className="w-full aspect-square relative flex items-center rounded-lg overflow-hidden">

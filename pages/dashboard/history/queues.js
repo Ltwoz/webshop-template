@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 import Layout from "../../../components/layouts/main-layout";
 import dynamic from "next/dynamic";
-import ThreeDotsLoader from "../../../components/ui/loader/threedots";
+import LoadingSpiner from "../../../components/ui/loader/spiner";
 
 const UpdateQueueModal = dynamic(() =>
     import("../../../components/ui/modals/update-queue-modal")
@@ -25,14 +25,16 @@ const AdminQueues = () => {
 
     useEffect(() => {
         const getAdminQueues = async () => {
-            setLoading(true);
             const { data } = await axios.get(`/api/admin/history/queues`);
             setQueues(data?.queues);
+            setLoading(false);
         };
-
-        getAdminQueues().catch(console.error);
-        setLoading(false);
-        setIsUpdated(false);
+        
+        getAdminQueues()
+            .catch(() => {
+                console.error;
+                setLoading(false);
+            });
     }, [isUpdated]);
 
     useEffect(() => {
@@ -64,13 +66,11 @@ const AdminQueues = () => {
                 </section>
                 <DashboardNavbar />
                 {loading ? (
-                    <ThreeDotsLoader />
+                    <LoadingSpiner />
                 ) : (
                     <section className="bg-white border rounded-md shadow mb-6 divide-y">
                         <div className="p-6 flex items-center justify-between max-h-[88px]">
-                            <h2 className="text-lg font-semibold">
-                                จัดการคิว
-                            </h2>
+                            <h2 className="text-lg font-semibold">จัดการคิว</h2>
                             <input
                                 type="text"
                                 name="website-title"

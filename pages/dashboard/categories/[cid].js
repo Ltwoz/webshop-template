@@ -17,7 +17,7 @@ import CategoryContext from "../../../contexts/category/category-context";
 import Link from "next/link";
 
 import { TbArrowBack } from "react-icons/tb";
-import ThreeDotsLoader from "../../../components/ui/loader/threedots";
+import LoadingSpiner from "../../../components/ui/loader/spiner";
 import { AnimatePresence } from "framer-motion";
 import axios from "axios";
 
@@ -61,13 +61,16 @@ const AdminProducts = () => {
 
     useEffect(() => {
         const getAdminProducts = async () => {
-            setLoading(true);
             const { data } = await axios.get(`/api/admin/products?cid=${cid}`);
             setProducts(data?.products);
+            setLoading(false);
         };
 
-        getAdminProducts().catch(console.error);
-        setLoading(false);
+        getAdminProducts()
+            .catch(() => {
+                console.error;
+                setLoading(false);
+            });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [error, success, isUpdated, isStockUpdated, isDeleted]);
 
@@ -173,7 +176,7 @@ const AdminProducts = () => {
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-20 md:pt-28 mx-auto items-center">
                 <DashboardNavbar />
                 {loading ? (
-                    <ThreeDotsLoader />
+                    <LoadingSpiner />
                 ) : (
                     <section className="bg-white border rounded-md shadow mb-6 divide-y">
                         <div className="p-6 flex items-center justify-between max-h-[88px]">

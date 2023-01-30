@@ -1,9 +1,8 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 import Layout from "../../../components/layouts/main-layout";
-import ThreeDotsLoader from "../../../components/ui/loader/threedots";
-import UserContext from "../../../contexts/user/user-context";
+import LoadingSpiner from "../../../components/ui/loader/spiner";
 
 const AdminUsers = () => {
     // CRUD State.
@@ -14,13 +13,16 @@ const AdminUsers = () => {
 
     useEffect(() => {
         const getAllUsers = async () => {
-            setLoading(true);
             const { data } = await axios.get(`/api/admin/users`);
             setUsers(data?.users);
+            setLoading(false);
         };
 
-        getAllUsers().catch(console.error);
-        setLoading(false);
+        getAllUsers()
+            .catch(() => {
+                console.error;
+                setLoading(false);
+            });
     }, []);
 
     return (
@@ -36,7 +38,7 @@ const AdminUsers = () => {
                 </section>
                 <DashboardNavbar />
                 {loading ? (
-                    <ThreeDotsLoader />
+                    <LoadingSpiner />
                 ) : (
                     <section className="bg-white border rounded-md shadow mb-6 divide-y">
                         <div className="p-6 flex items-center justify-between max-h-[88px]">

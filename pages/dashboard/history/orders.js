@@ -1,39 +1,30 @@
 import axios from "axios";
-import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 import Layout from "../../../components/layouts/main-layout";
-import dynamic from "next/dynamic";
-import ThreeDotsLoader from "../../../components/ui/loader/threedots";
-
-const UpdateQueueModal = dynamic(() =>
-    import("../../../components/ui/modals/update-queue-modal")
-);
+import LoadingSpiner from "../../../components/ui/loader/spiner";
 
 const AdminOrders = () => {
-    // Modals State.
-    const [isUpdateModal, setIsUpdateModal] = useState(false);
-
     // CRUD State.
     const [loading, setLoading] = useState(true);
-    const [isUpdated, setIsUpdated] = useState(false);
     const [error, setError] = useState(null);
 
     // Orders State.
     const [orders, setOrders] = useState([]);
-    const [selectedQueue, setSelectedQueue] = useState({});
 
     useEffect(() => {
         const getAdminOrders = async () => {
-            setLoading(true);
             const { data } = await axios.get(`/api/admin/history/orders`);
             setOrders(data?.orders);
+            setLoading(false);
         };
 
-        getAdminOrders().catch(console.error);
-        setLoading(false);
-        setIsUpdated(false);
-    }, [isUpdated]);
+        getAdminOrders()
+            .catch(() => {
+                console.error;
+                setLoading(false);
+            });
+    }, []);
 
     useEffect(() => {
         setError(null);
@@ -42,17 +33,6 @@ const AdminOrders = () => {
 
     return (
         <Layout>
-            <AnimatePresence>
-                {isUpdateModal && (
-                    <UpdateQueueModal
-                        queue={selectedQueue}
-                        setIsOpen={setIsUpdateModal}
-                        setIsUpdated={setIsUpdated}
-                        setError={setError}
-                    />
-                )}
-            </AnimatePresence>
-
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-20 md:pt-28 mx-auto items-center">
                 <section
                     id="header"
@@ -64,7 +44,7 @@ const AdminOrders = () => {
                 </section>
                 <DashboardNavbar />
                 {loading ? (
-                    <ThreeDotsLoader />
+                    <LoadingSpiner />
                 ) : (
                     <section className="bg-white border rounded-md shadow mb-6 divide-y">
                         <div className="p-6 flex items-center justify-between max-h-[88px]">

@@ -14,7 +14,7 @@ import {
 } from "../../../types/category-constants";
 import { AnimatePresence } from "framer-motion";
 import axios from "axios";
-import ThreeDotsLoader from "../../../components/ui/loader/threedots";
+import LoadingSpiner from "../../../components/ui/loader/spiner";
 
 // Dynamic Import Modals.
 const NewCategoryModal = dynamic(() =>
@@ -48,13 +48,16 @@ const AdminCategories = () => {
 
     useEffect(() => {
         const getAdminCategories = async () => {
-            setLoading(true);
             const { data } = await axios.get(`/api/admin/categories`);
             setCategories(data?.categories);
+            setLoading(false);
         };
 
-        getAdminCategories().catch(console.error);
-        setLoading(false);
+        getAdminCategories()
+            .catch(() => {
+                console.error;
+                setLoading(false);
+            });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [success, isUpdated, isDeleted]);
 
@@ -148,7 +151,7 @@ const AdminCategories = () => {
                 </section>
                 <DashboardNavbar />
                 {loading ? (
-                    <ThreeDotsLoader />
+                    <LoadingSpiner />
                 ) : (
                     <section className="bg-white border rounded-md shadow mb-6 divide-y">
                         <div className="p-6 flex items-center justify-between max-h-[88px]">
