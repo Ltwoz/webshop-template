@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import Layout from "../../../../components/layouts/main-layout";
-import LoadingSpiner from "../../../../components/ui/loader/threedots";
+import LoadingSpiner from "../../../../components/ui/loader/spiner";
 import ProductContext from "../../../../contexts/product/product-context";
 import { PRODUCT_PURCHASE_RESET } from "../../../../types/product-constants";
 import { withInitProps } from "../../../../utils/get-init-data";

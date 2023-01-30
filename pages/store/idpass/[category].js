@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import ProductContext from "../../../contexts/product/product-context";
 import Swal from "sweetalert2";
 import { PRODUCT_QUEUE_PURCHASE_RESET } from "../../../types/product-constants";
-import LoadingSpiner from "../../../components/ui/loader/threedots";
+import LoadingSpiner from "../../../components/ui/loader/spiner";
 import IdPassProductCard from "../../../components/ui/cards/idpass-product-card";
 import { withInitProps } from "../../../utils/get-init-data";
 import axios from "axios";
