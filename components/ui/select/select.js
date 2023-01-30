@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 
 const Select = (props) => {
-    const { placeholder, list, selected, setSelected } = props;
+    const { placeholder, options, selected, setSelected } = props;
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -23,13 +23,13 @@ const Select = (props) => {
             </div>
             {isOpen && (
                 <ul className="absolute bg-white mt-2 w-full overflow-y-hidden max-h-60 text-base rounded-md border border-gray-300">
-                    {list.map((item, i) => (
+                    {options.map((option, i) => (
                         <li
                             key={i}
-                            onClick={(e) => {handleClick(e, item.name)}}
+                            onClick={(e) => {handleClick(e, option.value)}}
                             className="py-2 px-4 hover:bg-primary hover:text-white"
                         >
-                            {item.name}
+                            {option.label}
                         </li>
                     ))}
                 </ul>

@@ -58,13 +58,13 @@ const HistoryOrder = () => {
                                     <th className="py-3 px-6 text-left w-40">
                                         #
                                     </th>
-                                    <th className="py-3 px-6 text-left w-44 md:w-80">
+                                    <th className="py-3 px-6 text-left w-44 md:w-72">
                                         ชื่อสินค้า
                                     </th>
-                                    <th className="py-3 px-6 text-left w-28">
+                                    <th className="py-3 px-6 text-left w-36">
                                         ราคา
                                     </th>
-                                    <th className="py-3 px-6 text-left w-56">
+                                    <th className="py-3 px-6 text-left w-52">
                                         ข้อมูล
                                     </th>
                                     <th className="py-3 px-6 text-left w-52">
@@ -163,16 +163,16 @@ const HistoryOrder = () => {
                                                     "text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full" +
                                                     (queue.status ===
                                                     "กำลังดำเนินการ"
-                                                        ? " bg-orange-900 text-orange-300"
+                                                        ? " bg-amber-700 text-amber-200"
                                                         : queue.status ===
                                                           "สำเร็จ"
-                                                        ? " bg-green-900 text-green-300"
+                                                        ? " bg-green-700 text-green-200"
                                                         : queue.status ===
                                                           "ไม่สำเร็จ"
-                                                        ? " bg-red-900 text-red-300"
+                                                        ? " bg-red-700 text-red-200"
                                                         : queue.status ===
                                                           "ยกเลิก"
-                                                        ? " bg-red-900 text-red-300"
+                                                        ? " bg-red-700 text-red-200"
                                                         : "")
                                                 }
                                             >

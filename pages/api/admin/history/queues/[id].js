@@ -1,5 +1,5 @@
 import dbConnect from "../../../../../lib/db-connect";
-import { isAuthenticatedUser } from "../../../../../middlewares/auth";
+import { authorizeRoles, isAuthenticatedUser } from "../../../../../middlewares/auth";
 import Queue from "../../../../../models/queue";
 
 async function handler(req, res) {

@@ -1,6 +1,5 @@
 import dbConnect from "../../../lib/db-connect";
 import User from "../../../models/user";
-import sendToken from "../../../utils/send-token";
 
 const handler = async (req, res) => {
     await dbConnect();

@@ -1,20 +1,38 @@
+import axios from "axios";
 import { useState } from "react";
 import Select from "../select/select";
 import ModalLayout from "./modal-layout/modal-layout";
 
-const UpdateQueueModal = ({ queue, setIsOpen }) => {
+const UpdateQueueModal = ({ queue, setIsOpen, setIsUpdated, setError }) => {
     const list = [
-        { name: "กำลังดำเนินการ" },
-        { name: "สำเร็จ" },
-        { name: "ไม่สำเร็จ" },
-        { name: "ยกเลิก" },
+        { label: "กำลังดำเนินการ", value: "กำลังดำเนินการ" },
+        { label: "สำเร็จ", value: "สำเร็จ" },
+        { label: "ไม่สำเร็จ", value: "ไม่สำเร็จ" },
+        { label: "ยกเลิก", value: "ยกเลิก" },
     ];
 
     const [status, setStatus] = useState(queue?.status);
-    const [note, setNote] = useState(queue?.note);
+    const [note, setNote] = useState(queue?.note || "");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const config = { headers: { "Content-Type": "application/json" } };
+
+        try {
+            const { data } = await axios.put(
+                `/api/admin/history/queues/${queue?._id}`,
+                {
+                    status,
+                    note,
+                },
+                config
+            );
+            setIsUpdated(data.success)
+        } catch (error) {
+            setError(error.message);
+            console.error(error.message);
+        }
 
         setIsOpen(false);
     };
@@ -109,7 +127,7 @@ const UpdateQueueModal = ({ queue, setIsOpen }) => {
                     </label>
                     <Select
                         placeholder="เลือกสถานะ"
-                        list={list}
+                        options={list}
                         selected={status}
                         setSelected={setStatus}
                     />
@@ -132,7 +150,7 @@ const UpdateQueueModal = ({ queue, setIsOpen }) => {
                 <button
                     type="button"
                     onClick={() => setIsOpen(false)}
-                    className="inline-flex items-center font-medium text-black hover:bg-gray-200/80 py-2 px-4 rounded-md transition-all hover:scale-105"
+                    className="inline-flex items-center font-medium text-black hover:bg-gray-200/80 py-2 px-4 rounded-md transition-all"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -153,7 +171,7 @@ const UpdateQueueModal = ({ queue, setIsOpen }) => {
                 <button
                     type="button"
                     onClick={handleSubmit}
-                    className="inline-flex items-center font-medium text-white bg-primary hover:bg-violet-700 py-2 px-4 rounded-md transition-all hover:scale-105"
+                    className="inline-flex items-center font-medium text-white bg-primary hover:brightness-90 py-2 px-4 rounded-md transition-all"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

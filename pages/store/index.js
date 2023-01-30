@@ -1,9 +1,8 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../../components/layouts/main-layout";
 import CategoryCard from "../../components/ui/cards/category-card";
 import ThreeDotsLoader from "../../components/ui/loader/threedots";
-import CategoryContext from "../../contexts/category/category-context";
 
 const Store = () => {
     const [loading, setLoading] = useState(true);

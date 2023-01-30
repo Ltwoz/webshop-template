@@ -8,7 +8,7 @@ async function handler(req, res) {
     switch (req.method) {
         case "GET":
             try {
-                const orders = await Order.find();
+                const orders = await Order.find().populate("user", "username");
 
                 res.status(200).json({
                     success: true,

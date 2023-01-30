@@ -65,17 +65,29 @@ const Navbar = () => {
     };
 
     const navList = (
-        <div className="md:space-x-8 flex flex-col md:flex-row font-medium text-sm md:text-[17px] [&>*]:transition-all [&>*]:duration-200">
-            <Link href={`/`} className="py-2 hover:text-primary">
+        <div className="md:space-x-8 flex flex-col md:flex-row font-medium text-sm md:text-base [&>*]:transition-all [&>*]:duration-200">
+            <Link scroll={false} href={`/`} className="py-2 hover:text-primary">
                 หน้าแรก
             </Link>
-            <Link href={`/store`} className="py-2 hover:text-primary">
+            <Link
+                scroll={false}
+                href={`/store`}
+                className="py-2 hover:text-primary"
+            >
                 สินค้า
             </Link>
-            <Link href={`/topup`} className="py-2 hover:text-primary">
+            <Link
+                scroll={false}
+                href={`/topup`}
+                className="py-2 hover:text-primary"
+            >
                 เติมเงิน
             </Link>
-            <Link href={`/dashboard`} className="py-2 hover:text-primary">
+            <Link
+                scroll={false}
+                href={`/dashboard`}
+                className="py-2 hover:text-primary"
+            >
                 ช่วยเหลือ
             </Link>
             {user?.role === "admin" && (
@@ -111,25 +123,23 @@ const Navbar = () => {
     const userAuthButton =
         status === "authenticated" ? (
             <div className="md:flex text-left items-center">
-                <div className="flex items-center">
-                    <button
-                        type="button"
-                        className="w-full hover:cursor-pointer justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                <div className="flex items-center px-[1px]">
+                    <div
+                        className="w-full hover:cursor-pointer flex justify-center rounded-lg bg-white px-5 py-2.5 text-sm font-medium text-gray-700 ring-1 ring-gray-300 shadow-sm hover:bg-gray-50"
                         onClick={handleMenuClick}
                     >
                         <p>{user?.username}</p>
-                    </button>
+                    </div>
                 </div>
 
                 <div
-                    className="absolute right-4 md:right-6 top-[18rem] md:top-10 z-[99] mt-2 w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+                    className={`absolute right-4 md:right-6 ${
+                        user?.role === "admin" ? `top-[18.7rem]` : `top-[16.4rem]`
+                    } md:top-10 z-[99] mt-2 w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5`}
                     style={{ display: showMenu ? "" : "none" }}
                 >
                     <div className="py-1">
-                        <div
-                            href="#"
-                            className="text-gray-700 block px-4 py-2 text-sm"
-                        >
+                        <div className="text-gray-700 block px-4 py-2 text-sm">
                             {new Intl.NumberFormat("en-US", {
                                 minimumFractionDigits: 2,
                             }).format(user?.point)}{" "}
@@ -139,6 +149,7 @@ const Navbar = () => {
                     {user?.role === "admin" && (
                         <div className="py-1">
                             <Link
+                                scroll={false}
                                 href={`/dashboard`}
                                 className="text-blue-700 block px-4 py-2 text-sm hover:bg-gray-100/50"
                             >
@@ -148,12 +159,14 @@ const Navbar = () => {
                     )}
                     <div className="py-1">
                         <Link
+                            scroll={false}
                             href={`/history/topup`}
                             className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100/50"
                         >
                             ประวัติการเติมเงิน
                         </Link>
                         <Link
+                            scroll={false}
                             href={`/history/orders`}
                             className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100/50"
                         >
@@ -186,17 +199,18 @@ const Navbar = () => {
                 </div>
             </div>
         ) : (
-            <div className="space-x-4 md:flex md:ml-10 font-medium text-[17px]">
+            <div className="gap-x-4 flex justify-center font-medium text-base px-[1px]">
                 <Link
+                    scroll={false}
                     href={`/auth/login`}
-                    className="items-center px-4 py-2 rounded-md"
+                    className="items-center w-full md:w-fit inline-flex justify-center px-4 py-2 rounded-md ring-1 ring-primary hover:bg-primary hover:bg-opacity-10"
                 >
                     เข้าสู่ระบบ
                 </Link>
                 <Link
+                    scroll={false}
                     href={`/auth/register`}
-                    className="items-center px-4 py-2
-                    rounded-md text-white bg-primary hover:bg-red-600"
+                    className="items-center w-full md:w-fit inline-flex justify-center px-4 py-2 rounded-md text-white bg-primary hover:brightness-90"
                 >
                     สร้างบัญชี
                 </Link>
@@ -209,6 +223,7 @@ const Navbar = () => {
                 <div className="flex items-center w-full md:w-auto">
                     <div className="flex items-center justify-between w-full md:w-auto">
                         <Link
+                            scroll={false}
                             href={`/`}
                             className="flex md:w-auto justify-center items-center md:mr-8"
                         >
@@ -285,7 +300,13 @@ const Navbar = () => {
                             },
                             mount: {
                                 height: `${
-                                    openDashboardNav ? "450px" : "232px"
+                                    openDashboardNav
+                                        ? `514px`
+                                        : status === "unauthenticated"
+                                        ? `210px`
+                                        : user?.role !== "admin"
+                                        ? `204px`
+                                        : `240px`
                                 }`,
                                 opacity: 1,
                                 visibility: "visible",
@@ -311,7 +332,7 @@ const Navbar = () => {
                                         transition: { duration: 0.2 },
                                     },
                                     mount: {
-                                        height: `220px`,
+                                        height: `274px`,
                                         opacity: 1,
                                         visibility: "visible",
                                         transition: { duration: 0.2 },
@@ -321,7 +342,7 @@ const Navbar = () => {
                                 <DashboardNavList />
                             </motion.div>
                         )}
-                        {userAuthButton}
+                        <div className="mt-2">{userAuthButton}</div>
                     </motion.div>
                 </AnimatePresence>
             </div>

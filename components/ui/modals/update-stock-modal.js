@@ -90,7 +90,7 @@ const UpdateStockModal = ({ product, setIsStockModalOpen }) => {
                 <button
                     type="button"
                     onClick={handleSubmit}
-                    className="inline-flex items-center font-medium text-white bg-primary hover:bg-violet-700 py-2 px-4 rounded-md transition-all hover:scale-105"
+                    className="inline-flex items-center font-medium text-white bg-primary hover:brightness-90 py-2 px-4 rounded-md transition-all hover:scale-105"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

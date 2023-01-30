@@ -13,7 +13,7 @@ const StatCard = ({stats}) => {
                 <h2 className="text-2xl md:text-3xl font-bold">ประกาศ</h2>
                 <div className="border rounded-lg p-3 mt-4">
                     <div id="announce-content" className="hidden md:flex">
-                        <HiOutlineNewspaper size="30px" className="mr-4" />
+                        <HiOutlineNewspaper size="30px" className="text-primary brightness-90 mr-4" />
                         <div className="w-full self-end">
                             <p className="font-medium text-base">
                                 {configs?.announcement || "ไม่มีประกาศในขณะนี้"}
@@ -28,7 +28,7 @@ const StatCard = ({stats}) => {
                         scrollamount="5"
                     >
                         <div className="flex">
-                            <HiOutlineNewspaper size="30px" className="mr-4" />
+                            <HiOutlineNewspaper size="30px" className="text-primary brightness-90 mr-4" />
                             <div className="w-full self-end">
                                 <p className="font-medium text-base">
                                     {configs?.announcement || "ไม่มีประกาศในขณะนี้"}
@@ -66,7 +66,7 @@ const StatCard = ({stats}) => {
                         <h4 className="text-lg md:text-base lg:text-lg font-medium text-black/70 mb-2">
                             สินค้าทั้งหมด
                         </h4>
-                        <h1 className="text-3xl md:text-2xl lg:text-3xl font-semibold">
+                        <h1 className="text-primary text-3xl md:text-2xl lg:text-3xl font-semibold">
                             {stats?.productCount?.toLocaleString()} ชิ้น
                         </h1>
                     </div>
@@ -82,7 +82,7 @@ const StatCard = ({stats}) => {
                         <h4 className="text-lg md:text-base lg:text-lg font-medium text-black/70 mb-2">
                             ขายไปแล้ว
                         </h4>
-                        <h1 className="text-3xl md:text-2xl lg:text-3xl font-semibold">
+                        <h1 className="text-primary text-3xl md:text-2xl lg:text-3xl font-semibold">
                         {stats?.orderCount?.toLocaleString()} ชิ้น
                         </h1>
                     </div>
@@ -98,7 +98,7 @@ const StatCard = ({stats}) => {
                         <h4 className="text-lg md:text-base lg:text-lg font-medium text-black/70 mb-2">
                             ผู้ใช้งานทั้งหมด
                         </h4>
-                        <h1 className="text-3xl md:text-2xl lg:text-3xl font-semibold">
+                        <h1 className="text-primary hover:brightness-75 text-3xl md:text-2xl lg:text-3xl font-semibold">
                             {stats?.userCount?.toLocaleString()} คน
                         </h1>
                     </div>

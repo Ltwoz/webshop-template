@@ -6,16 +6,6 @@ import dynamic from "next/dynamic";
 import Layout from "../../../components/layouts/main-layout";
 import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 
-const NewProductModal = dynamic(() =>
-    import("../../../components/ui/modals/new-product-modal")
-);
-const UpdateStockModal = dynamic(() =>
-    import("../../../components/ui/modals/update-stock-modal")
-);
-const UpdateProductModal = dynamic(() =>
-    import("../../../components/ui/modals/update-product-modal")
-);
-
 import ProductContext from "../../../contexts/product/product-context";
 import {
     DELETE_PRODUCT_RESET,
@@ -29,15 +19,25 @@ import Link from "next/link";
 import { TbArrowBack } from "react-icons/tb";
 import ThreeDotsLoader from "../../../components/ui/loader/threedots";
 import { AnimatePresence } from "framer-motion";
+import axios from "axios";
+
+// Dynamic Import Modals.
+const NewProductModal = dynamic(() =>
+    import("../../../components/ui/modals/new-product-modal")
+);
+const UpdateStockModal = dynamic(() =>
+    import("../../../components/ui/modals/update-stock-modal")
+);
+const UpdateProductModal = dynamic(() =>
+    import("../../../components/ui/modals/update-product-modal")
+);
 
 const AdminProducts = () => {
     const router = useRouter();
     const cid = router.query.cid;
 
     const {
-        getAdminProducts,
         deleteProduct,
-        products,
         error,
         success,
         isUpdated,
@@ -48,17 +48,28 @@ const AdminProducts = () => {
     } = useContext(ProductContext);
     const { getAdminDetailsCategory, category } = useContext(CategoryContext);
 
+    // Modals State.
     const [isNewModalOpen, setIsNewModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [isStockModalOpen, setIsStockModalOpen] = useState(false);
-    const [product, setProduct] = useState("");
 
+    // CRUD State.
     const [loading, setLoading] = useState(true);
 
+    const [products, setProducts] = useState([]);
+    const [product, setProduct] = useState("");
+
     useEffect(() => {
-        getAdminProducts(cid);
+        const getAdminProducts = async () => {
+            setLoading(true);
+            const { data } = await axios.get(`/api/admin/products?cid=${cid}`);
+            setProducts(data?.products);
+        };
+
+        getAdminProducts().catch(console.error);
+        setLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [success, isUpdated, isDeleted, isStockUpdated, cid]);
+    }, [error, success, isUpdated, isStockUpdated, isDeleted]);
 
     useEffect(() => {
         if (error) {
@@ -114,12 +125,6 @@ const AdminProducts = () => {
         isStockUpdated,
         success,
     ]);
-
-    useEffect(() => {
-        setTimeout(function () {
-            setLoading(false);
-        }, 600);
-    }, [products]);
 
     useEffect(() => {
         getAdminDetailsCategory(cid);
@@ -193,7 +198,7 @@ const AdminProducts = () => {
                                             (prevState) => !prevState
                                         )
                                     }
-                                    className="inline-flex items-center font-medium text-white bg-primary hover:bg-violet-700 py-2 px-2 md:px-4 rounded-md transition-all hover:scale-105"
+                                    className="inline-flex items-center font-medium text-white bg-primary hover:brightness-90 py-2 px-2 md:px-4 rounded-md transition-all hover:scale-105"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -215,7 +220,7 @@ const AdminProducts = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="flex flex-col overflow-x-scroll">
+                        <div className="flex flex-col overflow-x-auto">
                             <table className="w-full table-fixed">
                                 <thead>
                                     <tr className="bg-gray-200 text-gray-600 text-sm leading-normal">
@@ -263,7 +268,7 @@ const AdminProducts = () => {
                                                                 ? `/store/${cid}/${product?._id}`
                                                                 : `/store/idpass/${cid}`
                                                         }
-                                                        className="transform hover:text-purple-500 hover:scale-110 transition-all border hover:border-purple-500 rounded-full p-2"
+                                                        className="transform hover:text-primary hover:scale-110 transition-all border hover:border-primary rounded-full p-2"
                                                     >
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
@@ -300,7 +305,7 @@ const AdminProducts = () => {
                                                                         !prevState
                                                                 );
                                                             }}
-                                                            className="transform hover:text-purple-500 hover:scale-110 transition-all border hover:border-purple-500 rounded-full p-2"
+                                                            className="transform hover:text-primary hover:scale-110 transition-all border hover:border-primary rounded-full p-2"
                                                         >
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -326,7 +331,7 @@ const AdminProducts = () => {
                                                                     !prevState
                                                             );
                                                         }}
-                                                        className="transform hover:text-purple-500 hover:scale-110 transition-all border hover:border-purple-500 rounded-full p-2"
+                                                        className="transform hover:text-primary hover:scale-110 transition-all border hover:border-primary rounded-full p-2"
                                                     >
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"

@@ -30,6 +30,7 @@ const QueueSchema = new mongoose.Schema({
     },
     note: {
         type: String,
+        default: ""
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,

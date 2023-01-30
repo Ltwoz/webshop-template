@@ -1,15 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import Select from "react-select";
 import CategoryContext from "../../../contexts/category/category-context";
-import { colourStyles } from "../../../styles/select-style";
+import Select from "../select/select";
 import ModalLayout from "./modal-layout/modal-layout";
 
-const typeOptions = [
-    { value: "STOCK", label: "Stock" },
-    { value: "ID_PASS", label: "ID/Pass" },
-];
-
 const NewCategoryModal = ({ setIsNewModalOpen }) => {
+    const typeOptions = [
+        { label: "STOCK", value: "STOCK" },
+        { label: "ID_PASS", value: "ID_PASS" },
+    ];
+
     const { createCategory } = useContext(CategoryContext);
 
     const [name, setName] = useState("");
@@ -91,9 +90,10 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
                         ประเภท
                     </label>
                     <Select
+                        placeholder="เลือกหมวดหมู่"
                         options={typeOptions}
-                        styles={colourStyles}
-                        onChange={(e) => setType(e.value)}
+                        selected={type}
+                        setSelected={setType}
                     />
                 </div>
                 <div className="col-span-6 md:col-span-3">
@@ -135,7 +135,7 @@ const NewCategoryModal = ({ setIsNewModalOpen }) => {
                 <button
                     type="submit"
                     onClick={handleSubmit}
-                    className="inline-flex items-center font-medium text-white bg-primary hover:bg-violet-700 py-2 px-4 rounded-md transition-all hover:scale-105"
+                    className="inline-flex items-center font-medium text-white bg-primary hover:brightness-90 py-2 px-4 rounded-md transition-all hover:scale-105"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

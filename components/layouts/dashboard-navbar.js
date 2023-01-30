@@ -22,9 +22,10 @@ export const DashboardNavList = () => {
                 return (
                     <Link
                         href={menu.href}
+                        scroll={false}
                         key={i}
                         className={`${
-                            isActive ? "delay-150 border-b-2 border-primary" : ""
+                            isActive ? "md:delay-150 md:hover:text-ally md:border-b-2 md:border-primary" : ""
                         } transition-all hover:text-primary appearance-none pt-2 md:pt-4 pb-[6px] md:pb-[14px]`}
                     >
                         {menu.name}

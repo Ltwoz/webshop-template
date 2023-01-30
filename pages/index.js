@@ -47,7 +47,6 @@ export default function Home() {
                             draggable="false"
                             width={1100}
                             height={250}
-                            unoptimized
                             className="max-h-[88.62px] md:max-h-[250px] md:rounded-lg shadow-md"
                         />
                         {/* <div className="w-full aspect-video max-h-[120px] md:max-h-[250px] md:rounded-lg shadow-md overflow-hidden relative flex items-center">

@@ -10,7 +10,7 @@ const UpdateQueueModal = dynamic(() =>
     import("../../../components/ui/modals/update-queue-modal")
 );
 
-const AdminQueues = () => {
+const AdminOrders = () => {
     // Modals State.
     const [isUpdateModal, setIsUpdateModal] = useState(false);
 
@@ -19,18 +19,18 @@ const AdminQueues = () => {
     const [isUpdated, setIsUpdated] = useState(false);
     const [error, setError] = useState(null);
 
-    // Queues State.
-    const [queues, setQueues] = useState([]);
+    // Orders State.
+    const [orders, setOrders] = useState([]);
     const [selectedQueue, setSelectedQueue] = useState({});
 
     useEffect(() => {
-        const getAdminQueues = async () => {
+        const getAdminOrders = async () => {
             setLoading(true);
-            const { data } = await axios.get(`/api/admin/history/queues`);
-            setQueues(data?.queues);
+            const { data } = await axios.get(`/api/admin/history/orders`);
+            setOrders(data?.orders);
         };
 
-        getAdminQueues().catch(console.error);
+        getAdminOrders().catch(console.error);
         setLoading(false);
         setIsUpdated(false);
     }, [isUpdated]);
@@ -59,7 +59,7 @@ const AdminQueues = () => {
                     className="md:hidden border-b-2 mx-8 py-4 mb-6"
                 >
                     <h1 className="text-4xl font-semibold text-center">
-                        จัดการคิว
+                        ประวัติการสั่งซื้อ
                     </h1>
                 </section>
                 <DashboardNavbar />
@@ -69,7 +69,7 @@ const AdminQueues = () => {
                     <section className="bg-white border rounded-md shadow mb-6 divide-y">
                         <div className="p-6 flex items-center justify-between max-h-[88px]">
                             <h2 className="text-lg font-semibold">
-                                จัดการคิว
+                                ประวัติการสั่งซื้อ
                             </h2>
                             <input
                                 type="text"
@@ -87,101 +87,46 @@ const AdminQueues = () => {
                                         <th className="py-3 px-6 text-left w-36">
                                             #
                                         </th>
-                                        <th className="py-3 px-6 text-left w-44 md:w-48">
+                                        <th className="py-3 px-6 text-left w-44 md:w-56">
                                             ชื่อสินค้า
                                         </th>
-                                        <th className="py-3 px-6 text-left w-44">
+                                        <th className="py-3 px-6 text-left w-36">
                                             ผู้ใช้
                                         </th>
                                         <th className="py-3 px-6 text-left w-44">
-                                            สถานะ
+                                            ข้อมูล
                                         </th>
                                         <th className="py-3 px-6 text-left w-40">
                                             วันที่
                                         </th>
-                                        <th className="py-3 px-6 text-center w-28">
-                                            <span className="hidden">
-                                                Action
-                                            </span>
-                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody className="text-gray-600 text-sm md:text-base">
-                                    {queues?.map((queue, i) => (
+                                    {orders?.map((order, i) => (
                                         <tr
                                             key={i}
                                             className="border-b border-gray-200 hover:bg-gray-100"
                                         >
                                             <td className="py-3 px-6 text-left">
-                                                {queue._id}
+                                                {order._id}
                                             </td>
                                             <td className="py-3 px-6 text-left">
-                                                {queue.product_name}
+                                                {order.product_name}
                                             </td>
                                             <td className="py-3 px-6 text-left">
-                                                {queue.user?.username}
+                                                {order.user?.username}
                                             </td>
                                             <td className="py-3 px-6 text-left">
-                                                <span
-                                                    className={
-                                                        "text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full" +
-                                                        (queue.status ===
-                                                        "กำลังดำเนินการ"
-                                                            ? " bg-orange-700 text-orange-200"
-                                                            : queue.status ===
-                                                              "สำเร็จ"
-                                                            ? " bg-green-700 text-green-200"
-                                                            : queue.status ===
-                                                              "ไม่สำเร็จ"
-                                                            ? " bg-red-700 text-red-200"
-                                                            : queue.status ===
-                                                              "ยกเลิก"
-                                                            ? " bg-red-700 text-red-200"
-                                                            : "")
-                                                    }
-                                                >
-                                                    {queue.status}
-                                                </span>
+                                                {order.stock_data}
                                             </td>
                                             <td className="py-3 px-6 text-left">
                                                 {new Date(
-                                                    queue.createdAt
+                                                    order.createdAt
                                                 ).toLocaleString("en", {
                                                     dateStyle: "short",
                                                     timeStyle: "short",
                                                     hour12: false,
                                                 })}
-                                            </td>
-                                            <td className="py-3 px-6 text-center">
-                                                <div className="flex item-center justify-end gap-x-2">
-                                                    <div
-                                                        onClick={() => {
-                                                            setSelectedQueue(
-                                                                queue
-                                                            );
-                                                            setIsUpdateModal(
-                                                                (prevState) =>
-                                                                    !prevState
-                                                            );
-                                                        }}
-                                                        className="transform hover:text-primary hover:border-primary hover:scale-110 transition-all border rounded-full p-2 md:cursor-pointer"
-                                                    >
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            stroke="currentColor"
-                                                            className="w-5 h-5"
-                                                        >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                strokeWidth="2"
-                                                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                                            />
-                                                        </svg>
-                                                    </div>
-                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -195,6 +140,6 @@ const AdminQueues = () => {
     );
 };
 
-export default AdminQueues;
+export default AdminOrders;
 
 export { getServerSideProps } from "../../../utils/get-init-data";

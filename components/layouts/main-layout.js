@@ -4,9 +4,18 @@ import Head from "next/head";
 const Navbar = dynamic(() => import("./navbar"));
 const Footer = dynamic(() => import("./footer"));
 
-const Layout = ({ children, configs }) => {
+import { useContext } from "react";
+import ConfigContext from "../../contexts/config/config-context";
+import { getAccessibleColor, getRGBColor } from "../../utils/color";
+
+const Layout = ({ children }) => {
+    const { configs } = useContext(ConfigContext);
+
     const bgImage =
         "https://cdnb.artstation.com/p/assets/images/images/028/704/049/large/roroto-sic-panda-chapeaute-miror.jpg?1595265084";
+
+    const primaryColor = getRGBColor(configs?.style?.primary_color, "primary");
+    const allyColor = getRGBColor(getAccessibleColor(configs?.style?.primary_color,), "ally");
 
     return (
         <>
@@ -31,9 +40,10 @@ const Layout = ({ children, configs }) => {
                         "https://media.discordapp.net/attachments/717327142978977834/1060896307235004467/favicon.png"
                     }
                 />
+                <style>:root {`{${primaryColor} ${allyColor}}`}</style>
             </Head>
             <div
-                className="bg-no-repeat bg-center bg-cover bg-fixed text-gray-800"
+                className="bg-no-repeat bg-center bg-cover bg-fixed text-gray-900"
                 style={{
                     backgroundImage: `url(${bgImage})`,
                 }}
