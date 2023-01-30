@@ -22,7 +22,7 @@ export default function App({ Component, pageProps, router }) {
                         <ProductContextProvider>
                             <HistoryContextProvider>
                                 <NextNProgress
-                                    color="#29D"
+                                    color={configs?.style?.primary_color}
                                     startPosition={0.3}
                                     stopDelayMs={200}
                                     height={2}

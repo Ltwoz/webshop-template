@@ -18,7 +18,7 @@ const CategoryCard = ({ category }) => {
                 <Image
                     alt="product_img"
                     src={category.image}
-                    unoptimized
+                    // unoptimized
                     draggable="false"
                     // width={334}
                     // height={334}
