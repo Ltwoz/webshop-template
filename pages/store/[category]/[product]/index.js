@@ -116,7 +116,7 @@ const HistoryStock = (props) => {
                         message={
                             "ตรวจสอบรายละเอียดได้ที่หน้าประวัติการสั่งซื้อ"
                         }
-                        href={"/history/order"}
+                        href={"/history/orders"}
                         confirmText={"ไปที่หน้าประวัติการสั่งซื้อ"}
                     />
                 )}
