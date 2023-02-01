@@ -15,7 +15,10 @@ const Layout = ({ children }) => {
         "https://cdnb.artstation.com/p/assets/images/images/028/704/049/large/roroto-sic-panda-chapeaute-miror.jpg?1595265084";
 
     const primaryColor = getRGBColor(configs?.style?.primary_color, "primary");
-    const allyColor = getRGBColor(getAccessibleColor(configs?.style?.primary_color,), "ally");
+    const allyColor = getRGBColor(
+        getAccessibleColor(configs?.style?.primary_color),
+        "ally"
+    );
 
     return (
         <>
@@ -52,9 +55,9 @@ const Layout = ({ children }) => {
                     <Navbar />
                     <motion.div
                         className="flex-grow"
-                        initial={{ opacity: 0, y: "-3vh" }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: "-3vh" }}
+                        initial={{ opacity: 0, scale: 0.97 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.97 }}
                         transition={{ duration: 0.3 }}
                     >
                         {children}

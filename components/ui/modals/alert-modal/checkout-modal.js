@@ -5,7 +5,7 @@ const CheckoutModal = (props) => {
 
     return (
         <ModalLayout allowOutsideClick={true} setIsOpen={setIsOpen}>
-            <div className="w-[95vw] md:w-[26rem] px-6 py-6 flex flex-col items-center justify-between">
+            <div className="w-[95vw] md:w-[26rem] px-6 py-6 flex flex-col items-center justify-between select-none">
                 <div className="relative w-full flex flex-col justify-center items-center">
                     <div className="flex h-20 w-20 text-5xl text-blue-600 font-medium flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
                         ?

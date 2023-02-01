@@ -1,13 +1,13 @@
 import ModalLayout from "../modal-layout/modal-layout";
 
 const ConfirmModal = (props) => {
-    const { title, message, setIsOpen } = props;
+    const { title, message, buttonLabel, setIsOpen, handler } = props;
 
     return (
         <ModalLayout>
-            <div className="w-full px-6 py-4 flex items-center justify-between">
-                <div className="flex w-[32rem]">
-                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+            <div className="w-full px-6 py-4 flex flex-col items-center justify-between select-none">
+                <div className="flex min-w-[24rem] mt-2">
+                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                         <svg
                             className="h-6 w-6 text-red-600"
                             xmlns="http://www.w3.org/2000/svg"
@@ -29,13 +29,25 @@ const ConfirmModal = (props) => {
                             className="text-lg font-medium leading-6 text-gray-900"
                             id="modal-title"
                         >
-                            ยืนยันการซื้อสินค้า
+                            {title}
                         </h3>
                         <div className="mt-2">
-                            <p className="text-sm text-gray-500">
-                                สินค้าจำนวน 2 ชิ้น ราคา 80 บาท
-                            </p>
+                            <p className="text-sm text-gray-500">{message}</p>
                         </div>
+                    </div>
+                </div>
+                <div className="mt-4 w-full flex flex-row justify-end gap-x-2">
+                    <div
+                        onClick={handler}
+                        className="rounded-lg py-2 px-4 bg-red-600 text-sm hover:brightness-90 text-white text-center font-medium transition-all hover:cursor-pointer"
+                    >
+                        {buttonLabel}
+                    </div>
+                    <div
+                        onClick={() => setIsOpen(false)}
+                        className="rounded-lg py-2 px-4 bg-white hover:bg-gray-100 border border-gray-300 text-sm text-black text-center font-medium transition-all hover:cursor-pointer"
+                    >
+                        ยกเลิก
                     </div>
                 </div>
             </div>

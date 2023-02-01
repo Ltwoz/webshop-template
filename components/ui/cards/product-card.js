@@ -50,6 +50,7 @@ const ProductCard = ({ product }) => {
                     </div>
                     <Link
                         href={`/store/${product?.category?._id}/${product?._id}`}
+                        scroll={false}
                         className="block text-md text-white text-center p-2 rounded-md bg-primary hover:bg-primary/ transition ease-in-out duration-150 hover:scale-[1.02]"
                     >
                         ซื้อสินค้า
