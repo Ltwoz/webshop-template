@@ -1,0 +1,57 @@
+.toast {
+    min-width: 350px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    background-color: #fafafa;
+    display: flex;
+    column-gap: 16px;
+    pointer-events: auto;
+    user-select: none;
+    transition: all 0.3s ease-out;
+}
+
+.icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.close_container {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.close {
+    display: inline-flex;
+    height: fit-content;
+    transition: all 0.15s ease-in-out;
+}
+
+.close:hover {
+    scale: 1.2;
+    cursor: pointer;
+}

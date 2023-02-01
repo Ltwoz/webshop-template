@@ -15,6 +15,8 @@ import {
 import { AnimatePresence } from "framer-motion";
 import axios from "axios";
 import LoadingSpiner from "../../../components/ui/loader/spiner";
+import { useToast } from "../../../contexts/toast/toast-context";
+import ConfirmModal from "../../../components/ui/modals/alert-modal/confirm-modal";
 
 // Dynamic Import Modals.
 const NewCategoryModal = dynamic(() =>
@@ -38,6 +40,7 @@ const AdminCategories = () => {
     // Modals State.
     const [isNewModalOpen, setIsNewModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    const [confirmModal, setConfirmModal] = useState(false);
 
     // CRUD State.
     const [loading, setLoading] = useState(true);
@@ -46,6 +49,8 @@ const AdminCategories = () => {
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState("");
 
+    const toast = useToast();
+
     useEffect(() => {
         const getAdminCategories = async () => {
             const { data } = await axios.get(`/api/admin/categories`);
@@ -53,18 +58,17 @@ const AdminCategories = () => {
             setLoading(false);
         };
 
-        getAdminCategories()
-            .catch(() => {
-                console.error;
-                setLoading(false);
-            });
+        getAdminCategories().catch(() => {
+            console.error;
+            setLoading(false);
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [success, isUpdated, isDeleted]);
 
     useEffect(() => {
         if (error) {
-            Swal.fire({
-                title: "เกิดข้อผิดพลาด",
+            toast.add({
+                title: "ผิดพลาด!",
                 text: error,
                 icon: "error",
             });
@@ -72,31 +76,33 @@ const AdminCategories = () => {
         }
 
         if (success) {
-            Swal.fire({
-                title: "เพิ่มหมวดหมู่แล้ว",
-                text: "",
+            toast.add({
+                title: "สำเร็จ!",
+                text: "เพิ่มหมวดหมู่แล้ว",
                 icon: "success",
             });
             dispatch({ type: NEW_CATEGORY_RESET });
         }
 
         if (isUpdated) {
-            Swal.fire({
-                title: "แก้ไขหมวดหมู่แล้ว",
-                text: "",
+            toast.add({
+                title: "สำเร็จ!",
+                text: "แก้ไขหมวดหมู่แล้ว",
                 icon: "success",
             });
             dispatch({ type: UPDATE_CATEGORY_RESET });
         }
 
         if (isDeleted) {
-            Swal.fire({
-                title: "ลบหมวดหมู่แล้ว!",
-                text: "ไม่มีหมวดหมู่นี้อีกแล้ว",
+            toast.add({
+                title: "สำเร็จ!",
+                text: "ลบหมวดหมู่แล้ว",
                 icon: "success",
             });
             dispatch({ type: DELETE_CATEGORY_RESET });
         }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         clearErrors,
         dispatch,
@@ -107,23 +113,11 @@ const AdminCategories = () => {
         success,
     ]);
 
-    const deleteHandler = (e, category) => {
+    const deleteHandler = (e) => {
         e.preventDefault();
 
-        Swal.fire({
-            title: `ลบหมวดหมู่ ${category.name} ?`,
-            text: "สินค้าในหมวดหมู่จะถูกลบด้วย!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "ตกลง, ลบเลย!",
-            cancelButtonText: "ยกเลิก",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                deleteCategory(category._id);
-            }
-        });
+        deleteCategory(category?._id);
+        setConfirmModal(false);
     };
 
     return (
@@ -136,6 +130,15 @@ const AdminCategories = () => {
                     <UpdateCategoryModal
                         category={category}
                         setIsUpdateModalOpen={setIsUpdateModalOpen}
+                    />
+                )}
+                {confirmModal && (
+                    <ConfirmModal
+                        title={`ลบหมวดหมู่ ${category.name} ?`}
+                        message={"สินค้าในหมวดหมู่จะถูกลบด้วย"}
+                        buttonLabel={"ตกลง, ลบเลย!"}
+                        setIsOpen={setConfirmModal}
+                        handler={deleteHandler}
                     />
                 )}
             </AnimatePresence>
@@ -155,7 +158,7 @@ const AdminCategories = () => {
                 ) : (
                     <section className="bg-white border rounded-md shadow mb-6 divide-y">
                         <div className="p-6 flex items-center justify-between max-h-[88px]">
-                            <h2 className="text-lg font-semibold">
+                            <h2 className="text-lg font-semibold text-yellow-600">
                                 จัดการหมวดหมู่
                             </h2>
                             <button
@@ -298,12 +301,15 @@ const AdminCategories = () => {
                                                         </svg>
                                                     </div>
                                                     <div
-                                                        onClick={(e) =>
-                                                            deleteHandler(
-                                                                e,
+                                                        onClick={() => {
+                                                            setCategory(
                                                                 category
-                                                            )
-                                                        }
+                                                            );
+                                                            setConfirmModal(
+                                                                (prevState) =>
+                                                                    !prevState
+                                                            );
+                                                        }}
                                                         className="transform text-red-600 hover:scale-110 transition-all border hover:border-red-600 rounded-full p-2 md:cursor-pointer"
                                                     >
                                                         <svg
