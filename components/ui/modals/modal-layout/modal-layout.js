@@ -37,7 +37,7 @@ const ModalLayout = ({ children, setIsOpen, allowOutsideClick }) => {
                         {children}
                     </motion.div>
                 </motion.div>,
-                document.getElementById("modals")
+                document.getElementById("portal")
             )}
         </>
     );
