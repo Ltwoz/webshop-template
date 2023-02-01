@@ -40,6 +40,7 @@ const SuccessModal = (props) => {
                     {href ? (
                         <Link
                             href={href}
+                            onClick={() => setIsOpen(false)}
                             className="w-full rounded-lg py-2 bg-green-600 text-lg text-white text-center font-medium transition-all hover:scale-[1.01]"
                         >
                             {confirmText}
