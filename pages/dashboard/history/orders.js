@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 import Layout from "../../../components/layouts/main-layout";
 import LoadingSpiner from "../../../components/ui/loader/spiner";
+import { useToast } from "../../../contexts/toast/toast-context";
 
 const AdminOrders = () => {
     // CRUD State.
@@ -12,6 +13,8 @@ const AdminOrders = () => {
     // Orders State.
     const [orders, setOrders] = useState([]);
 
+    const toast = useToast();
+
     useEffect(() => {
         const getAdminOrders = async () => {
             const { data } = await axios.get(`/api/admin/history/orders`);
@@ -20,16 +23,22 @@ const AdminOrders = () => {
         };
 
         getAdminOrders()
-            .catch(() => {
-                console.error;
+            .catch((error) => {
+                setError(error.message);
                 setLoading(false);
             });
     }, []);
 
     useEffect(() => {
-        setError(null);
-        // TODO #3 add error toast.
-    }, [error]);
+        if (error) {
+            toast.add({
+                title: "ผิดพลาด!",
+                text: error,
+                icon: "error",
+            });
+            setError(null);
+        }
+    }, [error, toast]);
 
     return (
         <Layout>

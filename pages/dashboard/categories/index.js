@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
@@ -102,16 +101,7 @@ const AdminCategories = () => {
             dispatch({ type: DELETE_CATEGORY_RESET });
         }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [
-        clearErrors,
-        dispatch,
-        categories,
-        error,
-        isDeleted,
-        isUpdated,
-        success,
-    ]);
+    }, [clearErrors, dispatch, categories, error, isDeleted, isUpdated, success, toast]);
 
     const deleteHandler = (e) => {
         e.preventDefault();

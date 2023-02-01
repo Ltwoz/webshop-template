@@ -5,8 +5,8 @@ const ConfirmModal = (props) => {
 
     return (
         <ModalLayout>
-            <div className="w-full px-6 py-4 flex flex-col items-center justify-between select-none">
-                <div className="flex min-w-[24rem] mt-2">
+            <div className="w-[95vw] md:w-[24rem] px-6 py-4 flex flex-col items-center justify-between select-none">
+                <div className="flex w-full mt-2">
                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                         <svg
                             className="h-6 w-6 text-red-600"

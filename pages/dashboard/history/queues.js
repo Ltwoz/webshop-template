@@ -5,6 +5,7 @@ import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 import Layout from "../../../components/layouts/main-layout";
 import dynamic from "next/dynamic";
 import LoadingSpiner from "../../../components/ui/loader/spiner";
+import { useToast } from "../../../contexts/toast/toast-context";
 
 const UpdateQueueModal = dynamic(() =>
     import("../../../components/ui/modals/update-queue-modal")
@@ -23,6 +24,8 @@ const AdminQueues = () => {
     const [queues, setQueues] = useState([]);
     const [selectedQueue, setSelectedQueue] = useState({});
 
+    const toast = useToast();
+
     useEffect(() => {
         const getAdminQueues = async () => {
             const { data } = await axios.get(`/api/admin/history/queues`);
@@ -31,16 +34,22 @@ const AdminQueues = () => {
         };
         
         getAdminQueues()
-            .catch(() => {
-                console.error;
+            .catch((error) => {
+                setError(error.message);
                 setLoading(false);
             });
     }, [isUpdated]);
 
     useEffect(() => {
-        setError(null);
-        // TODO #3 add error toast.
-    }, [error]);
+        if (error) {
+            toast.add({
+                title: "ผิดพลาด!",
+                text: error,
+                icon: "error",
+            });
+            setError(null);
+        }
+    }, [error, toast]);
 
     return (
         <Layout>

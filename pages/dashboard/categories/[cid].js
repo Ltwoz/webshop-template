@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Swal from "sweetalert2";
 import dynamic from "next/dynamic";
 
 import Layout from "../../../components/layouts/main-layout";
@@ -20,6 +19,7 @@ import { TbArrowBack } from "react-icons/tb";
 import LoadingSpiner from "../../../components/ui/loader/spiner";
 import { AnimatePresence } from "framer-motion";
 import axios from "axios";
+import { useToast } from "../../../contexts/toast/toast-context";
 
 // Dynamic Import Modals.
 const NewProductModal = dynamic(() =>
@@ -56,8 +56,11 @@ const AdminProducts = () => {
     // CRUD State.
     const [loading, setLoading] = useState(true);
 
+    // Products State.
     const [products, setProducts] = useState([]);
     const [product, setProduct] = useState("");
+
+    const toast = useToast();
 
     useEffect(() => {
         const getAdminProducts = async () => {
@@ -66,18 +69,17 @@ const AdminProducts = () => {
             setLoading(false);
         };
 
-        getAdminProducts()
-            .catch(() => {
-                console.error;
-                setLoading(false);
-            });
+        getAdminProducts().catch(() => {
+            console.error;
+            setLoading(false);
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [error, success, isUpdated, isStockUpdated, isDeleted]);
 
     useEffect(() => {
         if (error) {
-            Swal.fire({
-                title: "เกิดข้อผิดพลาด",
+            toast.add({
+                title: "ผิดพลาด!",
                 text: error,
                 icon: "error",
             });
@@ -85,36 +87,36 @@ const AdminProducts = () => {
         }
 
         if (success) {
-            Swal.fire({
-                title: "เพิ่มสินค้าแล้ว",
-                text: "",
+            toast.add({
+                title: "สำเร็จ!",
+                text: "เพิ่มสินค้าแล้ว",
                 icon: "success",
             });
             dispatch({ type: NEW_PRODUCT_RESET });
         }
 
         if (isUpdated) {
-            Swal.fire({
-                title: "แก้ไขสินค้าแล้ว",
-                text: "",
+            toast.add({
+                title: "สำเร็จ!",
+                text: "แก้ไขสินค้าแล้ว",
                 icon: "success",
             });
             dispatch({ type: UPDATE_PRODUCT_RESET });
         }
 
         if (isStockUpdated) {
-            Swal.fire({
-                title: "แก้ไขสต็อกแล้ว",
-                text: "",
+            toast.add({
+                title: "สำเร็จ!",
+                text: "แก้ไขสต็อกแล้ว",
                 icon: "success",
             });
             dispatch({ type: UPDATE_STOCK_RESET });
         }
 
         if (isDeleted) {
-            Swal.fire({
-                title: "ลบสินค้าแล้ว!",
-                text: "ไม่มีสินค้านี้อีกแล้ว",
+            toast.add({
+                title: "สำเร็จ!",
+                text: "ลบสินค้าแล้ว",
                 icon: "success",
             });
             dispatch({ type: DELETE_PRODUCT_RESET });
@@ -127,6 +129,7 @@ const AdminProducts = () => {
         isUpdated,
         isStockUpdated,
         success,
+        toast,
     ]);
 
     useEffect(() => {
@@ -136,21 +139,8 @@ const AdminProducts = () => {
 
     const deleteHandler = (e, product) => {
         e.preventDefault();
-
-        Swal.fire({
-            title: `ลบสินค้า ${product.name} ?`,
-            text: "สต็อกของสินค้านี้จะถูกลบด้วย!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "ตกลง, ลบเลย!",
-            cancelButtonText: "ยกเลิก",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                deleteProduct(product._id);
-            }
-        });
+        
+        deleteProduct(product._id);
     };
 
     return (

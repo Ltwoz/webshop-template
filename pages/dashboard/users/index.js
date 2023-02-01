@@ -3,13 +3,17 @@ import { useEffect, useState } from "react";
 import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 import Layout from "../../../components/layouts/main-layout";
 import LoadingSpiner from "../../../components/ui/loader/spiner";
+import { useToast } from "../../../contexts/toast/toast-context";
 
 const AdminUsers = () => {
     // CRUD State.
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     // Users State.
     const [users, setUsers] = useState([]);
+
+    const toast = useToast();
 
     useEffect(() => {
         const getAllUsers = async () => {
@@ -19,11 +23,22 @@ const AdminUsers = () => {
         };
 
         getAllUsers()
-            .catch(() => {
-                console.error;
+            .catch((error) => {
+                setError(error.message);
                 setLoading(false);
             });
     }, []);
+
+    useEffect(() => {
+        if (error) {
+            toast.add({
+                title: "ผิดพลาด!",
+                text: error,
+                icon: "error",
+            });
+            setError(null);
+        }
+    }, [error, toast]);
 
     return (
         <Layout>
