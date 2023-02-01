@@ -10,6 +10,7 @@ import { SessionProvider } from "next-auth/react";
 import Protected from "../utils/protected-page";
 
 import { AnimatePresence } from "framer-motion";
+import { ToastContextProvider } from "../contexts/toast/toast-context";
 
 export default function App({ Component, pageProps, router }) {
     const { configs, session } = pageProps;
@@ -21,23 +22,34 @@ export default function App({ Component, pageProps, router }) {
                     <CategoryContextProvider>
                         <ProductContextProvider>
                             <HistoryContextProvider>
-                                <NextNProgress
-                                    color={configs?.style?.primary_color}
-                                    startPosition={0.3}
-                                    stopDelayMs={200}
-                                    height={2}
-                                    showOnShallow={true}
-                                    options={{ showSpinner: false }}
-                                />
-                                <AnimatePresence mode="wait" initial={false}>
-                                    {Component.auth ? (
-                                        <Protected>
-                                            <Component {...pageProps} key={router.pathname} />
-                                        </Protected>
-                                    ) : (
-                                        <Component {...pageProps} key={router.pathname} />
-                                    )}
-                                </AnimatePresence>
+                                <ToastContextProvider>
+                                    <NextNProgress
+                                        color={configs?.style?.primary_color}
+                                        startPosition={0.3}
+                                        stopDelayMs={200}
+                                        height={2}
+                                        showOnShallow={true}
+                                        options={{ showSpinner: false }}
+                                    />
+                                    <AnimatePresence
+                                        mode="wait"
+                                        initial={false}
+                                    >
+                                        {Component.auth ? (
+                                            <Protected>
+                                                <Component
+                                                    {...pageProps}
+                                                    key={router.pathname}
+                                                />
+                                            </Protected>
+                                        ) : (
+                                            <Component
+                                                {...pageProps}
+                                                key={router.pathname}
+                                            />
+                                        )}
+                                    </AnimatePresence>
+                                </ToastContextProvider>
                             </HistoryContextProvider>
                         </ProductContextProvider>
                     </CategoryContextProvider>
