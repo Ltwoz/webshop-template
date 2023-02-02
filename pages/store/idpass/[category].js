@@ -8,6 +8,8 @@ import LoadingSpiner from "../../../components/ui/loader/spiner";
 import IdPassProductCard from "../../../components/ui/cards/idpass-product-card";
 import { withInitProps } from "../../../utils/get-init-data";
 import axios from "axios";
+import { AnimatePresence } from "framer-motion";
+import CheckoutModal from "../../../components/ui/modals/alert-modal/checkout-modal";
 
 const CategoryIDPASS = (props) => {
     const router = useRouter();
@@ -26,7 +28,10 @@ const CategoryIDPASS = (props) => {
     const [password, setPassword] = useState("");
     const [uid, setUid] = useState("");
 
+    // CRUD State.
     const [loading, setLoading] = useState(true);
+    const [checkoutModal, setCheckoutModal] = useState(false);
+
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -130,6 +135,14 @@ const CategoryIDPASS = (props) => {
 
     return (
         <Layout>
+            <AnimatePresence>
+                {checkoutModal && (
+                    <CheckoutModal
+                        handler={purchaseHandler}
+                        setIsOpen={setCheckoutModal}
+                    />
+                )}
+            </AnimatePresence>
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
                 {loading ? (
                     <LoadingSpiner />

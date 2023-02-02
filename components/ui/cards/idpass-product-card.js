@@ -7,7 +7,7 @@ const IdPassProductCard = (props) => {
         <div
             onClick={() => handlerProductSelect(product)}
             className={
-                "select-none overflow-hidden rounded-xl border cursor-pointer bg-white shadow-md transition-all active:scale-[.98]" +
+                "select-none overflow-hidden rounded-xl border hover:cursor-pointer bg-white shadow-md transition-all active:scale-[.98]" +
                 (selectedProduct._id === product._id ? " border-primary" : "")
             }
         >
@@ -19,14 +19,12 @@ const IdPassProductCard = (props) => {
                         : " hover:bg-primary hover:bg-opacity-[0.1]")
                 }
             >
-                <div className="w-full aspect-video rounded-lg overflow-hidden relative flex items-center">
+                <div className="w-full aspect-[16/9.5] rounded-lg overflow-hidden relative flex items-center">
                     <Image
                         alt="product_img"
-                        src={product?.image || `https://dummyimage.com/261x261`}
+                        src={product?.image || `https://dummyimage.com/202x120`}
                         unoptimized
                         draggable="false"
-                        // width={334}
-                        // height={334}
                         fill
                         className="select-none object-cover"
                     />

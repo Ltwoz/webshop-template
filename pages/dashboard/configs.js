@@ -189,7 +189,7 @@ const AdminConfig = () => {
                                 <label
                                     className="block text-sm font-medium tracking-wide"
                                 >
-                                    แบนเนอร์เว็บไซต์ (1100x250)
+                                    แบนเนอร์เว็บไซต์ (1100x240)
                                 </label>
                                 <input
                                     type="text"

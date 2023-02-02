@@ -7,7 +7,7 @@ const CategoryCard = ({ category }) => {
             href={category.type === "STOCK" ? `/store/${category._id}` : `/store/idpass/${category._id}`}
             className="
             overflow-hidden rounded-lg shadow-lg relative
-            transition-all hover:scale-105
+            transition-all md:hover:scale-105 active:scale-95 md:active:scale-100
             "
         >
             <div

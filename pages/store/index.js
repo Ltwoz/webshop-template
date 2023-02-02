@@ -24,7 +24,7 @@ const Store = () => {
     return (
         <Layout>
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
-                <h1 className="text-center text-4xl font-bold mb-8">
+                <h1 className="text-center text-3xl md:text-4xl font-bold mb-6 md:mb-8">
                     เลือกหมวดหมู่สินค้า
                 </h1>
                 {loading ? (

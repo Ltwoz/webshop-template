@@ -5,6 +5,7 @@ import ProductCard from "../../../components/ui/cards/product-card";
 import { withInitProps } from "../../../utils/get-init-data";
 import axios from "axios";
 import LoadingSpiner from "../../../components/ui/loader/spiner";
+import Image from "next/image";
 
 const DynamicCategory = (props) => {
     const router = useRouter();
@@ -28,14 +29,26 @@ const DynamicCategory = (props) => {
 
     return (
         <Layout>
-            <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
-                <h1 className="text-center text-4xl font-bold mb-8">
-                    หมวดหมู่สินค้า
+            <main className="max-w-[1150px] sm:px-[17px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
+                <h1 className="text-center text-2xl md:text-4xl font-bold mb-4 md:mb-8">
+                    หมวดหมู่ {props.category?.name}
                 </h1>
+                <section
+                    id="banner"
+                    className="flex justify-center items-center aspect-[16/3.5] relative overflow-hidden md:rounded-lg md:mx-2 mb-4 md:mb-6 lg:mb-8"
+                >
+                    <Image
+                        alt="homepage_banner"
+                        src={"https://dummyimage.com/1100x240"}
+                        draggable="false"
+                        fill
+                        className="select-none object-cover"
+                    />
+                </section>
                 {loading ? (
                     <LoadingSpiner />
                 ) : (
-                    <div className="grid md:grid-cols-4 justify-start gap-4 md:gap-6">
+                    <div className="px-4 md:px-2 grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 justify-start gap-2 md:gap-4 lg:gap-6">
                         {products?.map((product, i) => (
                             <ProductCard key={i} product={product} />
                         ))}
@@ -82,6 +95,7 @@ export const getServerSideProps = withInitProps(async (ctx) => {
         return {
             props: {
                 products: data.products,
+                category: res.data.category,
             },
         };
     } catch (error) {

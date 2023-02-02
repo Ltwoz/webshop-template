@@ -59,24 +59,24 @@ export default function App({ Component, pageProps, router }) {
     );
 }
 
-App.getInitialProps = async (appContext) => {
-    const ctx = appContext.ctx;
+// App.getInitialProps = async (appContext) => {
+//     const ctx = appContext.ctx;
 
-    const nextRequestMeta =
-        ctx.req[
-            Reflect.ownKeys(ctx.req).find(
-                (s) => String(s) === "Symbol(NextRequestMeta)"
-            )
-        ];
-    const protocal = nextRequestMeta._protocol;
+//     const nextRequestMeta =
+//         ctx.req[
+//             Reflect.ownKeys(ctx.req).find(
+//                 (s) => String(s) === "Symbol(NextRequestMeta)"
+//             )
+//         ];
+//     const protocal = nextRequestMeta._protocol;
 
-    const { data } = await axios(
-        `${protocal}://${ctx.req.headers.host}/api/configs`
-    );
+//     const { data } = await axios(
+//         `${protocal}://${ctx.req.headers.host}/api/configs`
+//     );
 
-    return {
-        pageProps: {
-            configs: data?.configs,
-        },
-    };
-};
+//     return {
+//         pageProps: {
+//             configs: data?.configs,
+//         },
+//     };
+// };

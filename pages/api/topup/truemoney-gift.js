@@ -6,20 +6,14 @@ const redeem = async (phone, gift_url) => {
     const url_template = "https://gift.truemoney.com/campaign/";
 
     if (10 != phone.trim().length || 0 != phone.trim()[0]) {
-        return res.status(403).json({
-            success: false,
-            message: "Invalide voucher",
-        });
+        throw Error("Invalid Phone number");
     }
 
     if (
         !gift_url.includes(`${url_template}?v=`) ||
         18 != gift_url.split(`${url_template}?v=`)[1].length
     ) {
-        return res.status(403).json({
-            success: false,
-            message: "Invalide voucher",
-        });
+        throw Error("Invalid voucher");
     }
 
     const hash = gift_url.split("v=")[1];
@@ -30,12 +24,23 @@ const redeem = async (phone, gift_url) => {
         body: JSON.stringify({ mobile: phone, voucher_hash: hash }),
     };
 
-    const response = await fetch(
+    fetch(
         `${url_template}vouchers/${hash}/redeem`,
         requestOptions
-    );
+    ).then((res) => res.text()).then(text => console.log(text))
 
-    if ("SUCCESS" == response.status) return { response };
+    console.log("res, ", res);
+
+    // if ("SUCCESS" == res.status?.code) {
+    //     return {
+    //         amount: Number(
+    //             res?.data?.my_ticket?.amount_baht?.replace(/,/g, "")
+    //         ),
+    //         owner_name: res.data?.owner_profile?.full_name,
+    //         hash: hash,
+    //     };
+    // }
+    // throw Error(`err: ${res}`);
 };
 
 export default async function handler(req, res) {
@@ -50,7 +55,6 @@ export default async function handler(req, res) {
 
                 redeem(phone, gift_url)
                     .then((redeemed) => {
-                        console.log(redeemed);
                         // const topup = await Topup.create();
 
                         return res.status(200).json({
@@ -59,6 +63,7 @@ export default async function handler(req, res) {
                         });
                     })
                     .catch((error) => {
+                        // console.log("error, ", error);
                         return res.status(404).json({
                             success: false,
                             message: error.message,
