@@ -49,7 +49,16 @@ const AdminQueues = () => {
             });
             setError(null);
         }
-    }, [error, toast]);
+        
+        if (isUpdated) {
+            toast.add({
+                title: "สำเร็จ!",
+                text: "แก้ไขคิวแล้ว",
+                icon: "success",
+            });
+            setIsUpdated(false);
+        }
+    }, [error, isUpdated, toast]);
 
     return (
         <Layout>
@@ -133,7 +142,7 @@ const AdminQueues = () => {
                                             <td className="py-3 px-6 text-left">
                                                 <span
                                                     className={
-                                                        "text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full" +
+                                                        "text-sm font-medium px-2.5 py-0.5 rounded-full" +
                                                         (queue.status ===
                                                         "กำลังดำเนินการ"
                                                             ? " bg-orange-700 text-orange-200"

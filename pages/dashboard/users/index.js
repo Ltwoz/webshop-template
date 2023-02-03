@@ -1,17 +1,24 @@
 import axios from "axios";
+import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 import Layout from "../../../components/layouts/main-layout";
 import LoadingSpiner from "../../../components/ui/loader/spiner";
+import UpdateUserModal from "../../../components/ui/modals/update-user-modal";
 import { useToast } from "../../../contexts/toast/toast-context";
 
 const AdminUsers = () => {
+    // Modals State.
+    const [isUpdateModal, setIsUpdateModal] = useState(false);
+
     // CRUD State.
     const [loading, setLoading] = useState(true);
+    const [isUpdated, setIsUpdated] = useState(false);
     const [error, setError] = useState(null);
 
     // Users State.
     const [users, setUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState({});
 
     const toast = useToast();
 
@@ -22,12 +29,11 @@ const AdminUsers = () => {
             setLoading(false);
         };
 
-        getAllUsers()
-            .catch((error) => {
-                setError(error.message);
-                setLoading(false);
-            });
-    }, []);
+        getAllUsers().catch((error) => {
+            setError(error.message);
+            setLoading(false);
+        });
+    }, [isUpdated]);
 
     useEffect(() => {
         if (error) {
@@ -38,10 +44,30 @@ const AdminUsers = () => {
             });
             setError(null);
         }
-    }, [error, toast]);
+
+        if (isUpdated) {
+            toast.add({
+                title: "สำเร็จ!",
+                text: "แก้ไขผู้ใช้แล้ว",
+                icon: "success",
+            });
+            setIsUpdated(false);
+        }
+    }, [error, isUpdated, toast]);
 
     return (
         <Layout>
+            <AnimatePresence>
+                {isUpdateModal && (
+                    <UpdateUserModal
+                        user={selectedUser}
+                        setIsOpen={setIsUpdateModal}
+                        setIsUpdated={setIsUpdated}
+                        setError={setError}
+                    />
+                )}
+            </AnimatePresence>
+
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-20 md:pt-28 mx-auto items-center">
                 <section
                     id="header"
@@ -73,19 +99,19 @@ const AdminUsers = () => {
                             <table className="w-full table-fixed">
                                 <thead>
                                     <tr className="bg-gray-200 text-gray-600 text-sm leading-normal">
-                                        <th className="py-3 px-6 text-left w-44">
+                                        <th className="py-3 px-6 text-left w-40 md:w-44">
                                             ชื่อผู้ใช้
                                         </th>
-                                        <th className="py-3 px-6 text-left w-64">
+                                        <th className="py-3 px-6 text-left w-60 md:w-64">
                                             อีเมล
                                         </th>
                                         <th className="py-3 px-6 text-left w-36">
                                             พอยต์
                                         </th>
-                                        <th className="py-3 px-6 text-center w-40">
+                                        <th className="py-3 px-6 text-center w-36">
                                             ตำแหน่ง
                                         </th>
-                                        <th className="py-3 px-6 text-center w-20">
+                                        <th className="py-3 px-6 text-center w-28">
                                             <span className="hidden">
                                                 Action
                                             </span>
@@ -101,7 +127,7 @@ const AdminUsers = () => {
                                             <td className="py-3 px-6 text-left">
                                                 {user.username}
                                             </td>
-                                            <td className="py-3 px-6 text-left hidden md:table-cell">
+                                            <td className="py-3 px-6 text-left">
                                                 {user.email}
                                             </td>
                                             <td className="py-3 px-6 text-left">
@@ -113,13 +139,36 @@ const AdminUsers = () => {
                                                 ).format(user?.point)}
                                             </td>
                                             <td className="py-3 px-6 text-center">
-                                                <span className="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                                                <span
+                                                    // className="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300"
+                                                    className={`text-sm font-medium px-2.5 py-0.5 rounded-full
+                                                        ${
+                                                            user?.role ===
+                                                            "admin"
+                                                                ? "bg-amber-700 text-amber-200"
+                                                                : user?.role ===
+                                                                  "member"
+                                                                ? "bg-blue-800 text-blue-200"
+                                                                : ""
+                                                        }`}
+                                                >
                                                     {user.role}
                                                 </span>
                                             </td>
-                                            <td className="py-3 px-6 text-center hidden md:table-cell">
+                                            <td className="py-3 px-6 text-center">
                                                 <div className="flex item-center justify-end gap-x-2">
-                                                    <button className="transform hover:text-primary hover:scale-110 transition-all border hover:border-primary rounded-full p-2">
+                                                    <div
+                                                        onClick={() => {
+                                                            setSelectedUser(
+                                                                user
+                                                            );
+                                                            setIsUpdateModal(
+                                                                (prevState) =>
+                                                                    !prevState
+                                                            );
+                                                        }}
+                                                        className="transform hover:text-primary hover:border-primary hover:scale-110 transition-all border rounded-full p-2 hover:cursor-pointer"
+                                                    >
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             fill="none"
@@ -134,7 +183,7 @@ const AdminUsers = () => {
                                                                 d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                                                             />
                                                         </svg>
-                                                    </button>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>

@@ -36,7 +36,7 @@ export default function Home() {
                 <div className="flex flex-col gap-y-4 md:gap-y-8">
                     <section
                         id="banner"
-                        className="flex justify-center items-center aspect-[16/3.5] relative overflow-hidden md:rounded-lg md:mx-2"
+                        className="flex justify-center items-center aspect-[16/5] md:aspect-[16/3.5] relative overflow-hidden md:rounded-lg md:mx-2"
                     >
                         <Image
                             alt="homepage_banner"

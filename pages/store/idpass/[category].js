@@ -1,15 +1,18 @@
-import Layout from "../../../components/layouts/main-layout";
 import { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import ProductContext from "../../../contexts/product/product-context";
-import Swal from "sweetalert2";
-import { PRODUCT_QUEUE_PURCHASE_RESET } from "../../../types/product-constants";
-import LoadingSpiner from "../../../components/ui/loader/spiner";
-import IdPassProductCard from "../../../components/ui/cards/idpass-product-card";
-import { withInitProps } from "../../../utils/get-init-data";
-import axios from "axios";
 import { AnimatePresence } from "framer-motion";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import axios from "axios";
+
 import CheckoutModal from "../../../components/ui/modals/alert-modal/checkout-modal";
+import IdPassProductCard from "../../../components/ui/cards/idpass-product-card";
+import ProductContext from "../../../contexts/product/product-context";
+import LoadingSpiner from "../../../components/ui/loader/spiner";
+import Layout from "../../../components/layouts/main-layout";
+
+import { PRODUCT_QUEUE_PURCHASE_RESET } from "../../../types/product-constants";
+import { useToast } from "../../../contexts/toast/toast-context";
+import { withInitProps } from "../../../utils/get-init-data";
 
 const CategoryIDPASS = (props) => {
     const router = useRouter();
@@ -24,6 +27,8 @@ const CategoryIDPASS = (props) => {
     } = useContext(ProductContext);
 
     const [selectedProduct, setSelectedProduct] = useState({});
+
+    // Form State.
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [uid, setUid] = useState("");
@@ -33,6 +38,8 @@ const CategoryIDPASS = (props) => {
     const [checkoutModal, setCheckoutModal] = useState(false);
 
     const [products, setProducts] = useState([]);
+
+    const toast = useToast();
 
     useEffect(() => {
         const getAllProducts = async () => {
@@ -50,8 +57,8 @@ const CategoryIDPASS = (props) => {
 
     useEffect(() => {
         if (error) {
-            Swal.fire({
-                title: "เกิดข้อผิดพลาด",
+            toast.add({
+                title: "ผิดพลาด!",
                 text: error,
                 icon: "error",
             });
@@ -59,14 +66,14 @@ const CategoryIDPASS = (props) => {
         }
 
         if (success) {
-            Swal.fire(
-                "ซื้อสินค้าสำเร็จ!",
-                "เช็คข้อมูลได้ที่หน้าประวัติ",
-                "success"
-            );
+            toast.add({
+                title: "ซื้อสินค้าสำเร็จ!",
+                text: "เช็คข้อมูลได้ที่หน้าประวัติ",
+                icon: "success",
+            });
             dispatch({ type: PRODUCT_QUEUE_PURCHASE_RESET });
         }
-    }, [clearErrors, dispatch, error, success]);
+    }, [clearErrors, dispatch, error, success, toast]);
 
     const handlerProductSelect = (product) => {
         if (selectedProduct._id === product._id) {
@@ -76,61 +83,58 @@ const CategoryIDPASS = (props) => {
         }
     };
 
+    const prePurchaseHandler = (e) => {
+        e.preventDefault();
+        setCheckoutModal(true);
+    };
+
     const purchaseHandler = (e) => {
         e.preventDefault();
 
         if (Object.keys(selectedProduct).length === 0) {
-            Swal.fire({
-                title: "เกิดข้อผิดพลาด",
-                text: "ยังไม่ได้เลือกสินค้าที่จะซื้อ!",
+            toast.add({
+                title: "ผิดพลาด!",
+                text: "ยังไม่ได้เลือกสินค้าที่จะซื้อ",
                 icon: "error",
             });
+            setCheckoutModal(false);
             return;
         }
 
         if (props?.category?.form_uid) {
             if (!uid.trim()) {
-                Swal.fire({
-                    title: "เกิดข้อผิดพลาด",
-                    text: "โปรดใส่ข้อมูลรหัสของท่าน!",
+                toast.add({
+                    title: "ผิดพลาด!",
+                    text: "โปรดใส่ข้อมูลรหัสของท่าน",
                     icon: "error",
                 });
+                setCheckoutModal(false);
                 return;
             }
         } else {
             if (!username.trim() || !password.trim()) {
-                Swal.fire({
-                    title: "เกิดข้อผิดพลาด",
+                toast.add({
+                    title: "ผิดพลาด!",
                     text: "โปรดใส่ข้อมูลรหัสของท่าน!",
                     icon: "error",
                 });
+                setCheckoutModal(false);
                 return;
             }
         }
 
-        Swal.fire({
-            title: `ซื้อสินค้า ${selectedProduct.name} ?`,
-            text: `ชำระเงิน ราคา ${selectedProduct.price} บาท`,
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "ตกลง, ซื้อเลย!",
-            cancelButtonText: "ยกเลิก",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                if (props?.category?.form_uid) {
-                    queuePurchaseProduct(selectedProduct?._id, {
-                        uid: uid,
-                    });
-                } else {
-                    queuePurchaseProduct(selectedProduct?._id, {
-                        username: username,
-                        password: password,
-                    });
-                }
-            }
-        });
+        if (props?.category?.form_uid) {
+            queuePurchaseProduct(selectedProduct?._id, {
+                uid: uid,
+            });
+        } else {
+            queuePurchaseProduct(selectedProduct?._id, {
+                username: username,
+                password: password,
+            });
+        }
+
+        setCheckoutModal(false);
     };
 
     return (
@@ -144,6 +148,18 @@ const CategoryIDPASS = (props) => {
                 )}
             </AnimatePresence>
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
+                <section
+                    id="banner"
+                    className="flex justify-center items-center aspect-[16/3.5] relative overflow-hidden md:rounded-lg md:mx-2 mb-4 md:mb-6 lg:mb-8"
+                >
+                    <Image
+                        alt="homepage_banner"
+                        src={"https://dummyimage.com/1100x240"}
+                        draggable="false"
+                        fill
+                        className="select-none object-cover"
+                    />
+                </section>
                 {loading ? (
                     <LoadingSpiner />
                 ) : (
@@ -196,7 +212,7 @@ const CategoryIDPASS = (props) => {
                                 )}
                                 <button
                                     type="submit"
-                                    onClick={purchaseHandler}
+                                    onClick={prePurchaseHandler}
                                     className="inline-flex items-center font-medium text-white bg-primary hover:bg-violet-700 py-2 px-4 rounded-md transition-all"
                                 >
                                     <svg
