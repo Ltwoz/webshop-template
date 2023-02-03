@@ -27,7 +27,7 @@ const redeem = async (phone, gift_url) => {
     const res = await fetch(
         `${url_template}vouchers/${hash}/redeem`,
         requestOptions
-    ).then((data) => console.log(data))
+    ).then((e) => e.json())
 
     console.log("res, ", res);
 
