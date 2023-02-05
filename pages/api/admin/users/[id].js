@@ -26,8 +26,8 @@ const handler = async (req, res) => {
                 const newUserData = {
                     // username: req.body.username,
                     // email: req.body.email,
-                    role: req.body?.role,
-                    point: req.body?.point
+                    role: req.body.role,
+                    point: req.body.point
                 }
 
                 const user = await User.findByIdAndUpdate(req.query.id, newUserData, {
