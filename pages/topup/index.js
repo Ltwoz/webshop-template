@@ -15,7 +15,7 @@ const Topup = () => {
             "/api/topup/truemoney-gift",
             {
                 phone: "0654291925",
-                gift_url: "https://gift.truemoney.com/campaign/?v=2JrefiwnkaoDd7ougd"
+                gift_url: "https://gift.truemoney.com/campaign/?v=3iFMumn6gBwtbnZ8df"
             },
             config
         );
@@ -30,9 +30,6 @@ const Topup = () => {
                 <div className="text-center text-lg mb-6">
                     พอยต์คงเหลือ : 780.00
                 </div>
-                <button onClick={truemoneyHandler}>
-                    เติม
-                </button>
                 <div className="max-w-[800px] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 transition-all duration-500 ease-in-out">
                     <TopupCard
                         title={"TrueMoney Wallet Gift"}

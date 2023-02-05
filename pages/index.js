@@ -25,10 +25,13 @@ export default function Home() {
     useEffect(() => {
         const getStats = async () => {
             const { data } = await axios.get(`/api/stats`);
-            setStats(data);
+            setStats(data.stats);
         };
-        getStats();
-    }, [setStats]);
+
+        getStats().catch((err) => {
+            console.log(err);
+        });
+    }, []);
 
     return (
         <Layout>

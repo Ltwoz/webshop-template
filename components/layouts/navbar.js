@@ -162,7 +162,7 @@ const Navbar = () => {
                     <div className="py-1">
                         <Link
                             scroll={false}
-                            href={`/history/topup`}
+                            href={`/history/topups`}
                             className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100/50"
                         >
                             ประวัติการเติมเงิน

@@ -33,6 +33,7 @@ import {
     PRODUCT_QUEUE_PURCHASE_SUCCESS,
     PRODUCT_QUEUE_PURCHASE_FAIL,
 } from "../../types/product-constants";
+import refreshSession from "../../utils/refresh-session";
 import ProductReducer from "./product-reducer";
 
 const ProductContext = createContext();
@@ -235,6 +236,8 @@ export const ProductContextProvider = (props) => {
                 config
             );
 
+            await refreshSession();
+
             dispatch({ type: PRODUCT_PURCHASE_SUCCESS, payload: data });
         } catch (error) {
             dispatch({
@@ -269,6 +272,8 @@ export const ProductContextProvider = (props) => {
                 body,
                 config
             );
+
+            await refreshSession();
 
             dispatch({ type: PRODUCT_QUEUE_PURCHASE_SUCCESS, payload: data });
         } catch (error) {

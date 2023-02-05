@@ -6,6 +6,7 @@ specifiers:
   autoprefixer: ^10.4.13
   axios: ^1.2.3
   bcryptjs: ^2.4.3
+  chart.js: ^4.2.0
   cross-env: ^7.0.3
   eslint: 8.30.0
   eslint-config-next: 13.0.7
@@ -14,11 +15,12 @@ specifiers:
   mongoose: ^6.8.1
   nanoid: ^4.0.0
   next: 13.0.7
-  next-auth: ^4.18.10
+  next-auth: ^4.19.2
   nextjs-progressbar: ^0.0.16
   nprogress: ^0.2.0
   postcss: ^8.4.20
   react: 18.2.0
+  react-chartjs-2: ^5.2.0
   react-dom: 18.2.0
   react-icons: ^4.7.1
   react-loader-spinner: ^5.3.4
@@ -27,12 +29,14 @@ specifiers:
   sweetalert2: ^11.6.16
   swr: ^2.0.0
   tailwindcss: ^3.2.4
+  undici: ^5.17.1
 
 dependencies:
   '@next/bundle-analyzer': 13.1.5
   '@next/font': 13.0.7
   axios: 1.2.3
   bcryptjs: 2.4.3
+  chart.js: 4.2.0
   cross-env: 7.0.3
   eslint: 8.30.0
   eslint-config-next: 13.0.7_eslint@8.30.0
@@ -41,10 +45,11 @@ dependencies:
   mongoose: 6.8.1
   nanoid: 4.0.0
   next: 13.0.7_biqbaboplfbrettd7655fr4n2y
-  next-auth: 4.18.10_gvvct4imq5upoiloat43sswrza
+  next-auth: 4.19.2_gvvct4imq5upoiloat43sswrza
   nextjs-progressbar: 0.0.16_next@13.0.7+react@18.2.0
   nprogress: 0.2.0
   react: 18.2.0
+  react-chartjs-2: 5.2.0_uxqdnqzacoapcp4mwytn5yclyu
   react-dom: 18.2.0_react@18.2.0
   react-icons: 4.7.1_react@18.2.0
   react-loader-spinner: 5.3.4_biqbaboplfbrettd7655fr4n2y
@@ -52,6 +57,7 @@ dependencies:
   sharp: 0.31.3
   sweetalert2: 11.6.16
   swr: 2.0.0_react@18.2.0
+  undici: 5.17.1
 
 devDependencies:
   autoprefixer: 10.4.13_postcss@8.4.20
@@ -1224,6 +1230,10 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: false
 
+  /@kurkle/color/0.3.2:
+    resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
+    dev: false
+
   /@motionone/animation/10.15.1:
     resolution: {integrity: sha512-mZcJxLjHor+bhcPuIFErMDNyrdb2vJur8lSfMCsuCB4UyV8ILZLvK+t+pg56erv8ud9xQGK/1OGPt10agPrCyQ==}
     dependencies:
@@ -1845,6 +1855,13 @@ packages:
       ieee754: 1.2.1
     dev: false
 
+  /busboy/1.6.0:
+    resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
+    engines: {node: '>=10.16.0'}
+    dependencies:
+      streamsearch: 1.1.0
+    dev: false
+
   /call-bind/1.0.2:
     resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
     dependencies:
@@ -1884,6 +1901,13 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
+    dev: false
+
+  /chart.js/4.2.0:
+    resolution: {integrity: sha512-wbtcV+QKeH0F7gQZaCJEIpsNriFheacouJQTVIjITi3eQA8bTlIBoknz0+dgV79aeKLNMAX+nDslIVE/nJ3rzA==}
+    engines: {pnpm: ^7.0.0}
+    dependencies:
+      '@kurkle/color': 0.3.2
     dev: false
 
   /chokidar/3.5.3:
@@ -3313,8 +3337,8 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: false
 
-  /next-auth/4.18.10_gvvct4imq5upoiloat43sswrza:
-    resolution: {integrity: sha512-j2JVyH7byZ2eqXlOqNLpOO7gOlAkTzblxLZNeZihKCeIabYFHNdAJgUvVahhnHs3pZ4xaa3ZqGQHgi1uE97L9Q==}
+  /next-auth/4.19.2_gvvct4imq5upoiloat43sswrza:
+    resolution: {integrity: sha512-6V2YG3IJQVhgCAH7mvT3yopTW92gMdUrcwGX7NQ0dCreT/+axGua/JmVdarjec0C/oJukKpIYRgjMlV+L5ZQOQ==}
     peerDependencies:
       next: ^12.2.5 || ^13
       nodemailer: ^6.6.5
@@ -3769,6 +3793,16 @@ packages:
       strip-json-comments: 2.0.1
     dev: false
 
+  /react-chartjs-2/5.2.0_uxqdnqzacoapcp4mwytn5yclyu:
+    resolution: {integrity: sha512-98iN5aguJyVSxp5U3CblRLH67J8gkfyGNbiK3c+l1QI/G4irHMPQw44aEPmjVag+YKTyQ260NcF82GTQ3bdscA==}
+    peerDependencies:
+      chart.js: ^4.1.1
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      chart.js: 4.2.0
+      react: 18.2.0
+    dev: false
+
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -4078,6 +4112,11 @@ packages:
     dev: false
     optional: true
 
+  /streamsearch/1.1.0:
+    resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
+    engines: {node: '>=10.0.0'}
+    dev: false
+
   /string.prototype.matchall/4.0.8:
     resolution: {integrity: sha512-6zOCOcJ+RJAQshcTvXPHoxoQGONa3e/Lqx90wUA+wEzX78sg5Bo+1tQo4N0pohS0erG9qtCqJDjNCQBjeWVxyg==}
     dependencies:
@@ -4373,6 +4412,13 @@ packages:
       has-bigints: 1.0.2
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
+    dev: false
+
+  /undici/5.17.1:
+    resolution: {integrity: sha512-qMwK+1tmJ6DsMlsl/AYsZXnkIraXmQzzBuPSiQXP6q0WvNO+dwfiBAhjZWmxxW4N0PS31fzB6ulDOUS6cv8oKw==}
+    engines: {node: '>=12.18'}
+    dependencies:
+      busboy: 1.6.0
     dev: false
 
   /update-browserslist-db/1.0.10_browserslist@4.21.4:

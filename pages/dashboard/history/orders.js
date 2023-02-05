@@ -76,11 +76,11 @@ const AdminOrders = () => {
                                         <th className="py-3 px-6 text-left w-36">
                                             #
                                         </th>
-                                        <th className="py-3 px-6 text-left w-44 md:w-56">
-                                            ชื่อสินค้า
-                                        </th>
                                         <th className="py-3 px-6 text-left w-36">
                                             ผู้ใช้
+                                        </th>
+                                        <th className="py-3 px-6 text-left w-44 md:w-56">
+                                            ชื่อสินค้า
                                         </th>
                                         <th className="py-3 px-6 text-left w-44">
                                             ข้อมูล
@@ -100,10 +100,10 @@ const AdminOrders = () => {
                                                 {order._id}
                                             </td>
                                             <td className="py-3 px-6 text-left">
-                                                {order.product_name}
+                                                {order.user?.username}
                                             </td>
                                             <td className="py-3 px-6 text-left">
-                                                {order.user?.username}
+                                                {order.product_name}
                                             </td>
                                             <td className="py-3 px-6 text-left">
                                                 {order.stock_data}

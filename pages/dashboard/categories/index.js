@@ -148,7 +148,7 @@ const AdminCategories = () => {
                 ) : (
                     <section className="bg-white border rounded-md shadow mb-6 divide-y">
                         <div className="p-6 flex items-center justify-between max-h-[88px]">
-                            <h2 className="text-lg font-semibold text-yellow-600">
+                            <h2 className="text-lg font-semibold">
                                 จัดการหมวดหมู่
                             </h2>
                             <button

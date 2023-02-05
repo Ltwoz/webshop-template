@@ -10,7 +10,7 @@ const StatCard = ({stats}) => {
     return (
         <div className="overflow-hidden rounded-xl border shadow-md w-full divide-y bg-white">
             <div id="announcement" className=" px-6 pb-6 pt-6">
-                <h2 className="text-2xl md:text-3xl font-bold">ประกาศ</h2>
+                <h2 className="text-xl md:text-xl font-bold">ประกาศ</h2>
                 <div className="border rounded-lg p-3 mt-4">
                     <div id="announce-content" className="hidden md:flex">
                         <HiOutlineNewspaper size="30px" className="text-primary brightness-90 mr-4" />
@@ -83,7 +83,7 @@ const StatCard = ({stats}) => {
                             ขายไปแล้ว
                         </h4>
                         <h1 className="text-primary text-3xl md:text-2xl lg:text-3xl font-semibold">
-                        {stats?.orderCount?.toLocaleString()} ชิ้น
+                            {stats?.soldCount?.toLocaleString()} ชิ้น
                         </h1>
                     </div>
                 </div>

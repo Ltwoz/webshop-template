@@ -20,7 +20,7 @@ const ErrorModal = dynamic(() =>
     import("../../../../components/ui/modals/alert-modal/error-modal")
 );
 
-const HistoryStock = (props) => {
+const ProductDetails = (props) => {
     const router = useRouter();
     const pid = router.query.product;
 
@@ -214,7 +214,7 @@ const HistoryStock = (props) => {
     );
 };
 
-export default HistoryStock;
+export default ProductDetails;
 
 // export { getServerSideProps } from "../../../../utils/get-init-data";
 

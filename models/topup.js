@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 
 const TopupSchema = new mongoose.Schema({
+    _id: {
+        type: String,
+    },
     type: {
         type: String,
         required: true,

@@ -1,74 +1,47 @@
-import axios from "axios";
 import dbConnect from "../../../lib/db-connect";
 import Topup from "../../../models/topup";
+import User from "../../../models/user";
+import { nanoid } from "nanoid";
+import TrueWallet from "../../../lib/TrueWallet";
+import { isAuthenticatedUser } from "../../../middlewares/auth";
 
-const redeem = async (phone, gift_url) => {
-    const url_template = "https://gift.truemoney.com/campaign/";
-
-    if (10 != phone.trim().length || 0 != phone.trim()[0]) {
-        throw Error("Invalid Phone number");
-    }
-
-    if (
-        !gift_url.includes(`${url_template}?v=`) ||
-        18 != gift_url.split(`${url_template}?v=`)[1].length
-    ) {
-        throw Error("Invalid voucher");
-    }
-
-    const hash = gift_url.split("v=")[1];
-
-    const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mobile: phone, voucher_hash: hash }),
-    };
-
-    const res = await fetch(
-        `${url_template}vouchers/${hash}/redeem`,
-        requestOptions
-    ).then((e) => e.json())
-
-    console.log("res, ", res);
-
-    // if ("SUCCESS" == res.status?.code) {
-    //     return {
-    //         amount: Number(
-    //             res?.data?.my_ticket?.amount_baht?.replace(/,/g, "")
-    //         ),
-    //         owner_name: res.data?.owner_profile?.full_name,
-    //         hash: hash,
-    //     };
-    // }
-    // throw Error(`err: ${res}`);
-};
-
-export default async function handler(req, res) {
+async function handler(req, res) {
     await dbConnect();
 
     switch (req.method) {
         case "POST":
             try {
-                const userId = req.query.user;
-
                 const { phone, gift_url } = req.body;
 
-                redeem(phone, gift_url)
-                    .then((redeemed) => {
-                        // const topup = await Topup.create();
+                const wallet = new TrueWallet(phone);
 
-                        return res.status(200).json({
-                            success: true,
-                            amount: redeemed?.amount,
-                        });
-                    })
+                const redeemed = await wallet
+                    .redeem(gift_url)
                     .catch((error) => {
-                        // console.log("error, ", error);
-                        return res.status(404).json({
-                            success: false,
-                            message: error.message,
-                        });
+                        return console.log("error, ", error);
                     });
+
+                const topup = await Topup.create({
+                    _id: nanoid(10),
+                    type: "TRUEMONEY_GIFT",
+                    amount: redeemed.amount,
+                    user: req.user.id,
+                });
+
+                //* New point after topup
+                const newPoint = req.user.point + redeemed.amount;
+
+                //* Update point
+                const user = await User.findById(req.user.id);
+                user.point = newPoint;
+
+                //* Save
+                await user.save({ validateBeforeSave: false });
+
+                return res.status(200).json({
+                    success: true,
+                    topup,
+                });
             } catch (error) {
                 res.status(500).json({
                     success: false,
@@ -84,3 +57,5 @@ export default async function handler(req, res) {
             break;
     }
 }
+
+export default isAuthenticatedUser(handler);

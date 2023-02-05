@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import refreshSession from "../../../utils/refresh-session";
 import Select from "../select/select";
 import ModalLayout from "./modal-layout/modal-layout";
 
@@ -22,10 +23,13 @@ const UpdateUserModal = ({ user, setIsOpen, setIsUpdated, setError }) => {
                 `/api/admin/users/${user?._id}`,
                 {
                     role,
-                    point: point?.replaceAll(",", ""),
+                    point,
                 },
                 config
             );
+            
+            await refreshSession();
+
             setIsUpdated(data.success)
         } catch (error) {
             setError(error.message);

@@ -5,70 +5,89 @@ import User from "../../../models/user";
 
 dbConnect();
 
-export const authOptions = {
-    providers: [
-        CredentialsProviders({
-            name: "Credentials",
-            async authorize(credentials, req) {
-                try {
-                    // find user in database and return it
-                    const { username, password } = credentials;
+export const authOptions = (req) => {
+    return {
+        providers: [
+            CredentialsProviders({
+                name: "Credentials",
+                async authorize(credentials, req) {
+                    try {
+                        // find user in database and return it
+                        const { username, password } = credentials;
 
-                    if (!username || !password) {
-                        throw new Error("Invalid.");
-                    }
+                        if (!username || !password) {
+                            throw new Error("Invalid.");
+                        }
 
-                    const user = await User.findOne({ username }).select(
-                        "+password"
-                    );
+                        const user = await User.findOne({ username }).select(
+                            "+password"
+                        );
 
-                    if (!user) {
+                        if (!user) {
+                            throw new Error(
+                                "No user with a matching email was found."
+                            );
+                        }
+
+                        const isPasswordMatched = await user.comparePassword(
+                            password
+                        );
+
+                        if (!isPasswordMatched) {
+                            throw new Error("Your password is invalid");
+                        }
+
+                        return {
+                            id: user._id,
+                            username: user.username,
+                            email: user.email,
+                            role: user.role,
+                            point: user.point,
+                        };
+                    } catch (error) {
                         throw new Error(
-                            "No user with a matching email was found."
+                            "Next Auth - Authorize: Authentication error"
                         );
                     }
+                },
+            }),
+        ],
+        session: {
+            strategy: "jwt",
+        },
+        secret: process.env.NEXTAUTH_SECRET,
+        pages: {
+            signIn: "/auth/login",
+        },
+        callbacks: {
+            async jwt({ token, user }) {
+                user && (token.user = user);
+                if (req.url === "/api/auth/session?update") {
+                    const user = await User.findById(token.user.id);
 
-                    const isPasswordMatched = await user.comparePassword(
-                        password
-                    );
-
-                    if (!isPasswordMatched) {
-                        throw new Error("Your password is invalid");
+                    if (!user) {
+                        return
                     }
 
-                    return {
+                    token.user = {
                         id: user._id,
                         username: user.username,
                         email: user.email,
                         role: user.role,
                         point: user.point,
                     };
-                } catch (error) {
-                    throw new Error(
-                        "Next Auth - Authorize: Authentication error"
-                    );
                 }
+                return Promise.resolve(token);
             },
-        }),
-    ],
-    session: {
-        strategy: "jwt",
-    },
-    secret: process.env.NEXTAUTH_SECRET,
-    pages: {
-        signIn: "/auth/login",
-    },
-    callbacks: {
-        async jwt({ token, user }) {
-            user && (token.user = user);
-            return token;
+            async session({ session, token }) {
+                session.user = token.user;
+                return Promise.resolve(session);
+            },
         },
-        async session({ session, token }) {
-            session.user = token.user;
-            return session;
-        },
-    },
-    debug: process.env.NODE_ENV === "development"
+        debug: process.env.NODE_ENV === "development",
+    };
 };
 
-export default NextAuth(authOptions);
+export default async function auth(req, res) {
+    return NextAuth(req, res, authOptions(req));
+}
