@@ -61,12 +61,11 @@ export const authOptions = (req) => {
         },
         callbacks: {
             async jwt({ token, user }) {
-                user && (token.user = user);
                 if (req.url === "/api/auth/session?update") {
                     const user = await User.findById(token.user.id);
 
                     if (!user) {
-                        return
+                        return;
                     }
 
                     token.user = {
@@ -76,6 +75,10 @@ export const authOptions = (req) => {
                         role: user.role,
                         point: user.point,
                     };
+
+                    console.log("token user, ", token.user);
+                } else {
+                    user && (token.user = user);
                 }
                 return Promise.resolve(token);
             },
