@@ -61,7 +61,6 @@ export const authOptions = (req) => {
         },
         callbacks: {
             async jwt({ token, user }) {
-                console.log("req.url, ", req.url);
                 if (
                     req.url.toString().replace(/=$|=(?=&)/g, "") ===
                     "/api/auth/session?update"
@@ -79,11 +78,8 @@ export const authOptions = (req) => {
                         role: user.role,
                         point: user.point,
                     };
-
-                    console.log("token user, ", token.user);
                 } else {
                     user && (token.user = user);
-                    console.log("token user not update, ", token.user);
                 }
                 return Promise.resolve(token);
             },
