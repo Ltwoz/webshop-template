@@ -62,7 +62,10 @@ export const authOptions = (req) => {
         callbacks: {
             async jwt({ token, user }) {
                 console.log("req.url, ", req.url);
-                if (req.url === "/api/auth/session?update") {
+                if (
+                    req.url.toString().replace(/=$|=(?=&)/g, "") ===
+                    "/api/auth/session?update"
+                ) {
                     const user = await User.findById(token.user.id);
 
                     if (!user) {
