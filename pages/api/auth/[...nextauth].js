@@ -79,6 +79,7 @@ export const authOptions = (req) => {
                     console.log("token user, ", token.user);
                 } else {
                     user && (token.user = user);
+                    console.log("token user not update, ", token.user);
                 }
                 return Promise.resolve(token);
             },
