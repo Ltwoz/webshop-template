@@ -5,20 +5,20 @@ import Layout from "../../../components/layouts/main-layout";
 import LoadingSpiner from "../../../components/ui/loader/spiner";
 import { useToast } from "../../../contexts/toast/toast-context";
 
-const AdminOrders = () => {
+const AdminTopups = () => {
     // CRUD State.
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     // Orders State.
-    const [orders, setOrders] = useState([]);
+    const [topups, setTopups] = useState([]);
 
     const toast = useToast();
 
     useEffect(() => {
         const getAdminOrders = async () => {
-            const { data } = await axios.get(`/api/admin/history/orders`);
-            setOrders(data?.orders);
+            const { data } = await axios.get(`/api/admin/history/topups`);
+            setTopups(data?.topups);
             setLoading(false);
         };
 
@@ -47,7 +47,7 @@ const AdminOrders = () => {
                     className="md:hidden border-b-2 mx-8 py-4 mb-6"
                 >
                     <h1 className="text-4xl font-semibold text-center">
-                        ประวัติการสั่งซื้อ
+                        ประวัติการเติมเงิน
                     </h1>
                 </section>
                 <DashboardNavbar />
@@ -57,7 +57,7 @@ const AdminOrders = () => {
                     <section className="bg-white border rounded-md shadow mb-6 divide-y">
                         <div className="p-6 flex items-center justify-between max-h-[88px]">
                             <h2 className="text-lg font-semibold">
-                                ประวัติการสั่งซื้อ
+                                ประวัติการเติมเงิน
                             </h2>
                             <input
                                 type="text"
@@ -68,9 +68,11 @@ const AdminOrders = () => {
                                 className="p-2 rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                             />
                         </div>
-                        {orders.length < 1 ? (
+                        {topups.length < 1 ? (
                             <div className="flex items-center justify-center py-6">
-                                <p className="font-medium text-gray-600">ไม่มีประวัติการสั่งซื้อ</p>
+                                <p className="font-medium text-gray-600">
+                                    ไม่มีประวัติการเติมเงิน
+                                </p>
                             </div>
                         ) : (
                             <div className="flex flex-col overflow-x-auto">
@@ -84,10 +86,10 @@ const AdminOrders = () => {
                                                 ผู้ใช้
                                             </th>
                                             <th className="py-3 px-6 text-left w-44 md:w-56">
-                                                ชื่อสินค้า
+                                                ประเภท
                                             </th>
                                             <th className="py-3 px-6 text-left w-44">
-                                                ข้อมูล
+                                                จำนวน
                                             </th>
                                             <th className="py-3 px-6 text-left w-40">
                                                 วันที่
@@ -95,26 +97,26 @@ const AdminOrders = () => {
                                         </tr>
                                     </thead>
                                     <tbody className="text-gray-600 text-sm md:text-base">
-                                        {orders?.map((order, i) => (
+                                        {topups?.map((topup, i) => (
                                             <tr
                                                 key={i}
                                                 className="border-b border-gray-200 hover:bg-gray-100"
                                             >
                                                 <td className="py-3 px-6 text-left">
-                                                    {order._id}
+                                                    {topup._id}
                                                 </td>
                                                 <td className="py-3 px-6 text-left">
-                                                    {order.user?.username}
+                                                    {topup.user?.username}
                                                 </td>
                                                 <td className="py-3 px-6 text-left">
-                                                    {order.product_name}
+                                                    {topup.type}
                                                 </td>
                                                 <td className="py-3 px-6 text-left">
-                                                    {order.stock_data}
+                                                    {topup.amount}
                                                 </td>
                                                 <td className="py-3 px-6 text-left">
                                                     {new Date(
-                                                        order.createdAt
+                                                        topup.createdAt
                                                     ).toLocaleString("en", {
                                                         dateStyle: "short",
                                                         timeStyle: "short",
@@ -134,6 +136,6 @@ const AdminOrders = () => {
     );
 };
 
-export default AdminOrders;
+export default AdminTopups;
 
 export { getServerSideProps } from "../../../utils/get-init-data";
