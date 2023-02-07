@@ -70,7 +70,9 @@ const AdminOrders = () => {
                         </div>
                         {orders.length < 1 ? (
                             <div className="flex items-center justify-center py-6">
-                                <p className="font-medium text-gray-600">ไม่มีประวัติการสั่งซื้อ</p>
+                                <p className="font-medium text-gray-600">
+                                    ไม่มีข้อมูลการสั่งซื้อ
+                                </p>
                             </div>
                         ) : (
                             <div className="flex flex-col overflow-x-auto">

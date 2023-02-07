@@ -100,7 +100,7 @@ const AdminQueues = () => {
                         {queues.length < 1 ? (
                             <div className="flex items-center justify-center py-6">
                                 <p className="font-medium text-gray-600">
-                                    ไม่มีประวัติคิว
+                                    ไม่มีข้อมูลคิว
                                 </p>
                             </div>
                         ) : (

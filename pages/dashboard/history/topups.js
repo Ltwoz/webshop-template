@@ -71,7 +71,7 @@ const AdminTopups = () => {
                         {topups.length < 1 ? (
                             <div className="flex items-center justify-center py-6">
                                 <p className="font-medium text-gray-600">
-                                    ไม่มีประวัติการเติมเงิน
+                                    ไม่มีข้อมูลการเติมเงิน
                                 </p>
                             </div>
                         ) : (
