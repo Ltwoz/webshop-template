@@ -65,6 +65,9 @@ async function handler(req, res) {
                     return order;
                 }));
 
+                //* Increment Sold
+                product.sold += amount;
+
                 const savedProduct = await product.save();
                 await user.save({ validateBeforeSave: false });
 

@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const TopupCard = ({ title, image }) => {
+const TopupCard = ({ title, image, href }) => {
     return (
         <Link
-            href={`/topup/#`}
+            href={href}
             className="
             group overflow-hidden rounded-2xl border shadow-lg relative bg-white
             hover:border-primary

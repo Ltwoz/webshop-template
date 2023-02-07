@@ -3,11 +3,14 @@ lockfileVersion: 5.4
 specifiers:
   '@next/bundle-analyzer': ^13.1.5
   '@next/font': 13.0.7
+  '@splidejs/react-splide': ^0.7.12
   autoprefixer: ^10.4.13
   axios: ^1.2.3
   bcryptjs: ^2.4.3
   chart.js: ^4.2.0
+  color: ^4.2.3
   cross-env: ^7.0.3
+  dayjs: ^1.11.7
   eslint: 8.30.0
   eslint-config-next: 13.0.7
   framer-motion: ^8.5.4
@@ -34,10 +37,13 @@ specifiers:
 dependencies:
   '@next/bundle-analyzer': 13.1.5
   '@next/font': 13.0.7
+  '@splidejs/react-splide': 0.7.12
   axios: 1.2.3
   bcryptjs: 2.4.3
   chart.js: 4.2.0
+  color: 4.2.3
   cross-env: 7.0.3
+  dayjs: 1.11.7
   eslint: 8.30.0
   eslint-config-next: 13.0.7_eslint@8.30.0
   framer-motion: 8.5.4_biqbaboplfbrettd7655fr4n2y
@@ -1463,6 +1469,16 @@ packages:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
     dev: false
 
+  /@splidejs/react-splide/0.7.12:
+    resolution: {integrity: sha512-UfXH+j47jsMc4x5HA/aOwuuHPqn6y9+ZTNYPWDRD8iLKvIVMZlzq2unjUEvyDAU+TTVPZOXkG2Ojeoz0P4AkZw==}
+    dependencies:
+      '@splidejs/splide': 4.1.4
+    dev: false
+
+  /@splidejs/splide/4.1.4:
+    resolution: {integrity: sha512-5I30evTJcAJQXt6vJ26g2xEkG+l1nXcpEw4xpKh0/FWQ8ozmAeTbtniVtVmz2sH1Es3vgfC4SS8B2X4o5JMptA==}
+    dev: false
+
   /@swc/helpers/0.4.14:
     resolution: {integrity: sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==}
     dependencies:
@@ -2051,6 +2067,10 @@ packages:
 
   /damerau-levenshtein/1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
+    dev: false
+
+  /dayjs/1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
     dev: false
 
   /debug/2.6.9:

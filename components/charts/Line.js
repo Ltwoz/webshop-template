@@ -8,13 +8,6 @@ const options = {
         },
     },
     maintainAspectRatio: false,
-    scales: {
-        xAxes: [
-            {
-                type: "time",
-            },
-        ],
-    },
 };
 
 const LineChart = (props) => {

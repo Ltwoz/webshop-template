@@ -7,6 +7,8 @@ import ConfigsContext from "../contexts/config/config-context";
 import ProductContext from "../contexts/product/product-context";
 import { useSession } from "next-auth/react";
 import FeaturedProductCard from "../components/ui/cards/featured-product-card";
+import { Splide, SplideTrack, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/react-splide/css";
 
 export default function Home() {
     const { configs } = useContext(ConfigsContext);
@@ -61,7 +63,14 @@ export default function Home() {
                         <h1 className="text-2xl font-bold mb-4 md:mb-8">
                             สินค้าแนะนำ
                         </h1>
-                        <div className="grid md:grid-cols-3 lg:grid-cols-4 justify-start gap-4 md:gap-6">
+                        {/* <Splide aria-label="My Favorite Images">
+                            {products?.map((product, i) => (
+                                <SplideSlide key={i}>
+                                    <FeaturedProductCard product={product} />
+                                </SplideSlide>
+                            ))}
+                        </Splide> */}
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start gap-4 md:gap-6">
                             {products?.map((product, i) => (
                                 <FeaturedProductCard
                                     key={i}

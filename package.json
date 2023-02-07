@@ -16,10 +16,13 @@
   "dependencies": {
     "@next/bundle-analyzer": "^13.1.5",
     "@next/font": "13.0.7",
+    "@splidejs/react-splide": "^0.7.12",
     "axios": "^1.2.3",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.2.0",
+    "color": "^4.2.3",
     "cross-env": "^7.0.3",
+    "dayjs": "^1.11.7",
     "eslint": "8.30.0",
     "eslint-config-next": "13.0.7",
     "framer-motion": "^8.5.4",

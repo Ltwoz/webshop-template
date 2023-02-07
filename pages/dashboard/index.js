@@ -14,6 +14,10 @@ import BestSelling from "../../components/section/best-selling";
 
 const Dashboard = () => {
     const [stats, setStats] = useState({});
+    const [topupSum, setTopupSum] = useState({});
+
+    // Charts Data.
+    const [weekyData, setWeeklyData] = useState([]);
 
     useEffect(() => {
         const getAdminStats = async () => {
@@ -21,7 +25,17 @@ const Dashboard = () => {
             setStats(data.stats);
         };
 
+        const getAdminTopupStats = async () => {
+            const { data } = await axios.get(`/api/admin/stats/topup-stats`);
+            setTopupSum(data.stats);
+            setWeeklyData(data.stats.weekSum)
+        };
+
         getAdminStats().catch((err) => {
+            console.log(err);
+        });
+
+        getAdminTopupStats().catch((err) => {
             console.log(err);
         });
     }, []);
@@ -30,33 +44,30 @@ const Dashboard = () => {
         labels: ["1", "2", "3", "4", "5", "6", "7"],
         datasets: [
             {
-                data: [12, 25, 18, 31, 24, 26, 17],
+                data: weekyData,
                 lineTension: 0.4,
                 radius: 3,
             },
         ],
     };
 
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const end = new Date(year, month + 1 ,0).getDate();
+
+    let dayLabel = [];
+    for (let i = 0; i < end; i++) {
+        dayLabel.push(i + 1)
+    }
+
     const monthData = {
-        labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-        ],
+        labels: dayLabel,
         datasets: [
             {
                 data: [
-                    2512, 2615, 2465, 3230, 3560, 3750, 3420, 3165, 4315, 3416,
-                    4651, 5412,
+                    150, 0, 230, 280, 520, 650, 890, 1230, 460, 150, 350, 640, 850, 345,
+                    430, 720, 640, 950, 670, 840, 350, 160, 260, 640, 500, 345, 330, 250,
                 ],
                 lineTension: 0.4,
                 radius: 3,
@@ -81,10 +92,7 @@ const Dashboard = () => {
         ],
         datasets: [
             {
-                data: [
-                    2512, 2615, 2465, 3230, 3560, 3750, 3420, 3165, 4315, 3416,
-                    4651, 5412,
-                ],
+                data: [0, 10, 0, 20],
                 lineTension: 0.4,
                 radius: 3,
             },
@@ -114,13 +122,13 @@ const Dashboard = () => {
                                     <span className="text-3xl align-bottom">
                                         ฿
                                     </span>
-                                    <span className="text-5xl">1,404</span>
+                                    <span className="text-5xl">
+                                        {topupSum.todaySum?.toLocaleString()}
+                                    </span>
                                     <span className="text-3xl align-bottom">
-                                        {"1404.00".slice(
-                                            "1,404.00".length -
-                                                3 -
-                                                "1,404.00".length
-                                        )}
+                                        {topupSum.todaySum
+                                            ?.toFixed(2)
+                                            .slice(-3)}
                                     </span>
                                 </div>
                                 <div className="text-lg text-grey tracking-wide">
@@ -134,13 +142,13 @@ const Dashboard = () => {
                                     <span className="text-3xl align-bottom">
                                         ฿
                                     </span>
-                                    <span className="text-5xl">2,998</span>
+                                    <span className="text-5xl">
+                                        {topupSum.alltimeSum?.toLocaleString()}
+                                    </span>
                                     <span className="text-3xl align-bottom">
-                                        {"2998.00".slice(
-                                            "2,998.00".length -
-                                                3 -
-                                                "2,998.00".length
-                                        )}
+                                        {topupSum.alltimeSum
+                                            ?.toFixed(2)
+                                            .slice(-3)}
                                     </span>
                                 </div>
                                 <div className="text-lg text-grey tracking-wide">

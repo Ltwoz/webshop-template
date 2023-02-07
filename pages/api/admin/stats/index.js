@@ -1,10 +1,10 @@
-import dbConnect from "../../../lib/db-connect";
-import Product from "../../../models/product";
-import Order from "../../../models/order";
-import User from "../../../models/user";
-import Category from "../../../models/category";
-import Queue from "../../../models/queue";
-import { authorizeRoles, isAuthenticatedUser } from "../../../middlewares/auth";
+import dbConnect from "../../../../lib/db-connect";
+import Product from "../../../../models/product";
+import Order from "../../../../models/order";
+import User from "../../../../models/user";
+import Category from "../../../../models/category";
+import Queue from "../../../../models/queue";
+import { authorizeRoles, isAuthenticatedUser } from "../../../../middlewares/auth";
 
 async function handler(req, res) {
     await dbConnect();

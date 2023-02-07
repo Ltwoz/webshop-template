@@ -40,29 +40,24 @@ async function handler(req, res) {
                 user.point = calPoint;
                 await user.save({ validateBeforeSave: false });
 
-                let queue;
+                const queue = await Queue.create({
+                    _id: nanoid(10),
+                    product_name: product.name,
+                    price: product.price,
+                    form: uid
+                        ? { uid: uid }
+                        : { username: username, password: password },
+                    user: req.user.id,
+                });
 
-                if (uid) {
-                    console.log("is uid");
-                    queue = await Queue.create({
-                        _id: nanoid(10),
-                        product_name: product.name,
-                        price: product.price,
-                        form: {
-                            uid: uid,
-                        },
-                        user: req.user.id,
-                    });
-                } else {
-                    queue = await Queue.create({
-                        _id: nanoid(10),
-                        product_name: product.name,
-                        price: product.price,
-                        form: {
-                            username: username,
-                            password: password,
-                        },
-                        user: req.user.id,
+                //* Increment Sold
+                product.sold += amount;
+                const savedProduct = await product.save();
+
+                if (!savedProduct) {
+                    return res.status(500).json({
+                        success: false,
+                        message: "Could not save the product",
                     });
                 }
 

@@ -1,25 +1,13 @@
-import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import Layout from "../../components/layouts/main-layout";
 import TopupCard from "../../components/ui/cards/topup-card";
 
 const Topup = () => {
+    const { data: session, status } = useSession();
+    const user = session?.user;
+
     const [loading, setLoading] = useState(true);
-
-    const truemoneyHandler = async (e) => {
-        e.preventDefault();
-
-        const config = { headers: { "Content-Type": "application/json" } };
-
-        const { data } = await axios.post(
-            "/api/topup/truemoney-gift",
-            {
-                phone: "0654291925",
-                gift_url: "https://gift.truemoney.com/campaign/?v=3iFMumn6gBwtbnZ8df"
-            },
-            config
-        );
-    };
 
     return (
         <Layout>
@@ -28,7 +16,10 @@ const Topup = () => {
                     เติมเงิน
                 </h1>
                 <div className="text-center text-lg mb-6">
-                    พอยต์คงเหลือ : 780.00
+                    พอยต์คงเหลือ :{" "}
+                    {new Intl.NumberFormat("en-US", {
+                        minimumFractionDigits: 2,
+                    }).format(user?.point)}
                 </div>
                 <div className="max-w-[800px] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 transition-all duration-500 ease-in-out">
                     <TopupCard
@@ -36,24 +27,28 @@ const Topup = () => {
                         image={
                             "https://cdn.discordapp.com/attachments/717327142978977834/1065807965073969222/ic-truemoneywallet-gift.png"
                         }
+                        href="/topup/truemoney-gift"
                     />
                     <TopupCard
                         title={"TrueMoney Wallet QR"}
                         image={
                             "https://cdn.discordapp.com/attachments/717327142978977834/1065807936636583976/ic-truemoneywallet-auto.png"
                         }
+                        href="/topup"
                     />
                     <TopupCard
                         title={"TrueMoney"}
                         image={
                             "https://cdn.discordapp.com/attachments/717327142978977834/1065807993049976882/ic-truemoney.png"
                         }
+                        href="/topup"
                     />
                     <TopupCard
                         title={"PromptPay QR"}
                         image={
                             "https://cdn.discordapp.com/attachments/717327142978977834/1065804796126314547/ic-promptpay.png"
                         }
+                        href="/topup"
                     />
                 </div>
             </main>

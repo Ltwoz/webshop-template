@@ -209,7 +209,7 @@ const Navbar = () => {
         );
 
     return (
-        <nav className="fixed top-0 px-2 md:px-0 py-2 md:py-5 w-full md:bg-gray-100/80 md:backdrop-blur-sm z-30">
+        <nav className="fixed top-0 px-2 md:px-0 py-2 md:py-4 w-full md:bg-gray-100/80 md:backdrop-blur-sm z-30">
             <div className="block md:flex relative justify-between items-center max-w-[1150px] w-full border md:border-0 border-gray-300/50 rounded-lg md:rounded-none shadow-md md:shadow-none px-4 sm:px-6 py-3 md:py-0 mx-auto bg-gray-200/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none">
                 <div className="flex items-center w-full md:w-auto">
                     <div className="flex items-center justify-between w-full md:w-auto">

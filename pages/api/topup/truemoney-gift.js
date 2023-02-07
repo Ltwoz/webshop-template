@@ -17,9 +17,13 @@ async function handler(req, res) {
 
                 const redeemed = await wallet
                     .redeem(gift_url)
-                    .catch((error) => {
-                        return console.log("error, ", error);
+
+                if (!redeemed) {
+                    return res.status(406).json({
+                        success: false,
+                        message: "ลิงก์นี้ถูกใช้งานไปแล้ว",
                     });
+                }
 
                 const topup = await Topup.create({
                     _id: nanoid(10),
@@ -45,7 +49,7 @@ async function handler(req, res) {
             } catch (error) {
                 res.status(500).json({
                     success: false,
-                    message: error.message,
+                    message: "ไม่สามารถดำเนินการได้",
                 });
             }
             break;
