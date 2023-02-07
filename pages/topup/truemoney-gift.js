@@ -62,7 +62,7 @@ const TruemoneyGiftPage = () => {
                 <h1 className="text-center text-4xl font-bold mb-8">
                     Truemoney Wallet Gift
                 </h1>
-                <section className="max-w-[600px] mx-auto bg-white border rounded-md shadow mb-6">
+                <section className="max-w-[600px] mx-auto bg-white border rounded-lg shadow mb-6">
                     <div className="w-full p-6 flex flex-col justify-between">
                         {/* <h2 className="text-lg font-semibold mb-4">
                             เติมเงินด้วย TrueMoney Wallet Gift
@@ -100,7 +100,7 @@ const TruemoneyGiftPage = () => {
                                     viewBox="0 0 24 24"
                                     strokeWidth={2.5}
                                     stroke="currentColor"
-                                    className="w-5 h-5 md:mr-2"
+                                    className="w-5 h-5 mr-2"
                                 >
                                     <path
                                         strokeLinecap="round"

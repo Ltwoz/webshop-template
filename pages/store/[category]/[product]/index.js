@@ -200,9 +200,13 @@ const ProductDetails = (props) => {
                                         type="button"
                                         disabled={product?.stock_count === 0}
                                         onClick={prePurchaseHandler}
-                                        className="inline-flex items-center font-medium text-white bg-primary hover:bg-violet-700 py-2 px-4 rounded-md transition-all hover:scale-105 disabled:bg-gray-500/80 disabled:hover:scale-100 disabled:cursor-not-allowed"
+                                        className="group inline-flex items-center bg-primary rounded-md transition-all overflow-hidden disabled:bg-gray-400 disabled:cursor-not-allowed"
                                     >
-                                        <span>ชำระเงิน</span>
+                                        <div className="w-full h-full inline-flex items-center justify-center font-medium text-white hover:backdrop-brightness-95 group-disabled:hover:backdrop-brightness-100 py-2 px-4">
+                                            <span className="block">
+                                                ชำระเงิน
+                                            </span>
+                                        </div>
                                     </button>
                                 </div>
                             </div>

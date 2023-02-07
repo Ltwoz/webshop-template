@@ -100,8 +100,16 @@ const AdminCategories = () => {
             });
             dispatch({ type: DELETE_CATEGORY_RESET });
         }
-
-    }, [clearErrors, dispatch, categories, error, isDeleted, isUpdated, success, toast]);
+    }, [
+        clearErrors,
+        dispatch,
+        categories,
+        error,
+        isDeleted,
+        isUpdated,
+        success,
+        toast,
+    ]);
 
     const deleteHandler = (e) => {
         e.preventDefault();
@@ -114,12 +122,12 @@ const AdminCategories = () => {
         <Layout>
             <AnimatePresence>
                 {isNewModalOpen && (
-                    <NewCategoryModal setIsNewModalOpen={setIsNewModalOpen} />
+                    <NewCategoryModal setIsOpen={setIsNewModalOpen} />
                 )}
                 {isUpdateModalOpen && (
                     <UpdateCategoryModal
                         category={category}
-                        setIsUpdateModalOpen={setIsUpdateModalOpen}
+                        setIsOpen={setIsUpdateModalOpen}
                     />
                 )}
                 {confirmModal && (
@@ -156,25 +164,27 @@ const AdminCategories = () => {
                                 onClick={() =>
                                     setIsNewModalOpen((prevState) => !prevState)
                                 }
-                                className="inline-flex items-center font-medium text-white bg-primary hover:brightness-90 py-2 px-2 md:px-4 rounded-md transition-all hover:scale-105"
+                                className="inline-flex items-center bg-primary rounded-md transition-all overflow-hidden"
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={2.5}
-                                    stroke="currentColor"
-                                    className="w-5 h-5 md:mr-2"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
-                                <span className="hidden md:block">
-                                    สร้างหมวดหมู่ใหม่
-                                </span>
+                                <div className="w-full h-full inline-flex items-center justify-center font-medium text-white hover:backdrop-brightness-95 py-2 px-4">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={2.5}
+                                        stroke="currentColor"
+                                        className="w-5 h-5 md:mr-2"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
+                                    </svg>
+                                    <span className="hidden md:block">
+                                        สร้างหมวดหมู่ใหม่
+                                    </span>
+                                </div>
                             </button>
                         </div>
                         <div className="flex flex-col overflow-x-auto">

@@ -28,7 +28,7 @@ const UpdateQueueModal = ({ queue, setIsOpen, setIsUpdated, setError }) => {
                 },
                 config
             );
-            setIsUpdated(data.success)
+            setIsUpdated(data.success);
         } catch (error) {
             setError(error.message);
             console.error(error.message);
@@ -150,7 +150,7 @@ const UpdateQueueModal = ({ queue, setIsOpen, setIsUpdated, setError }) => {
                 <button
                     type="button"
                     onClick={() => setIsOpen(false)}
-                    className="inline-flex items-center font-medium text-black hover:bg-gray-200/80 py-2 px-4 rounded-md transition-all"
+                    className="inline-flex items-center font-medium border hover:bg-gray-100/80 py-2 px-2 md:px-4 rounded-md transition-all"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -166,28 +166,30 @@ const UpdateQueueModal = ({ queue, setIsOpen, setIsUpdated, setError }) => {
                             d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                     </svg>
-                    <span>ยกเลิก</span>
+                    <span className="block">ยกเลิก</span>
                 </button>
                 <button
                     type="button"
                     onClick={handleSubmit}
-                    className="inline-flex items-center font-medium text-white bg-primary hover:brightness-90 py-2 px-4 rounded-md transition-all"
+                    className="inline-flex items-center bg-primary rounded-md transition-all overflow-hidden"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2.5}
-                        stroke="currentColor"
-                        className="w-5 h-5 mr-2"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                    </svg>
-                    <span>บันทึก</span>
+                    <div className="w-full h-full inline-flex items-center justify-center font-medium text-white hover:backdrop-brightness-95 py-2 px-4">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2.5}
+                            stroke="currentColor"
+                            className="w-5 h-5 mr-2"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                        </svg>
+                        <span className="block">บันทึก</span>
+                    </div>
                 </button>
             </div>
         </ModalLayout>

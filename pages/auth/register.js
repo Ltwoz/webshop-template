@@ -56,7 +56,7 @@ const RegisterPage = () => {
         <Layout>
             <main className="max-w-[1150px] h-full sm:px-[17px] pb-4 sm:pb-[25px] pt-20 md:pt-28 mx-auto items-center">
                 <div className="w-full flex items-center justify-center">
-                    <div className="w-[30rem] p-6 bg-white rounded-xl shadow-md">
+                    <div className="w-[30rem] p-6 bg-white rounded-lg shadow-md">
                         <div className="mb-7 text-center">
                             <h3 className="font-semibold text-2xl text-gray-800">
                                 สร้างบัญชี{" "}

@@ -139,7 +139,7 @@ const AdminProducts = () => {
 
     const deleteHandler = (e, product) => {
         e.preventDefault();
-        
+
         deleteProduct(product._id);
     };
 
@@ -147,18 +147,18 @@ const AdminProducts = () => {
         <Layout>
             <AnimatePresence>
                 {isNewModalOpen && (
-                    <NewProductModal setIsNewModalOpen={setIsNewModalOpen} />
+                    <NewProductModal setIsOpen={setIsNewModalOpen} />
                 )}
                 {isUpdateModalOpen && (
                     <UpdateProductModal
                         product={product}
-                        setIsUpdateModalOpen={setIsUpdateModalOpen}
+                        setIsOpen={setIsUpdateModalOpen}
                     />
                 )}
                 {isStockModalOpen && (
                     <UpdateStockModal
                         product={product}
-                        setIsStockModalOpen={setIsStockModalOpen}
+                        setIsOpen={setIsStockModalOpen}
                     />
                 )}
             </AnimatePresence>
@@ -177,7 +177,7 @@ const AdminProducts = () => {
                                 <button
                                     type="button"
                                     onClick={() => router.back()}
-                                    className="inline-flex items-center font-medium border hover:bg-gray-100/80 py-2 px-2 md:px-4 rounded-md transition-all hover:scale-105"
+                                    className="inline-flex items-center font-medium border hover:bg-gray-100/80 py-2 px-2 md:px-4 rounded-md transition-all"
                                 >
                                     <TbArrowBack className="w-5 h-5 md:mr-2" />
                                     <span className="hidden md:block">
@@ -191,25 +191,27 @@ const AdminProducts = () => {
                                             (prevState) => !prevState
                                         )
                                     }
-                                    className="inline-flex items-center font-medium text-white bg-primary hover:brightness-90 py-2 px-2 md:px-4 rounded-md transition-all hover:scale-105"
+                                    className="inline-flex items-center bg-primary rounded-md transition-all overflow-hidden"
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={2.5}
-                                        stroke="currentColor"
-                                        className="w-5 h-5 md:mr-2"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        />
-                                    </svg>
-                                    <span className="hidden md:block">
-                                        เพิ่มสินค้าใหม่
-                                    </span>
+                                    <div className="w-full h-full inline-flex items-center justify-center font-medium text-white hover:backdrop-brightness-95 py-2 px-4">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth={2.5}
+                                            stroke="currentColor"
+                                            className="w-5 h-5 md:mr-2"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                            />
+                                        </svg>
+                                        <span className="hidden md:block">
+                                            เพิ่มสินค้าใหม่
+                                        </span>
+                                    </div>
                                 </button>
                             </div>
                         </div>

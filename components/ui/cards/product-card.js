@@ -66,9 +66,11 @@ const ProductCard = ({ product }) => {
                     <Link
                         href={`/store/${product?.category?._id}/${product?._id}`}
                         scroll={false}
-                        className="hidden md:block text-md text-white text-center p-2 rounded-md bg-primary hover:bg-primary/ transition ease-in-out duration-150 hover:scale-[1.02]"
+                        className="hidden md:block rounded-md bg-primary transition ease-in-out duration-150"
                     >
-                        ซื้อสินค้า
+                        <div className="w-full h-full inline-flex items-center justify-center font-medium text-white hover:backdrop-brightness-95 py-2 px-4">
+                            <span className="block">ซื้อสินค้า</span>
+                        </div>
                     </Link>
                 </div>
             </div>
