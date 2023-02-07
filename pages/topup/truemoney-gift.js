@@ -59,7 +59,7 @@ const TruemoneyGiftPage = () => {
     return (
         <Layout>
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
-                <h1 className="text-center text-4xl font-bold mb-8">
+                <h1 className="text-center text-3xl md:text-4xl font-bold mb-6 md:mb-8">
                     Truemoney Wallet Gift
                 </h1>
                 <section className="max-w-[600px] mx-auto bg-white border rounded-lg shadow mb-6">

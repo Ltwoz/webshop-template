@@ -194,16 +194,20 @@ const Navbar = () => {
                 <Link
                     scroll={false}
                     href={`/auth/login`}
-                    className="items-center w-full md:w-fit inline-flex justify-center px-4 py-2 rounded-md ring-1 ring-primary hover:bg-primary hover:bg-opacity-10"
+                    className="w-full md:w-fit inline-flex items-center rounded-lg transition-all overflow-hidden ring-1 ring-primary "
                 >
-                    เข้าสู่ระบบ
+                    <div className="w-full h-full inline-flex items-center justify-center font-medium hover:backdrop-brightness-95 py-2 px-4 hover:bg-primary hover:bg-opacity-10">
+                        <span className="block tracking-wide">เข้าสู่ระบบ</span>
+                    </div>
                 </Link>
                 <Link
                     scroll={false}
                     href={`/auth/register`}
-                    className="items-center w-full md:w-fit inline-flex justify-center px-4 py-2 rounded-md text-white bg-primary hover:brightness-90"
+                    className="w-full md:w-fit inline-flex items-center bg-primary rounded-lg transition-all overflow-hidden"
                 >
-                    สร้างบัญชี
+                    <div className="w-full h-full inline-flex items-center justify-center font-medium text-white hover:backdrop-brightness-95 py-2 px-4">
+                        <span className="block tracking-wide">สร้างบัญชี</span>
+                    </div>
                 </Link>
             </div>
         );

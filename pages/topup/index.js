@@ -7,12 +7,10 @@ const Topup = () => {
     const { data: session, status } = useSession();
     const user = session?.user;
 
-    const [loading, setLoading] = useState(true);
-
     return (
         <Layout>
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
-                <h1 className="text-center text-4xl font-bold mb-8">
+                <h1 className="text-center text-3xl md:text-4xl font-bold mb-6 md:mb-8">
                     เติมเงิน
                 </h1>
                 <div className="text-center text-lg mb-6">

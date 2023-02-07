@@ -6,8 +6,8 @@ const TopupCard = ({ title, image, href }) => {
         <Link
             href={href}
             className="
-            group overflow-hidden rounded-2xl border shadow-lg relative bg-white
-            hover:border-primary
+            group overflow-hidden rounded-2xl shadow-lg relative bg-white
+            border hover:border-primary
             transition-all duration-150 ease-in-out
             "
         >

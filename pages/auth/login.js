@@ -3,7 +3,12 @@ import { useRouter } from "next/router";
 import { useContext, useRef } from "react";
 import Layout from "../../components/layouts/main-layout";
 import ConfigContext from "../../contexts/config/config-context";
-import { getSession, signIn, getProviders, getCsrfToken } from "next-auth/react";
+import {
+    getSession,
+    signIn,
+    getProviders,
+    getCsrfToken,
+} from "next-auth/react";
 import { withInitProps } from "../../utils/get-init-data";
 
 const LoginPage = () => {
@@ -33,10 +38,10 @@ const LoginPage = () => {
         <Layout>
             <main className="max-w-[1150px] h-full sm:px-[17px] pb-4 sm:pb-[25px] pt-20 md:pt-28 mx-auto items-center">
                 <div className="w-full flex items-center justify-center">
-                    <div className="w-[30rem] p-6 bg-white rounded-lg shadow-md">
+                    <div className="w-[95vw] md:w-[30rem] p-6 bg-white rounded-lg shadow-md">
                         <div className="mb-7 text-center">
                             <h3 className="font-semibold text-2xl text-gray-800">
-                                เข้าสู่ระบบ{" "}
+                                เข้าสู่ระบบ
                             </h3>
                         </div>
                         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -60,7 +65,7 @@ const LoginPage = () => {
                             <div className="flex items-center justify-end text-sm">
                                 <a
                                     href="#"
-                                    className="text-primary hover:text-purple-600 hover:underline"
+                                    className="text-primary hover:brightness-95 hover:underline"
                                 >
                                     ลืมรหัสผ่าน?
                                 </a>
@@ -68,9 +73,13 @@ const LoginPage = () => {
                             <div>
                                 <button
                                     type="submit"
-                                    className="w-full flex justify-center bg-primary  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold cursor-pointer transition-all"
+                                    className="w-full inline-flex items-center bg-primary rounded-lg transition-all overflow-hidden"
                                 >
-                                    เข้าสู่ระบบ
+                                    <div className="w-full h-full inline-flex items-center justify-center font-medium text-white hover:backdrop-brightness-95 py-3 px-4">
+                                        <span className="block tracking-wide">
+                                            เข้าสู่ระบบ
+                                        </span>
+                                    </div>
                                 </button>
                             </div>
                         </form>
@@ -78,7 +87,7 @@ const LoginPage = () => {
                             ยังไม่มีบัญชีใช่ไหม?{" "}
                             <Link
                                 href="/auth/register"
-                                className="text-sm ml-1 text-primary hover:text-purple-700 hover:underline"
+                                className="text-sm ml-1 text-primary hover:brightness-95 hover:underline"
                             >
                                 สร้างบัญชี
                             </Link>
@@ -97,20 +106,20 @@ export default LoginPage;
 export const getServerSideProps = withInitProps(async (context) => {
     const session = await getSession(context);
 
-	if (session && session.user) {
-		return {
-			redirect: {
-				permanent: false,
-				destination: '/'
-			},
-			props: {}
-		};
-	}
+    if (session && session.user) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/",
+            },
+            props: {},
+        };
+    }
 
-	return {
-		props: {
-			providers: await getProviders(),
-			csrfToken: await getCsrfToken(context)
-		}
-	};
+    return {
+        props: {
+            providers: await getProviders(),
+            csrfToken: await getCsrfToken(context),
+        },
+    };
 });
