@@ -26,9 +26,11 @@ const ConfigSchema = mongoose.Schema(
         recaptcha_key: {
             type: String,
         },
-        payment_tw_phone: {
-            type: String,
-            maxLength: [10, "Phone number cannot be more than 10 characters"],
+        payment: {
+            truemoney_phone: {
+                type: String,
+                maxLength: 10
+            }
         },
         style: {
             primary_color: {
@@ -45,6 +47,10 @@ const ConfigSchema = mongoose.Schema(
             background_color: {
                 type: String,
             }
+        },
+        social: {
+            discord_url: String,
+            facebook_url: String
         }
     },
 );

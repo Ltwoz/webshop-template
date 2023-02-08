@@ -85,7 +85,7 @@ const Navbar = () => {
             </Link>
             <Link
                 scroll={false}
-                href={`/dashboard`}
+                href={`/`}
                 className="py-2 hover:text-primary"
             >
                 ช่วยเหลือ
