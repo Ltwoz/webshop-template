@@ -52,7 +52,7 @@ export const ConfigContextProvider = (props) => {
 
             const config = { headers: { "Content-Type": "application/json" } };
 
-            const { data } = await axios.post(
+            const { data } = await axios.patch(
                 "/api/admin/configs",
                 configsForm,
                 config

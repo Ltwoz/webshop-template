@@ -11,8 +11,8 @@ import { getAccessibleColor, getRGBColor } from "../../utils/color";
 const Layout = ({ children }) => {
     const { configs } = useContext(ConfigContext);
 
-    const bgImage =
-        "https://cdnb.artstation.com/p/assets/images/images/028/704/049/large/roroto-sic-panda-chapeaute-miror.jpg?1595265084";
+    const bgImage = configs?.style?.background_image || "";
+    const bgColor = configs?.style?.background_color || "#f0f0f0e6";
 
     const primaryColor = getRGBColor(configs?.style?.primary_color, "primary");
     const allyColor = getRGBColor(
@@ -51,7 +51,10 @@ const Layout = ({ children }) => {
                     backgroundImage: `url(${bgImage})`,
                 }}
             >
-                <div className="min-h-screen flex flex-col bg-[rgba(240,240,240,0.9)]">
+                <div
+                    className={`min-h-screen flex flex-col`}
+                    style={{ backgroundColor: bgColor }}
+                >
                     <Navbar />
                     <motion.div
                         className="flex-grow"

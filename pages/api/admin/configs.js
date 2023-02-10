@@ -21,7 +21,7 @@ const handler = async (req, res) => {
                 });
             }
             break;
-        case "POST":
+        case "PATCH":
             try {
                 const config = await Config.findOneAndUpdate(
                     {},

@@ -50,3 +50,35 @@ input::-webkit-inner-spin-button {
     transform: scale(0.9);
     transition: all 0.2s;
 }
+
+/* Custom layout Color Picker */
+.react-colorful {
+    width: 100% !important;
+}
+
+.react-colorful__saturation {
+    border-radius: 5px !important;
+    border-bottom: none !important;
+}
+
+.react-colorful__hue {
+    order: -1;
+}
+
+.react-colorful__alpha,
+.react-colorful__saturation {
+    margin-top: 12px !important;
+}
+
+.react-colorful__hue,
+.react-colorful__alpha {
+    height: 14px !important;
+    border-radius: 5px !important;
+}
+
+.react-colorful__saturation-pointer,
+.react-colorful__hue-pointer,
+.react-colorful__alpha-pointer {
+    width: 20px !important;
+    height: 20px !important;
+}

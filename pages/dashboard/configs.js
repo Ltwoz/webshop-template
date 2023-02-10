@@ -1,35 +1,32 @@
 import DashboardNavbar from "../../components/layouts/dashboard-navbar";
 import Layout from "../../components/layouts/main-layout";
 import { useContext, useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import { useRouter } from "next/router";
 import ConfigContext from "../../contexts/config/config-context";
 import { UPDATE_CONFIG_RESET } from "../../types/config-constants";
 
+import { BiSliderAlt, BiImage } from "react-icons/bi";
+import { HiOutlineCreditCard } from "react-icons/hi2";
+import { MdOutlineColorLens } from "react-icons/md";
+import ConfigsGeneralTab from "../../components/tabs/configs-general";
+import ConfigsPaymentTab from "../../components/tabs/configs-payment";
+import ConfigsBannerTab from "../../components/tabs/configs-banner";
+import ConfigsAppearanceTab from "../../components/tabs/configs-appearance-tab";
+import { useToast } from "../../contexts/toast/toast-context";
+
 const AdminConfig = () => {
     const router = useRouter();
-    const {
-        updateConfig,
-        clearErrors,
-        configs,
-        error,
-        isUpdated,
-        dispatch,
-    } = useContext(ConfigContext);
+    const { updateConfig, clearErrors, configs, error, isUpdated, dispatch } =
+        useContext(ConfigContext);
 
-    const [title, setTitle] = useState(configs?.website_title);
-    const [name, setName] = useState(configs?.website_name);
-    const [desc, setDesc] = useState(configs?.website_desc);
-    const [icon, setIcon] = useState(configs?.website_icon);
-    const [logo, setLogo] = useState(configs?.website_logo);
-    const [banner, setBanner] = useState(configs?.website_banner);
-    const [announcement, setAnnouncement] = useState(configs?.announcement);
-    const [twPhone, setTwPhone] = useState(configs?.payment_tw_phone);
+    const [activeTab, setActiveTab] = useState("general");
+
+    const toast = useToast();
 
     useEffect(() => {
         if (error) {
-            Swal.fire({
-                title: "เกิดข้อผิดพลาด",
+            toast.add({
+                title: "ผิดพลาด!",
                 text: error,
                 icon: "error",
             });
@@ -37,235 +34,89 @@ const AdminConfig = () => {
         }
 
         if (isUpdated) {
-            Swal.fire({
-                title: "บันทึกสำเร็จ",
-                text: "",
+            toast.add({
+                title: "สำเร็จ!",
+                text: "บันทึกการตั้งค่าแล้ว",
                 icon: "success",
-            }).then(() => {
-                router.reload();
-            })
-            
+            });
+            router.reload();
+
             dispatch({ type: UPDATE_CONFIG_RESET });
         }
-    }, [clearErrors, dispatch, error, isUpdated, router]);
+    }, [clearErrors, dispatch, error, isUpdated, router, toast]);
 
-    const handleSave = (e) => {
+    const handleTab = (e, tab) => {
         e.preventDefault();
-        
-        updateConfig({
-            website_title: title,
-            website_name: name,
-            website_desc: desc,
-            website_icon: icon,
-            website_logo: logo,
-            website_banner: banner,
-            announcement: announcement,
-            payment_tw_phone: twPhone
-        });
+        setActiveTab(tab);
     };
+
+    const tabHeader = [
+        { label: "ตั้งค่าเว็บไซต์", value: "general", icon: <BiSliderAlt /> },
+        {
+            label: "ระบบเติมเงิน",
+            value: "payment",
+            icon: <HiOutlineCreditCard />,
+        },
+        { label: "แบนเนอร์", value: "banner", icon: <BiImage /> },
+        {
+            label: "ปรับแต่ง",
+            value: "appearance",
+            icon: <MdOutlineColorLens />,
+        },
+    ];
 
     return (
         <Layout>
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-20 md:pt-28 mx-auto items-center">
-                <section id="header" className="md:hidden border-b-2 mx-8 py-4 mb-6">
+                <section
+                    id="header"
+                    className="md:hidden border-b-2 mx-8 py-4 mb-6"
+                >
                     <h1 className="text-4xl font-semibold text-center">
                         จัดการเว็บไซต์
                     </h1>
                 </section>
                 <DashboardNavbar />
-                <section className="flex flex-col md:flex-row">
+                <section className="md:grid md:grid-cols-3 md:gap-4">
+                    <div className="md:col-span-1 mb-4 md:mb-0">
+                        <div className="flex flex-col gap-1.5 p-4 md:sticky md:top-[100px] bg-white border shadow rounded-md">
+                            {tabHeader.map((tab) => (
+                                <div
+                                    onClick={(e) => handleTab(e, tab.value)}
+                                    key={tab.label}
+                                    className={`flex items-center p-2 rounded-lg hover:bg-primary/10 hover:cursor-pointer ${
+                                        activeTab === tab.value &&
+                                        `bg-primary/10`
+                                    }`}
+                                >
+                                    <div
+                                        className="text-2xl
+                                        mr-4 text-gray-600"
+                                    >
+                                        {tab.icon}
+                                    </div>
+                                    <p className="font-medium">{tab.label}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                     <form
                         id="left"
                         autoComplete="off"
-                        onSubmit={handleSave}
-                        className="w-full md:w-2/4 mr-6 bg-white border rounded-md shadow mb-6 divide-y"
+                        className="md:col-span-2 bg-white border rounded-md shadow"
                     >
-                        <div className="p-6 flex items-center justify-between">
-                            <h2 className="text-lg font-semibold">
-                                ตั้งค่าทั่วไป
-                            </h2>
-                            <button
-                                type="submit"
-                                className="inline-flex items-center font-medium text-white bg-primary hover:brightness-90 py-2 px-4 rounded-md transition-all hover:scale-105"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={2.5}
-                                    stroke="currentColor"
-                                    className="w-5 h-5 mr-2"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
-                                <span>บันทึก</span>
-                            </button>
-                        </div>
-                        <div
-                            id="config-main"
-                            className="grid grid-cols-6 gap-6 p-6"
-                        >
-                            <div className="col-span-6 md:col-span-3">
-                                <label
-                                    className="block text-sm font-medium tracking-wide"
-                                >
-                                    ชื่อเว็บไซต์
-                                </label>
-                                <input
-                                    type="text"
-                                    name="website-title"
-                                    id="website-title"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                                />
-                            </div>
-                            <div className="col-span-6 md:col-span-3">
-                                <label
-                                    className="block text-sm font-medium tracking-wide"
-                                >
-                                    ชื่อเว็บไซต์ (ย่อ)
-                                </label>
-                                <input
-                                    type="text"
-                                    name="website-name"
-                                    id="website-name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                                />
-                            </div>
-                            <div className="col-span-6 md:col-span-">
-                                <label
-                                    className="block text-sm font-medium tracking-wide"
-                                >
-                                    รายละเอียด
-                                </label>
-                                <textarea
-                                    type="text"
-                                    name="website-desc"
-                                    id="website-desc"
-                                    rows="4"
-                                    value={desc}
-                                    onChange={(e) => setDesc(e.target.value)}
-                                    className="mt-1 p-2 block w-full min-h-[42px] max-h-[210px] rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                                />
-                            </div>
-                            <div className="col-span-6 md:col-span-6">
-                                <label
-                                    className="block text-sm font-medium tracking-wide"
-                                >
-                                    ไอคอนเว็บไซต์ (16x16)
-                                </label>
-                                <input
-                                    type="text"
-                                    name="website-icon"
-                                    id="website-icon"
-                                    value={icon}
-                                    onChange={(e) => setIcon(e.target.value)}
-                                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                                />
-                            </div>
-                            <div className="col-span-6 md:col-span-6">
-                                <label
-                                    className="block text-sm font-medium tracking-wide"
-                                >
-                                    โลโก้เว็บไซต์ (40x40)
-                                </label>
-                                <input
-                                    type="text"
-                                    name="website-logo"
-                                    id="website-logo"
-                                    value={logo}
-                                    onChange={(e) => setLogo(e.target.value)}
-                                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                                />
-                            </div>
-                            <div className="col-span-6 md:col-span-6">
-                                <label
-                                    className="block text-sm font-medium tracking-wide"
-                                >
-                                    แบนเนอร์เว็บไซต์ (1100x240)
-                                </label>
-                                <input
-                                    type="text"
-                                    name="website-thumbnail"
-                                    id="website-thumbnail"
-                                    value={banner}
-                                    onChange={(e) => setBanner(e.target.value)}
-                                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                                />
-                            </div>
-                            <div className="col-span-6 md:col-span-6">
-                                <label
-                                    className="block text-sm font-medium tracking-wide"
-                                >
-                                    ประกาศ
-                                </label>
-                                <input
-                                    type="text"
-                                    name="announcement"
-                                    id="announcement"
-                                    value={announcement}
-                                    onChange={(e) =>
-                                        setAnnouncement(e.target.value)
-                                    }
-                                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                                />
-                            </div>
-                        </div>
-                    </form>
-                    <form
-                        id="right"
-                        autoComplete="off"
-                        className="w-full md:w-2/4 bg-white border rounded-md shadow mb-6 h-full divide-y"
-                    >
-                        <div className="p-6 flex items-center justify-between">
-                            <h2 className="text-lg font-semibold">
-                                ระบบเติมเงิน
-                            </h2>
-                            <button className="inline-flex items-center font-medium text-white bg-primary hover:bg-primary py-2 px-4 rounded-md">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={2.5}
-                                    stroke="currentColor"
-                                    className="w-5 h-5 mr-2"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
-                                <span>บันทึก</span>
-                            </button>
-                        </div>
-                        <div
-                            id="config-main"
-                            className="grid grid-cols-3 gap-6 p-6"
-                        >
-                            <div className="col-span-3">
-                                <label
-                                    className="block text-sm font-medium tracking-wide"
-                                >
-                                    เบอร์โทรศัพท์
-                                </label>
-                                <input
-                                    type="text"
-                                    name="tw-number"
-                                    id="tw-number"
-                                    value={twPhone}
-                                    onChange={(e) => setTwPhone(e.target.value)}
-                                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                                />
-                            </div>
-                        </div>
+                        {activeTab === "general" && (
+                            <ConfigsGeneralTab configs={configs} submit={updateConfig} />
+                        )}
+                        {activeTab === "payment" && (
+                            <ConfigsPaymentTab configs={configs} submit={updateConfig} />
+                        )}
+                        {activeTab === "banner" && (
+                            <ConfigsBannerTab configs={configs} submit={updateConfig} />
+                        )}
+                        {activeTab === "appearance" && (
+                            <ConfigsAppearanceTab configs={configs} submit={updateConfig} />
+                        )}
                     </form>
                 </section>
             </main>
