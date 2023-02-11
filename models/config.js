@@ -3,19 +3,19 @@ import mongoose from "mongoose";
 const ConfigSchema = mongoose.Schema({
     website_title: {
         type: String,
-        default: "",
+        default: "Skitzer",
     },
     website_name: {
         type: String,
-        default: "",
+        default: "Sktz",
     },
     website_desc: {
         type: String,
-        default: "",
+        default: "Skitzer Solution. E-Commerce Website Provider.",
     },
     website_icon: {
         type: String,
-        default: "",
+        default: "https://media.discordapp.net/attachments/717327142978977834/1060896307235004467/favicon.png",
     },
     website_logo: {
         type: String,
@@ -23,9 +23,13 @@ const ConfigSchema = mongoose.Schema({
     },
     website_banner: {
         type: String,
-        default: "",
+        default: "https://dummyimage.com/1100x240",
     },
     announcement: {
+        type: String,
+        default: "",
+    },
+    og_image: {
         type: String,
         default: "",
     },
@@ -68,8 +72,14 @@ const ConfigSchema = mongoose.Schema({
         },
     },
     social: {
-        discord_url: String,
-        facebook_url: String,
+        discord_url: {
+            type: String,
+            default: "",
+        },
+        facebook_url: {
+            type: String,
+            default: "https://www.facebook.com/skitzer.xyz",
+        },
     },
 });
 

@@ -65,16 +65,29 @@ const ConfigsPaymentTab = ({ configs, submit }) => {
                     />
                 </label>
             </div>
-            <div className="col-span-2">
+            <div className="col-span-2 md:col-span-1">
                 <label className="block text-sm font-medium tracking-wide">
                     เบอร์โทรศัพท์
                 </label>
                 <input
-                    type="text"
+                    type="tel"
                     name="twPhone"
                     id="twPhone"
                     value={twPhone}
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={(e) => setTwPhone(e.target.value)}
+                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
+                />
+            </div>
+            <div className="col-span-2 md:col-span-1">
+                <label className="block text-sm font-medium tracking-wide">
+                    ค่าธรรมเนียม
+                </label>
+                <input
+                    type="tel"
+                    name="twPhone"
+                    id="twPhone"
+                    value={twPhone}
+                    onChange={(e) => setTwPhone(e.target.value)}
                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                 />
             </div>

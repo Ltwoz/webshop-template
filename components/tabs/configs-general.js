@@ -6,7 +6,11 @@ const ConfigsGeneralTab = ({ configs, submit }) => {
     const [desc, setDesc] = useState(configs?.website_desc);
     const [icon, setIcon] = useState(configs?.website_icon);
     const [logo, setLogo] = useState(configs?.website_logo);
+    const [ogImage, setOgImage] = useState(configs?.og_image);
     const [announcement, setAnnouncement] = useState(configs?.announcement);
+
+    const [discord, setDiscord] = useState(configs?.social?.discord_url);
+    const [facebook, setFacebook] = useState(configs?.social?.facebook_url);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -17,7 +21,12 @@ const ConfigsGeneralTab = ({ configs, submit }) => {
             website_desc: desc,
             website_icon: icon,
             website_logo: logo,
+            og_image: ogImage,
             announcement: announcement,
+            social: {
+                discord_url: discord,
+                facebook_url: facebook,
+            },
         });
     };
 
@@ -40,8 +49,6 @@ const ConfigsGeneralTab = ({ configs, submit }) => {
                 </label>
                 <input
                     type="text"
-                    name="website-title"
-                    id="website-title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
@@ -53,8 +60,6 @@ const ConfigsGeneralTab = ({ configs, submit }) => {
                 </label>
                 <input
                     type="text"
-                    name="website-name"
-                    id="website-name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
@@ -62,12 +67,11 @@ const ConfigsGeneralTab = ({ configs, submit }) => {
             </div>
             <div className="col-span-2">
                 <label className="block text-sm font-medium tracking-wide">
-                    รายละเอียด
+                    คำอธิบาย
                 </label>
                 <textarea
                     type="text"
-                    name="website-desc"
-                    id="website-desc"
+                    placeholder="คำอธิบายเนื้อหาของร้านค้า โดยข้อมูลนี้จะแสดงบนหน้าผลการค้นหาใน Search Engine"
                     rows="4"
                     value={desc}
                     onChange={(e) => setDesc(e.target.value)}
@@ -80,8 +84,6 @@ const ConfigsGeneralTab = ({ configs, submit }) => {
                 </label>
                 <input
                     type="text"
-                    name="website-icon"
-                    id="website-icon"
                     value={icon}
                     onChange={(e) => setIcon(e.target.value)}
                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
@@ -93,8 +95,7 @@ const ConfigsGeneralTab = ({ configs, submit }) => {
                 </label>
                 <input
                     type="text"
-                    name="website-logo"
-                    id="website-logo"
+                    placeholder=""
                     value={logo}
                     onChange={(e) => setLogo(e.target.value)}
                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
@@ -102,14 +103,64 @@ const ConfigsGeneralTab = ({ configs, submit }) => {
             </div>
             <div className="col-span-2">
                 <label className="block text-sm font-medium tracking-wide">
+                    ภาพประกอบ (1200x628)
+                </label>
+                <input
+                    type="text"
+                    placeholder="ภาพที่แสดงในลิงก์ที่ถูกแชร์"
+                    value={ogImage}
+                    onChange={(e) => setOgImage(e.target.value)}
+                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
+                />
+            </div>
+
+            <hr className="col-span-2" />
+
+            <div className="col-span-2">
+                <h3 className="text-lg font-medium leading-6">การประกาศ</h3>
+                <p className="mt-1 text-sm text-gray-600">
+                    ข้อความประกาศที่แสดงในหน้าแรก
+                </p>
+            </div>
+            <div className="col-span-2">
+                <label className="block text-sm font-medium tracking-wide">
                     ประกาศ
                 </label>
                 <input
                     type="text"
-                    name="announcement"
-                    id="announcement"
                     value={announcement}
                     onChange={(e) => setAnnouncement(e.target.value)}
+                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
+                />
+            </div>
+
+            <hr className="col-span-2" />
+
+            <div className="col-span-2">
+                <h3 className="text-lg font-medium leading-6">ช่องทางติดต่อ</h3>
+                <p className="mt-1 text-sm text-gray-600">
+                    ลิงก์ไปยังเพจร้านค้าของคุณ
+                </p>
+            </div>
+            <div className="col-span-2">
+                <label className="block text-sm font-medium tracking-wide">
+                    Discord URL
+                </label>
+                <input
+                    type="text"
+                    value={discord}
+                    onChange={(e) => setDiscord(e.target.value)}
+                    className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
+                />
+            </div>
+            <div className="col-span-2">
+                <label className="block text-sm font-medium tracking-wide">
+                    Facebook URL
+                </label>
+                <input
+                    type="text"
+                    value={facebook}
+                    onChange={(e) => setFacebook(e.target.value)}
                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                 />
             </div>

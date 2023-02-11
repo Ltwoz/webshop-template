@@ -23,24 +23,37 @@ const Layout = ({ children }) => {
     return (
         <>
             <Head>
-                <title>{configs?.website_title || "Skitzer"}</title>
+                <title>{configs?.website_title || ""}</title>
                 <meta
                     name="description"
-                    content={configs?.website_desc || "Skitzer"}
+                    content={configs?.website_desc || ""}
                 />
                 <meta
                     name="keywords"
-                    content={configs?.website_name || "SKTZ"}
+                    content={configs?.website_name || ""}
                 />
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
+                <meta property="og:type" content="website" />
+                <meta
+                    property="og:title"
+                    content={configs?.website_title || ""}
+                />
+                <meta
+                    property="og:description"
+                    content={configs?.website_desc || ""}
+                />
+                <meta
+                    property="og:image"
+                    content={configs?.og_image || ""}
+                />
                 <link
                     rel="icon"
                     href={
                         configs?.website_icon ||
-                        "https://media.discordapp.net/attachments/717327142978977834/1060896307235004467/favicon.png"
+                        ""
                     }
                 />
                 <style>:root {`{${primaryColor} ${allyColor}}`}</style>

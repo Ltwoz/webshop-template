@@ -37,15 +37,17 @@ const ConfigsBannerTab = ({ configs, submit }) => {
                     className="mt-1 p-2 block w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
                 />
             </div>
-            <div className="col-span-2 aspect-[16/5] md:aspect-[16/3.5] relative overflow-hidden rounded-lg">
-                <Image
-                    alt="banner"
-                    src={banner || "https://dummyimage.com/1100x240"}
-                    draggable="false"
-                    fill
-                    className="select-none object-cover"
-                />
-            </div>
+            {banner && (
+                <div className="col-span-2 aspect-[16/5] md:aspect-[16/3.5] relative overflow-hidden rounded-lg">
+                    <Image
+                        alt="banner"
+                        src={banner}
+                        draggable="false"
+                        fill
+                        className="select-none object-cover"
+                    />
+                </div>
+            )}
 
             <hr className="col-span-2" />
 

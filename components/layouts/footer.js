@@ -39,7 +39,7 @@ const Footer = () => {
                     </div>
                     {configs.social?.discord_url && (
                         <Link
-                            href={discord_url}
+                            href={configs.social?.discord_url}
                             target="_blank"
                             name="discord"
                             className="inline-block p-2 font-medium text-sm md:text-base leading-tight rounded-full border border-gray-400/80 
@@ -51,7 +51,7 @@ const Footer = () => {
                     )}
                     {configs.social?.facebook_url && (
                         <Link
-                            href={facebook_url}
+                            href={configs.social?.facebook_url}
                             target="_blank"
                             name="facebook"
                             className="inline-block p-2 font-medium text-sm md:text-base leading-tight rounded-full border border-gray-400/80 

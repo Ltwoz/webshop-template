@@ -83,11 +83,7 @@ const Navbar = () => {
             >
                 เติมเงิน
             </Link>
-            <Link
-                scroll={false}
-                href={`/`}
-                className="py-2 hover:text-primary"
-            >
+            <Link scroll={false} href={`/`} className="py-2 hover:text-primary">
                 ช่วยเหลือ
             </Link>
             {user?.role === "admin" && (
@@ -216,24 +212,27 @@ const Navbar = () => {
         <nav className="fixed top-0 px-2 md:px-0 py-2 md:py-4 w-full md:bg-gray-100/80 md:backdrop-blur-sm z-30">
             <div className="block md:flex relative justify-between items-center max-w-[1150px] w-full border md:border-0 border-gray-300/50 rounded-lg md:rounded-none shadow-md md:shadow-none px-4 sm:px-6 py-3 md:py-0 mx-auto bg-gray-200/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none">
                 <div className="flex items-center w-full md:w-auto">
-                    <div className="flex items-center justify-between w-full md:w-auto">
+                    <div className="flex items-center justify-between w-full md:w-auto gap-8">
                         <Link
                             scroll={false}
                             href={`/`}
-                            className="flex md:w-auto justify-center items-center md:mr-8"
+                            className="flex md:w-auto justify-center items-center"
                         >
-                            <div className="relative h-8 sm:h-10 w-16 sm:w-24">
-                                <Image
-                                    alt="logo_img"
-                                    src={
-                                        configs?.website_logo ||
-                                        "https://media.discordapp.net/attachments/872102608909795449/944274854121701416/logo.png"
-                                    }
-                                    draggable="false"
-                                    fill
-                                    className="object-contain"
-                                />
-                            </div>
+                            {configs?.website_logo ? (
+                                <div className="relative h-8 sm:h-10 w-16 sm:w-24">
+                                    <Image
+                                        alt="logo_img"
+                                        src={configs?.website_logo}
+                                        draggable="false"
+                                        fill
+                                        className="object-contain"
+                                    />
+                                </div>
+                            ) : (
+                                <div className="font-semibold text-xl hover:text-primary transition-all">
+                                    {configs?.website_title}
+                                </div>
+                            )}
                         </Link>
                         <div className="hidden md:block">{navList}</div>
                         <div className="flex items-center md:hidden">

@@ -39,21 +39,20 @@ export default function Home() {
         <Layout>
             <main className="max-w-[1150px] md:px-[17px] pb-4 sm:pb-[25px] pt-20 md:pt-28 mx-auto items-center">
                 <div className="flex flex-col gap-y-4 md:gap-y-8">
-                    <section
-                        id="banner"
-                        className="flex justify-center items-center aspect-[16/5] md:aspect-[16/3.5] relative overflow-hidden md:rounded-lg md:mx-2"
-                    >
-                        <Image
-                            alt="homepage_banner"
-                            src={
-                                configs?.website_banner ||
-                                "https://dummyimage.com/1100x240"
-                            }
-                            draggable="false"
-                            fill
-                            className="select-none object-cover"
-                        />
-                    </section>
+                    {configs?.website_banner && (
+                        <section
+                            id="banner"
+                            className="flex justify-center items-center aspect-[16/5] md:aspect-[16/3.5] relative overflow-hidden md:rounded-lg md:mx-2"
+                        >
+                            <Image
+                                alt="homepage_banner"
+                                src={configs?.website_banner}
+                                draggable="false"
+                                fill
+                                className="select-none object-cover"
+                            />
+                        </section>
+                    )}
 
                     <section id="stats" className="px-4 md:px-2">
                         <StatCard stats={stats} />

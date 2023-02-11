@@ -78,7 +78,7 @@ const AdminConfig = () => {
                 </section>
                 <DashboardNavbar />
                 <section className="md:grid md:grid-cols-3 md:gap-4">
-                    <div className="md:col-span-1 mb-4 md:mb-0">
+                    <div id="tab-select" className="md:col-span-1 mb-4 md:mb-0">
                         <div className="flex flex-col gap-1.5 p-4 md:sticky md:top-[100px] bg-white border shadow rounded-md">
                             {tabHeader.map((tab) => (
                                 <div
@@ -101,21 +101,33 @@ const AdminConfig = () => {
                         </div>
                     </div>
                     <form
-                        id="left"
+                        id="tab"
                         autoComplete="off"
                         className="md:col-span-2 bg-white border rounded-md shadow"
                     >
                         {activeTab === "general" && (
-                            <ConfigsGeneralTab configs={configs} submit={updateConfig} />
+                            <ConfigsGeneralTab
+                                configs={configs}
+                                submit={updateConfig}
+                            />
                         )}
                         {activeTab === "payment" && (
-                            <ConfigsPaymentTab configs={configs} submit={updateConfig} />
+                            <ConfigsPaymentTab
+                                configs={configs}
+                                submit={updateConfig}
+                            />
                         )}
                         {activeTab === "banner" && (
-                            <ConfigsBannerTab configs={configs} submit={updateConfig} />
+                            <ConfigsBannerTab
+                                configs={configs}
+                                submit={updateConfig}
+                            />
                         )}
                         {activeTab === "appearance" && (
-                            <ConfigsAppearanceTab configs={configs} submit={updateConfig} />
+                            <ConfigsAppearanceTab
+                                configs={configs}
+                                submit={updateConfig}
+                            />
                         )}
                     </form>
                 </section>
