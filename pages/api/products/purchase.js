@@ -1,4 +1,4 @@
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
 import dbConnect from "../../../lib/db-connect";
 import { isAuthenticatedUser } from "../../../middlewares/auth";
 import Order from "../../../models/order";
@@ -56,7 +56,7 @@ async function handler(req, res) {
                 //* Map stock_data to create order one by one
                 const order = await Promise.all(stock_data.map(async (stock) => {
                     const order = await Order.create({
-                        _id: nanoid(10),
+                        _id: customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 12),
                         product_name: product.name,
                         price: product.price,
                         stock_data: stock,
