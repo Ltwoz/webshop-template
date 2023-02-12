@@ -86,7 +86,7 @@ const AdminConfig = () => {
                                     key={tab.label}
                                     className={`flex items-center p-2 rounded-lg hover:bg-primary/10 hover:cursor-pointer ${
                                         activeTab === tab.value &&
-                                        `bg-primary/10`
+                                        `bg-primary/10 text-primary`
                                     }`}
                                 >
                                     <div

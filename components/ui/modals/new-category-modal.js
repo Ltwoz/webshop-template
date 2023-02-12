@@ -5,15 +5,15 @@ import ModalLayout from "./modal-layout/modal-layout";
 
 const NewCategoryModal = ({ setIsOpen }) => {
     const typeOptions = [
-        { label: "STOCK", value: "STOCK" },
-        { label: "ID_PASS", value: "ID_PASS" },
+        { label: "Stock", value: "STOCK" },
+        { label: "ID-PASS", value: "ID_PASS" },
     ];
 
     const { createCategory } = useContext(CategoryContext);
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [type, setType] = useState("");
+    const [type, setType] = useState({});
     const [isUid, setIsUid] = useState(false);
     const [image, setImage] = useState("");
 
@@ -23,7 +23,7 @@ const NewCategoryModal = ({ setIsOpen }) => {
         createCategory({
             name: name,
             description: description,
-            type: type,
+            type: type.value,
             form_uid: isUid,
             image: image,
         });
@@ -86,7 +86,7 @@ const NewCategoryModal = ({ setIsOpen }) => {
                     />
                 </div>
                 <div className="col-span-6 md:col-span-3">
-                    <label className="block text-sm font-medium tracking-wide">
+                    <label className="block text-sm mb-1 font-medium tracking-wide">
                         ประเภท
                     </label>
                     <Select

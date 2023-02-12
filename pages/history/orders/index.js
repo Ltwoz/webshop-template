@@ -192,21 +192,33 @@ const HistoryOrder = () => {
                                                             className={
                                                                 "text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full" +
                                                                 (queue.status ===
-                                                                "กำลังดำเนินการ"
-                                                                    ? " bg-amber-700 text-amber-200"
+                                                                "pending"
+                                                                    ? " bg-orange-700 text-orange-200"
                                                                     : queue.status ===
-                                                                      "สำเร็จ"
+                                                                      "success"
                                                                     ? " bg-green-700 text-green-200"
                                                                     : queue.status ===
-                                                                      "ไม่สำเร็จ"
+                                                                      "failed"
                                                                     ? " bg-red-700 text-red-200"
                                                                     : queue.status ===
-                                                                      "ยกเลิก"
+                                                                      "cancel"
                                                                     ? " bg-red-700 text-red-200"
                                                                     : "")
                                                             }
                                                         >
-                                                            {queue.status}
+                                                            {queue.status ===
+                                                            "pending"
+                                                                ? "กำลังดำเนินการ"
+                                                                : queue.status ===
+                                                                  "success"
+                                                                ? "สำเร็จ"
+                                                                : queue.status ===
+                                                                  "failed"
+                                                                ? "ไม่สำเร็จ"
+                                                                : queue.status ===
+                                                                  "cancel"
+                                                                ? "ยกเลิก"
+                                                                : ""}
                                                         </span>
                                                     </td>
                                                     <td className="py-3 px-6 text-left">

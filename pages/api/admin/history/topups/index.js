@@ -1,6 +1,10 @@
 import dbConnect from "../../../../../lib/db-connect";
-import { authorizeRoles, isAuthenticatedUser } from "../../../../../middlewares/auth";
+import {
+    authorizeRoles,
+    isAuthenticatedUser,
+} from "../../../../../middlewares/auth";
 import Topup from "../../../../../models/topup";
+import ApiFeatures from "../../../../../utils/api-features";
 
 async function handler(req, res) {
     await dbConnect();
@@ -8,7 +12,14 @@ async function handler(req, res) {
     switch (req.method) {
         case "GET":
             try {
-                const topups = await Topup.find().populate("user", "username");
+                const apiFeature = new ApiFeatures(
+                    Topup.find().populate("user", "username"),
+                    req.query
+                )
+                    .filter()
+                    .searchById();
+
+                const topups = await apiFeature.query;
 
                 res.status(200).json({
                     success: true,

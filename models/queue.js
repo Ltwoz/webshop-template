@@ -25,8 +25,8 @@ const QueueSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: "กำลังดำเนินการ",
-        enum: ["กำลังดำเนินการ", "สำเร็จ", "ไม่สำเร็จ", "ยกเลิก"]
+        default: "pending",
+        enum: ["pending", "success", "failed", "cancel"]
     },
     note: {
         type: String,

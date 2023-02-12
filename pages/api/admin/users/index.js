@@ -4,6 +4,7 @@ import {
     isAuthenticatedUser,
 } from "../../../../middlewares/auth";
 import User from "../../../../models/user";
+import ApiFeatures from "../../../../utils/api-features";
 
 const handler = async (req, res) => {
     await dbConnect();
@@ -11,7 +12,11 @@ const handler = async (req, res) => {
     switch (req.method) {
         case "GET":
             try {
-                const users = await User.find().select("-__v");
+                const apiFeature = new ApiFeatures(User.find(), req.query)
+                    .filter()
+                    .findUser();
+
+                const users = await apiFeature.query;
 
                 res.status(200).json({ success: true, users });
             } catch (error) {

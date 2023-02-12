@@ -13,11 +13,31 @@ const AdminTopups = () => {
     // Orders State.
     const [topups, setTopups] = useState([]);
 
+    // Search State.
+    const [search, setSearch] = useState("");
+    const [debounceValue, setDebounceValue] = useState("");
+
     const toast = useToast();
+
+    // Debounce
+    useEffect(() => {
+        const debounce = setTimeout(() => {
+            setSearch(debounceValue);
+        }, 500);
+
+        return () => clearTimeout(debounce);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [debounceValue]);
 
     useEffect(() => {
         const getAdminOrders = async () => {
-            const { data } = await axios.get(`/api/admin/history/topups`);
+            let link = `/api/admin/history/topups`;
+
+            if (search) {
+                link = `/api/admin/history/topups?id=${search}`;
+            }
+
+            const { data } = await axios.get(link);
             setTopups(data?.topups);
             setLoading(false);
         };
@@ -26,7 +46,7 @@ const AdminTopups = () => {
             setError(error.message);
             setLoading(false);
         });
-    }, []);
+    }, [search]);
 
     useEffect(() => {
         if (error) {
@@ -56,17 +76,35 @@ const AdminTopups = () => {
                 ) : (
                     <section className="bg-white border rounded-md shadow mb-6 divide-y">
                         <div className="p-6 flex items-center justify-between max-h-[88px]">
-                            <h2 className="text-lg font-semibold">
-                                ประวัติการเติมเงิน
+                            <h2 className="hidden md:block text-lg font-semibold">
+                                ประวัติการสั่งซื้อ
                             </h2>
-                            <input
-                                type="text"
-                                name="website-title"
-                                id="website-title"
-                                placeholder="ค้นหา"
-                                autoComplete="off"
-                                className="p-2 rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
-                            />
+                            <div className="relative w-full md:w-fit">
+                                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                    <svg
+                                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                            clip-rule="evenodd"
+                                        ></path>
+                                    </svg>
+                                </div>
+                                <input
+                                    type="text"
+                                    placeholder="ค้นหาไอดีการเติมเงิน"
+                                    autoComplete="off"
+                                    value={debounceValue}
+                                    onChange={(e) =>
+                                        setDebounceValue(e.target.value)
+                                    }
+                                    className="pl-10 p-2 w-full rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm md:text-base"
+                                />
+                            </div>
                         </div>
                         {topups.length < 1 ? (
                             <div className="flex items-center justify-center py-6">

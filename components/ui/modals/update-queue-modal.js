@@ -5,13 +5,16 @@ import ModalLayout from "./modal-layout/modal-layout";
 
 const UpdateQueueModal = ({ queue, setIsOpen, setIsUpdated, setError }) => {
     const list = [
-        { label: "กำลังดำเนินการ", value: "กำลังดำเนินการ" },
-        { label: "สำเร็จ", value: "สำเร็จ" },
-        { label: "ไม่สำเร็จ", value: "ไม่สำเร็จ" },
-        { label: "ยกเลิก", value: "ยกเลิก" },
+        { label: "กำลังดำเนินการ", value: "pending" },
+        { label: "สำเร็จ", value: "success" },
+        { label: "ไม่สำเร็จ", value: "failed" },
+        { label: "ยกเลิก", value: "cancel" },
     ];
 
-    const [status, setStatus] = useState(queue?.status);
+    const initialStatus =
+        list.find((item) => item.value === queue?.status) || {};
+
+    const [status, setStatus] = useState(initialStatus);
     const [note, setNote] = useState(queue?.note || "");
 
     const handleSubmit = async (e) => {
@@ -23,7 +26,7 @@ const UpdateQueueModal = ({ queue, setIsOpen, setIsUpdated, setError }) => {
             const { data } = await axios.put(
                 `/api/admin/history/queues/${queue?._id}`,
                 {
-                    status,
+                    status: status.value,
                     note,
                 },
                 config
@@ -122,7 +125,7 @@ const UpdateQueueModal = ({ queue, setIsOpen, setIsUpdated, setError }) => {
                 )}
 
                 <div className="col-span-3">
-                    <label className="block text-sm font-bold tracking-wide">
+                    <label className="block text-sm mb-1 font-bold tracking-wide">
                         สถานะ
                     </label>
                     <Select

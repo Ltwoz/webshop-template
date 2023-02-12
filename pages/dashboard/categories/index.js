@@ -224,7 +224,9 @@ const AdminCategories = () => {
                                                     {category.name}
                                                 </td>
                                                 <td className="py-3 px-6 text-left">
-                                                    {category.type}
+                                                    {category.type === "STOCK"
+                                                        ? "Stock"
+                                                        : "ID-PASS"}
                                                 </td>
                                                 <td className="py-3 px-6 text-center">
                                                     {category.products_count}

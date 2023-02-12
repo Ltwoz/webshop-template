@@ -10,7 +10,10 @@ const UpdateUserModal = ({ user, setIsOpen, setIsUpdated, setError }) => {
         { label: "member", value: "member" },
     ];
 
-    const [role, setRole] = useState(user?.role);
+    const initialRole =
+        list.find((item) => item.value === user?.role) || {};
+
+    const [role, setRole] = useState(initialRole);
     const [point, setPoint] = useState(user?.point);
 
     const handleSubmit = async (e) => {
@@ -22,7 +25,7 @@ const UpdateUserModal = ({ user, setIsOpen, setIsUpdated, setError }) => {
             const { data } = await axios.put(
                 `/api/admin/users/${user?._id}`,
                 {
-                    role,
+                    role: role.value,
                     point,
                 },
                 config
@@ -89,7 +92,7 @@ const UpdateUserModal = ({ user, setIsOpen, setIsUpdated, setError }) => {
                     />
                 </div>
                 <div className="col-span-2 md:col-span-1">
-                    <label className="block text-sm font-bold tracking-wide">
+                    <label className="block text-sm mb-1 font-bold tracking-wide">
                         ตำแหน่ง
                     </label>
                     <Select
