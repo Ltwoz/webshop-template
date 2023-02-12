@@ -41,7 +41,7 @@ async function handler(req, res) {
                 await user.save({ validateBeforeSave: false });
 
                 const queue = await Queue.create({
-                    _id: customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 12),
+                    _id: customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 10),
                     product_name: product.name,
                     price: product.price,
                     form: uid

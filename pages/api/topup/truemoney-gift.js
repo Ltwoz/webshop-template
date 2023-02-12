@@ -26,7 +26,7 @@ async function handler(req, res) {
                 }
 
                 const topup = await Topup.create({
-                    _id: customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 12),
+                    _id: customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 10),
                     type: "TRUEMONEY_GIFT",
                     amount: redeemed.amount,
                     user: req.user.id,

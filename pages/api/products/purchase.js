@@ -56,7 +56,7 @@ async function handler(req, res) {
                 //* Map stock_data to create order one by one
                 const order = await Promise.all(stock_data.map(async (stock) => {
                     const order = await Order.create({
-                        _id: customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 12),
+                        _id: customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 10),
                         product_name: product.name,
                         price: product.price,
                         stock_data: stock,
