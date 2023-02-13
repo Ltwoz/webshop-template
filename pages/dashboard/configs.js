@@ -90,8 +90,11 @@ const AdminConfig = () => {
                                     }`}
                                 >
                                     <div
-                                        className="text-2xl
-                                        mr-4 text-gray-600"
+                                        className={`text-2xl mr-4 ${
+                                            activeTab === tab.value
+                                                ? `text-primary`
+                                                : `text-gray-600`
+                                        }`}
                                     >
                                         {tab.icon}
                                     </div>

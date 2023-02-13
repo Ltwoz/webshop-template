@@ -1,4 +1,4 @@
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
 import dbConnect from "../../../lib/db-connect";
 import { isAuthenticatedUser } from "../../../middlewares/auth";
 import Product from "../../../models/product";
@@ -12,6 +12,11 @@ async function handler(req, res) {
         case "POST":
             try {
                 const { product_id, username, password, uid } = req.body;
+
+                const nanoid = customAlphabet(
+                    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+                    10
+                );
 
                 const product = await Product.findById(product_id);
 
@@ -41,7 +46,7 @@ async function handler(req, res) {
                 await user.save({ validateBeforeSave: false });
 
                 const queue = await Queue.create({
-                    _id: customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 10),
+                    _id: nanoid(),
                     product_name: product.name,
                     price: product.price,
                     form: uid

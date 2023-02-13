@@ -1,7 +1,7 @@
 import dbConnect from "../../../lib/db-connect";
 import Topup from "../../../models/topup";
 import User from "../../../models/user";
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
 import TrueWallet from "../../../lib/TrueWallet";
 import { isAuthenticatedUser } from "../../../middlewares/auth";
 
@@ -12,6 +12,11 @@ async function handler(req, res) {
         case "POST":
             try {
                 const { phone, gift_url } = req.body;
+
+                const nanoid = customAlphabet(
+                    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+                    10
+                );
 
                 const wallet = new TrueWallet(phone);
 
@@ -26,7 +31,7 @@ async function handler(req, res) {
                 }
 
                 const topup = await Topup.create({
-                    _id: customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 10),
+                    _id: nanoid(),
                     type: "TRUEMONEY_GIFT",
                     amount: redeemed.amount,
                     user: req.user.id,

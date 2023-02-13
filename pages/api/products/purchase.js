@@ -13,6 +13,11 @@ async function handler(req, res) {
             try {
                 const { product_id, amount } = req.body;
 
+                const nanoid = customAlphabet(
+                    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+                    10
+                );
+
                 const product = await Product.findById(product_id);
 
                 const stocks = product.stock;
@@ -56,7 +61,7 @@ async function handler(req, res) {
                 //* Map stock_data to create order one by one
                 const order = await Promise.all(stock_data.map(async (stock) => {
                     const order = await Order.create({
-                        _id: customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 10),
+                        _id: nanoid(),
                         product_name: product.name,
                         price: product.price,
                         stock_data: stock,
