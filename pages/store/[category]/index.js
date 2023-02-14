@@ -48,7 +48,7 @@ const DynamicCategory = (props) => {
                 {loading ? (
                     <LoadingSpiner />
                 ) : (
-                    <div className="px-4 md:px-2 grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 justify-start gap-2 md:gap-4 lg:gap-6">
+                    <div className="px-4 md:px-2 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 justify-start gap-2 md:gap-4 lg:gap-6">
                         {products?.map((product, i) => (
                             <ProductCard key={i} product={product} />
                         ))}
