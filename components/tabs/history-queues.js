@@ -1,19 +1,12 @@
+import LoadingSpiner from "../ui/loader/spiner";
+import TablePagination from "../ui/paginations/table-pagination";
 import axios from "axios";
-import { AnimatePresence } from "framer-motion";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
-import Layout from "../../../components/layouts/main-layout";
-import dynamic from "next/dynamic";
-import LoadingSpiner from "../../../components/ui/loader/spiner";
-import { useToast } from "../../../contexts/toast/toast-context";
-import Select from "../../../components/ui/select/select";
-import TablePagination from "../../../components/ui/paginations/table-pagination";
+import Select from "../ui/select/select";
+import { motion } from "framer-motion";
 
-const UpdateQueueModal = dynamic(() =>
-    import("../../../components/ui/modals/update-queue-modal")
-);
-
-const AdminQueues = () => {
+const HistoryQueuesTab = () => {
     const list = [
         { label: "ทั้งหมด", value: "" },
         { label: "กำลังดำเนินการ", value: "pending" },
@@ -22,17 +15,14 @@ const AdminQueues = () => {
         { label: "ยกเลิก", value: "cancel" },
     ];
 
-    // Modals State.
-    const [isUpdateModal, setIsUpdateModal] = useState(false);
+    const { data: session } = useSession();
+    const user = session?.user;
 
     // CRUD State.
     const [loading, setLoading] = useState(true);
-    const [isUpdated, setIsUpdated] = useState(false);
-    const [error, setError] = useState(null);
 
     // Queues State.
     const [queues, setQueues] = useState({});
-    const [selectedQueue, setSelectedQueue] = useState({});
 
     // Search State.
     const [status, setStatus] = useState(list[0]);
@@ -41,8 +31,6 @@ const AdminQueues = () => {
 
     // Pagination State.
     const [page, setPage] = useState(1);
-
-    const toast = useToast();
 
     // Debounce
     useEffect(() => {
@@ -54,13 +42,13 @@ const AdminQueues = () => {
     }, [debounceValue]);
 
     useEffect(() => {
-        const getAdminQueues = async () => {
-            let link = `/api/admin/history/queues?id=${
+        const getQueues = async () => {
+            let link = `/api/history/queues?user=${user?.id}&id=${
                 search ? search : ""
             }&page=${page}`;
 
             if (status.value) {
-                link = `/api/admin/history/queues?id=${
+                link = `/api/history/queues?user=${user?.id}&id=${
                     search ? search : ""
                 }&page=${page}&status=${status.value}`;
             }
@@ -70,62 +58,29 @@ const AdminQueues = () => {
             setLoading(false);
         };
 
-        getAdminQueues().catch((error) => {
-            setError(error.message);
+        getQueues().catch(() => {
+            console.error;
             setLoading(false);
         });
-    }, [isUpdated, page, search, status]);
-
-    useEffect(() => {
-        if (error) {
-            toast.add({
-                title: "ผิดพลาด!",
-                text: error,
-                icon: "error",
-            });
-            setError(null);
-        }
-
-        if (isUpdated) {
-            toast.add({
-                title: "สำเร็จ!",
-                text: "แก้ไขคิวแล้ว",
-                icon: "success",
-            });
-            setIsUpdated(false);
-        }
-    }, [error, isUpdated, toast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page, search, status]);
 
     return (
-        <Layout>
-            <AnimatePresence>
-                {isUpdateModal && (
-                    <UpdateQueueModal
-                        queue={selectedQueue}
-                        setIsOpen={setIsUpdateModal}
-                        setIsUpdated={setIsUpdated}
-                        setError={setError}
-                    />
-                )}
-            </AnimatePresence>
-
-            <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-20 md:pt-28 mx-auto items-center">
-                <section
-                    id="header"
-                    className="md:hidden border-b-2 mx-8 py-4 mb-6"
-                >
-                    <h1 className="text-4xl font-semibold text-center">
-                        จัดการคิว
-                    </h1>
-                </section>
-                <DashboardNavbar />
-                {loading ? (
-                    <LoadingSpiner />
-                ) : (
-                    <section className="bg-white border rounded-md shadow mb-6">
+        <>
+            {loading ? (
+                <LoadingSpiner />
+            ) : (
+                <>
+                    <motion.section
+                        initial={{ opacity: 0, scale: 0.97 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.97 }}
+                        transition={{ duration: 0.3 }}
+                        className="bg-white border rounded-md shadow mb-6 divide-y"
+                    >
                         <div className="p-6 flex items-center justify-between max-h-[88px]">
                             <h2 className="hidden md:block text-lg font-semibold">
-                                จัดการคิว
+                                ประเภทคิว
                             </h2>
                             <div className="grid grid-cols-2 gap-4">
                                 <Select
@@ -162,8 +117,8 @@ const AdminQueues = () => {
                                 </div>
                             </div>
                         </div>
-                        {queues.queues.length < 1 ? (
-                            <div className="flex items-center justify-center py-6 border-t">
+                        {queues.queues?.length < 1 ? (
+                            <div className="flex items-center justify-center py-6">
                                 <p className="font-medium text-gray-600">
                                     ไม่มีข้อมูลคิว
                                 </p>
@@ -174,25 +129,23 @@ const AdminQueues = () => {
                                     <table className="w-full table-fixed">
                                         <thead>
                                             <tr className="bg-gray-200 text-gray-600 text-sm leading-normal">
-                                                <th className="py-3 px-6 text-left w-36">
+                                                <th className="py-3 px-6 text-left w-40">
                                                     #
                                                 </th>
                                                 <th className="py-3 px-6 text-left w-44 md:w-48">
                                                     ชื่อสินค้า
                                                 </th>
-                                                <th className="py-3 px-6 text-left w-44">
-                                                    ผู้ใช้
+                                                <th className="py-3 px-6 text-left w-32">
+                                                    ราคา
                                                 </th>
                                                 <th className="py-3 px-6 text-left w-44">
                                                     สถานะ
                                                 </th>
                                                 <th className="py-3 px-6 text-left w-40">
-                                                    วันที่
+                                                    หมายเหตุ
                                                 </th>
-                                                <th className="py-3 px-6 text-center w-28">
-                                                    <span className="hidden">
-                                                        Action
-                                                    </span>
+                                                <th className="py-3 px-6 text-left w-52">
+                                                    วันที่
                                                 </th>
                                             </tr>
                                         </thead>
@@ -209,12 +162,12 @@ const AdminQueues = () => {
                                                         {queue.product_name}
                                                     </td>
                                                     <td className="py-3 px-6 text-left">
-                                                        {queue.user?.username}
+                                                        {queue.price} บาท
                                                     </td>
                                                     <td className="py-3 px-6 text-left">
                                                         <span
                                                             className={
-                                                                "text-sm font-medium px-2.5 py-0.5 rounded-full" +
+                                                                "text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full" +
                                                                 (queue.status ===
                                                                 "pending"
                                                                     ? " bg-orange-700 text-orange-200"
@@ -246,6 +199,11 @@ const AdminQueues = () => {
                                                         </span>
                                                     </td>
                                                     <td className="py-3 px-6 text-left">
+                                                        {queue.note
+                                                            ? queue.note
+                                                            : "-"}
+                                                    </td>
+                                                    <td className="py-3 px-6 text-left">
                                                         {new Date(
                                                             queue.createdAt
                                                         ).toLocaleString("en", {
@@ -253,39 +211,6 @@ const AdminQueues = () => {
                                                             timeStyle: "short",
                                                             hour12: false,
                                                         })}
-                                                    </td>
-                                                    <td className="py-3 px-6 text-center">
-                                                        <div className="flex item-center justify-end gap-x-2">
-                                                            <div
-                                                                onClick={() => {
-                                                                    setSelectedQueue(
-                                                                        queue
-                                                                    );
-                                                                    setIsUpdateModal(
-                                                                        (
-                                                                            prevState
-                                                                        ) =>
-                                                                            !prevState
-                                                                    );
-                                                                }}
-                                                                className="transform hover:text-primary hover:border-primary hover:scale-110 transition-all border rounded-full p-2 md:cursor-pointer"
-                                                            >
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    fill="none"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
-                                                                    className="w-5 h-5"
-                                                                >
-                                                                    <path
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        strokeWidth="2"
-                                                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                                                    />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -308,13 +233,11 @@ const AdminQueues = () => {
                                 )}
                             </>
                         )}
-                    </section>
-                )}
-            </main>
-        </Layout>
+                    </motion.section>
+                </>
+            )}
+        </>
     );
 };
 
-export default AdminQueues;
-
-export { getServerSideProps } from "../../../utils/get-init-data";
+export default HistoryQueuesTab;

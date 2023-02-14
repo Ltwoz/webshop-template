@@ -12,9 +12,8 @@ async function handler(req, res) {
     switch (req.method) {
         case "GET":
             try {
-                const resultPerPage = 10;
-                const queuesCount = await Queue.countDocuments();
-                
+                const resultPerPage = 20;
+
                 const apiFeature = new ApiFeatures(
                     Queue.find().populate("user", "username"),
                     req.query
@@ -30,12 +29,15 @@ async function handler(req, res) {
 
                 queues = await apiFeature.query.clone();
 
+                const totalPageCount = Math.ceil(
+                    fiteredQueuesCount / resultPerPage
+                );
+
                 res.status(200).json({
                     success: true,
                     queues,
-                    queuesCount,
                     fiteredQueuesCount,
-                    resultPerPage
+                    totalPageCount,
                 });
             } catch (error) {
                 res.status(500).json({

@@ -1,6 +1,7 @@
 import dbConnect from "../../../../lib/db-connect";
 import { isAuthenticatedUser } from "../../../../middlewares/auth";
 import Queue from "../../../../models/queue";
+import ApiFeatures from "../../../../utils/api-features";
 
 async function handler(req, res) {
     await dbConnect();
@@ -8,13 +9,32 @@ async function handler(req, res) {
     switch (req.method) {
         case "GET":
             try {
-                const userId = req.query.user;
+                const resultPerPage = 20;
 
-                const queues = await Queue.find({ user: userId }).select("-form");
+                const apiFeature = new ApiFeatures(
+                    Queue.find().select("-form"),
+                    req.query
+                )
+                    .filter()
+                    .searchById();
+
+                let queues = await apiFeature.query;
+
+                let fiteredQueuesCount = queues.length;
+
+                apiFeature.pagination(resultPerPage);
+
+                queues = await apiFeature.query.clone();
+
+                const totalPageCount = Math.ceil(
+                    fiteredQueuesCount / resultPerPage
+                );
 
                 res.status(200).json({
                     success: true,
                     queues,
+                    fiteredQueuesCount,
+                    totalPageCount,
                 });
             } catch (error) {
                 res.status(500).json({

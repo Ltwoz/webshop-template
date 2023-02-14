@@ -121,35 +121,80 @@ const Navbar = () => {
             <div className="md:flex text-left items-center">
                 <div className="flex items-center px-[1px]">
                     <div
-                        className="w-full hover:cursor-pointer flex justify-center rounded-lg bg-white px-5 py-2.5 text-sm font-medium text-gray-700 ring-1 ring-gray-300 shadow-sm hover:bg-gray-50"
+                        className={`w-full md:hover:cursor-pointer flex justify-between items-center rounded-md md:px-2 py-1 text-gray-700 md:ring-1 md:ring-transparent md:hover:ring-primary/50 md:hover:bg-primary/5 ${
+                            showMenu ? "md:ring-primary/50 md:bg-primary/5" : ""
+                        } select-none transition-all`}
                         onClick={handleMenuClick}
                     >
-                        <p>{user?.username}</p>
+                        <div className="flex flex-row items-center gap-2 md:mr-6">
+                            <div className="aspect-square w-7 h-7 relative overflow-hidden rounded-full">
+                                <Image
+                                    alt="avatar"
+                                    src={user?.avatar || "https://cdn.discordapp.com/attachments/717327142978977834/1074905721411469413/avatar.png"}
+                                    draggable="false"
+                                    fill
+                                    className="select-none object-cover"
+                                />
+                            </div>
+                            <div className="flex flex-col">
+                                <div className="text-sm leading-4 font-medium">
+                                    {user?.username}
+                                </div>
+                                <div className="text-xs leading-4 font-semibold text-primary">
+                                    $ {user?.point?.toLocaleString()}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="inline-flex items-center md:mr-1">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                className={
+                                    "h-5 md:h-3 w-5 md:w-3 transition duration-200" +
+                                    (showMenu ? " -rotate-180" : "")
+                                }
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                                />
+                            </svg>
+                        </div>
                     </div>
                 </div>
 
                 <div
-                    className={`absolute right-4 md:right-6 ${
-                        user?.role === "admin"
-                            ? `top-[18.7rem]`
-                            : `top-[16.4rem]`
-                    } md:top-10 z-[99] mt-2 w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5`}
+                    id="menu"
+                    className={`absolute right-4 md:right-6 top-[calc(100%-10px)] md:top-[calc(100%+4px)] z-[99] mt-2 w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5`}
                     style={{ display: showMenu ? "" : "none" }}
                 >
                     <div className="py-1">
-                        <div className="text-gray-700 block px-4 py-2 text-sm">
+                        <div className="text-gray-700 block px-4 py-2 text-sm font-medium">
                             {new Intl.NumberFormat("en-US", {
                                 minimumFractionDigits: 2,
                             }).format(user?.point)}{" "}
                             บาท
                         </div>
                     </div>
+                    <div className="py-1">
+                        <Link
+                            scroll={false}
+                            href={`/profile`}
+                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-primary/5"
+                        >
+                            โปรไฟล์
+                        </Link>
+                    </div>
                     {user?.role === "admin" && (
                         <div className="py-1">
                             <Link
                                 scroll={false}
                                 href={`/dashboard`}
-                                className="text-blue-700 block px-4 py-2 text-sm hover:bg-gray-100/50"
+                                className="text-blue-700 block px-4 py-2 text-sm hover:bg-primary/5"
                             >
                                 จัดการหลังบ้าน
                             </Link>
@@ -159,14 +204,14 @@ const Navbar = () => {
                         <Link
                             scroll={false}
                             href={`/history/topups`}
-                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100/50"
+                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-primary/5"
                         >
                             ประวัติการเติมเงิน
                         </Link>
                         <Link
                             scroll={false}
                             href={`/history/orders`}
-                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100/50"
+                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-primary/5"
                         >
                             ประวัติการสั่งซื้อ
                         </Link>
@@ -174,7 +219,7 @@ const Navbar = () => {
                     <div className="py-1">
                         <button
                             onClick={logoutHandler}
-                            className="text-red-600 w-full text-left px-4 py-2 text-sm hover:bg-gray-100/50"
+                            className="text-red-600 w-full text-left px-4 py-2 text-sm hover:bg-primary/5"
                         >
                             ออกจากระบบ
                         </button>
@@ -192,7 +237,7 @@ const Navbar = () => {
                     href={`/auth/login`}
                     className="w-full md:w-fit inline-flex items-center rounded-lg transition-all overflow-hidden ring-1 ring-primary "
                 >
-                    <div className="w-full h-full inline-flex items-center justify-center font-medium hover:backdrop-brightness-95 py-2 px-4 hover:bg-primary hover:bg-opacity-10">
+                    <div className="w-full h-full inline-flex items-center justify-center font-medium hover:backdrop-brightness-95 py-2 px-4 hover:bg-primary/5">
                         <span className="block tracking-wide">เข้าสู่ระบบ</span>
                     </div>
                 </Link>

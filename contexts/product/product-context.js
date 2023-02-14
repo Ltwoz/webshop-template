@@ -55,32 +55,6 @@ export const ProductContextProvider = (props) => {
 
     const [state, dispatch] = useReducer(ProductReducer, initialState);
 
-    const clearProduct = () => {
-        dispatch({ type: "CLEAR_PRODUCT" });
-    };
-
-    //* Get All Products
-    const getAllProducts = async (cid) => {
-        try {
-            dispatch({ type: ALL_PRODUCT_REQUEST });
-
-            let link = `/api/products?cid=${cid}`;
-
-            if (cid) {
-                link = `/api/products?cid=${cid}`;
-            }
-
-            const { data } = await axios.get(link);
-
-            dispatch({ type: ALL_PRODUCT_SUCCESS, payload: data.products });
-        } catch (error) {
-            dispatch({
-                type: ALL_PRODUCT_FAIL,
-                payload: error.response.data.message,
-            });
-        }
-    };
-
     //* Get Featured Products
     const getFeaturedProducts = async () => {
         try {
@@ -96,28 +70,6 @@ export const ProductContextProvider = (props) => {
             dispatch({
                 type: FEATURED_PRODUCT_FAIL,
                 payload: error.response.data.message,
-            });
-        }
-    };
-
-    //* Get All Products -- Admin
-    const getAdminProducts = async (cid) => {
-        try {
-            dispatch({ type: ADMIN_PRODUCT_REQUEST });
-
-            let link = `/api/admin/products`;
-
-            if (cid) {
-                link = `/api/admin/products?cid=${cid}`;
-            }
-
-            const { data } = await axios.get(link);
-
-            dispatch({ type: ADMIN_PRODUCT_SUCCESS, payload: data.products });
-        } catch (error) {
-            dispatch({
-                type: ADMIN_PRODUCT_FAIL,
-                payload: error,
             });
         }
     };
@@ -199,22 +151,6 @@ export const ProductContextProvider = (props) => {
         } catch (error) {
             dispatch({
                 type: DELETE_PRODUCT_FAIL,
-                payload: error.response.data.message,
-            });
-        }
-    };
-
-    //* Get Products Details -- Admin
-    const getProductDetails = async (id) => {
-        try {
-            dispatch({ type: PRODUCT_DETAILS_REQUEST });
-
-            const { data } = await axios.get(`/api/products/${id}`);
-
-            dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data.product });
-        } catch (error) {
-            dispatch({
-                type: PRODUCT_DETAILS_FAIL,
                 payload: error.response.data.message,
             });
         }
@@ -303,14 +239,11 @@ export const ProductContextProvider = (props) => {
                 delUpdate: state.delUpdate,
                 purchase: state.purchase,
                 isStockUpdated: state.isStockUpdated,
-                getAllProducts,
                 getFeaturedProducts,
-                getAdminProducts,
                 createProduct,
                 updateProduct,
                 updateStock,
                 deleteProduct,
-                getProductDetails,
                 purchaseProduct,
                 queuePurchaseProduct,
                 clearErrors,

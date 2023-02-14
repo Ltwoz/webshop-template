@@ -1,6 +1,7 @@
 import dbConnect from "../../../../lib/db-connect";
 import { isAuthenticatedUser } from "../../../../middlewares/auth";
 import Order from "../../../../models/order";
+import ApiFeatures from "../../../../utils/api-features";
 
 async function handler(req, res) {
     await dbConnect();
@@ -8,13 +9,29 @@ async function handler(req, res) {
     switch (req.method) {
         case "GET":
             try {
-                const userId = req.query.user;
+                const resultPerPage = 20;
 
-                const orders = await Order.find({ user: userId });
+                const apiFeature = new ApiFeatures(Order.find(), req.query)
+                    .filter()
+                    .searchById();
+
+                let orders = await apiFeature.query;
+
+                let fiteredOrdersCount = orders.length;
+
+                apiFeature.pagination(resultPerPage);
+
+                orders = await apiFeature.query.clone();
+
+                const totalPageCount = Math.ceil(
+                    fiteredOrdersCount / resultPerPage
+                );
 
                 res.status(200).json({
                     success: true,
                     orders,
+                    fiteredOrdersCount,
+                    totalPageCount,
                 });
             } catch (error) {
                 res.status(500).json({

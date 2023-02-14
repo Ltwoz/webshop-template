@@ -12,13 +12,30 @@ const handler = async (req, res) => {
     switch (req.method) {
         case "GET":
             try {
+                const resultPerPage = 20;
+
                 const apiFeature = new ApiFeatures(User.find(), req.query)
                     .filter()
                     .findUser();
 
-                const users = await apiFeature.query;
+                let users = await apiFeature.query;
 
-                res.status(200).json({ success: true, users });
+                let fiteredUsersCount = users.length;
+
+                apiFeature.pagination(resultPerPage);
+
+                users = await apiFeature.query.clone();
+
+                const totalPageCount = Math.ceil(
+                    fiteredUsersCount / resultPerPage
+                );
+
+                res.status(200).json({
+                    success: true,
+                    users,
+                    fiteredUsersCount,
+                    totalPageCount,
+                });
             } catch (error) {
                 res.status(404).json({
                     success: false,

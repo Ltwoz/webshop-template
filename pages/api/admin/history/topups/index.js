@@ -12,6 +12,8 @@ async function handler(req, res) {
     switch (req.method) {
         case "GET":
             try {
+                const resultPerPage = 20;
+
                 const apiFeature = new ApiFeatures(
                     Topup.find().populate("user", "username"),
                     req.query
@@ -19,11 +21,23 @@ async function handler(req, res) {
                     .filter()
                     .searchById();
 
-                const topups = await apiFeature.query;
+                let topups = await apiFeature.query;
+
+                let fiteredTopupsCount = topups.length;
+
+                apiFeature.pagination(resultPerPage);
+
+                topups = await apiFeature.query.clone();
+
+                const totalPageCount = Math.ceil(
+                    fiteredTopupsCount / resultPerPage
+                );
 
                 res.status(200).json({
                     success: true,
                     topups,
+                    fiteredTopupsCount,
+                    totalPageCount,
                 });
             } catch (error) {
                 res.status(500).json({

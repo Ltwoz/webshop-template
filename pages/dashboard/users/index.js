@@ -5,6 +5,7 @@ import DashboardNavbar from "../../../components/layouts/dashboard-navbar";
 import Layout from "../../../components/layouts/main-layout";
 import LoadingSpiner from "../../../components/ui/loader/spiner";
 import UpdateUserModal from "../../../components/ui/modals/update-user-modal";
+import TablePagination from "../../../components/ui/paginations/table-pagination";
 import { useToast } from "../../../contexts/toast/toast-context";
 
 const AdminUsers = () => {
@@ -17,12 +18,15 @@ const AdminUsers = () => {
     const [error, setError] = useState(null);
 
     // Users State.
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState({});
     const [selectedUser, setSelectedUser] = useState({});
 
     // Search State.
     const [search, setSearch] = useState("");
     const [debounceValue, setDebounceValue] = useState("");
+
+    // Pagination State.
+    const [page, setPage] = useState(1);
 
     const toast = useToast();
 
@@ -37,14 +41,12 @@ const AdminUsers = () => {
 
     useEffect(() => {
         const getAllUsers = async () => {
-            let link = `/api/admin/users`;
-
-            if (search) {
-                link = `/api/admin/users?findUser=${search}`;
-            }
+            let link = `/api/admin/users?id=${
+                search ? search : ""
+            }&page=${page}`;
 
             const { data } = await axios.get(link);
-            setUsers(data?.users);
+            setUsers(data);
             setLoading(false);
         };
 
@@ -52,7 +54,7 @@ const AdminUsers = () => {
             setError(error.message);
             setLoading(false);
         });
-    }, [isUpdated, search]);
+    }, [isUpdated, page, search]);
 
     useEffect(() => {
         if (error) {
@@ -100,7 +102,7 @@ const AdminUsers = () => {
                 {loading ? (
                     <LoadingSpiner />
                 ) : (
-                    <section className="bg-white border rounded-md shadow mb-6 divide-y">
+                    <section className="bg-white border rounded-md shadow mb-6">
                         <div className="p-6 flex items-center justify-between max-h-[88px]">
                             <h2 className="hidden md:block text-lg font-semibold">
                                 จัดการผู้ใช้
@@ -132,7 +134,7 @@ const AdminUsers = () => {
                                 />
                             </div>
                         </div>
-                        {users.length < 1 ? (
+                        {users.users.length < 1 ? (
                             <div className="flex items-center justify-center py-6">
                                 <p className="font-medium text-gray-600">
                                     ไม่มีข้อมูลผู้ใช้
@@ -164,7 +166,7 @@ const AdminUsers = () => {
                                             </tr>
                                         </thead>
                                         <tbody className="text-gray-600 text-sm md:text-base">
-                                            {users?.map((user) => (
+                                            {users.users.map((user) => (
                                                 <tr
                                                     key={user._id}
                                                     className="border-b border-gray-200 hover:bg-gray-100"
@@ -238,9 +240,20 @@ const AdminUsers = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                                <div id="pagination" className="flex px-6 py-3">
-                                    .
-                                </div>
+                                {!(page === 0 || users.totalPageCount < 2) && (
+                                    <div
+                                        id="pagination"
+                                        className="flex px-6 py-3 items-center justify-center md:justify-end"
+                                    >
+                                        <TablePagination
+                                            currentPage={page}
+                                            totalPage={users.totalPageCount}
+                                            onPageChange={(page) =>
+                                                setPage(page)
+                                            }
+                                        />
+                                    </div>
+                                )}
                             </>
                         )}
                     </section>
