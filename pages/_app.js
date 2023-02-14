@@ -22,7 +22,7 @@ export default function App({ Component, pageProps, router }) {
                                 color={configs?.style?.primary_color}
                                 startPosition={0.3}
                                 stopDelayMs={200}
-                                height={2}
+                                height={3}
                                 showOnShallow={true}
                                 options={{ showSpinner: false }}
                             />
