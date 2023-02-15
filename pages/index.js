@@ -79,91 +79,111 @@ export default function Home() {
                         <StatCard stats={stats} />
                     </section>
 
-                    <section id="featured-products" className="px-4 md:px-2">
-                        <div className="flex flex-row items-center justify-between mb-4 md:mb-8">
-                            <h1 className="text-2xl font-bold">สินค้าแนะนำ</h1>
-                            <Link
-                                href={"/"}
-                                className="font-semibold hover:text-primary"
-                            >
-                                ดูทั้งหมด
-                            </Link>
-                        </div>
-                        <Splide
-                            hasTrack={false}
-                            options={{
-                                mediaQuery: "max",
-                                perPage: 4,
-                                gap: "1.5rem",
-                                flickPower: 100,
-                                breakpoints: {
-                                    1024: {
-                                        perPage: 3,
-                                        gap: "1.5rem",
-                                    },
-                                    768: {
-                                        gap: "1rem",
-                                        fixedWidth: "16rem",
-                                        focus: "center",
-                                        arrows: false,
-                                        pagination: false,
-                                    },
-                                },
-                            }}
+                    {!loading && products.length > 0 && (
+                        <section
+                            id="featured-products"
+                            className="px-4 md:px-2"
                         >
-                            <SplideTrack>
-                                {products?.map((product, i) => (
-                                    <SplideSlide key={i}>
-                                        <FeaturedProductCard
-                                            product={product}
-                                        />
-                                    </SplideSlide>
-                                ))}
-                            </SplideTrack>
-                        </Splide>
-                    </section>
+                            <div className="flex flex-row items-center justify-between mb-4 md:mb-8">
+                                <h1 className="text-2xl font-bold">
+                                    สินค้าแนะนำ
+                                </h1>
+                                <Link
+                                    href={"/"}
+                                    className="font-semibold hover:text-primary"
+                                >
+                                    ดูทั้งหมด
+                                </Link>
+                            </div>
+                            <Splide
+                                hasTrack={false}
+                                options={{
+                                    mediaQuery: "max",
+                                    perPage: 4,
+                                    gap: "1.5rem",
+                                    flickPower: 100,
+                                    breakpoints: {
+                                        1024: {
+                                            perPage: 3,
+                                            gap: "1.5rem",
+                                        },
+                                        768:
+                                            products.length === 1
+                                                ? {
+                                                      gap: "1rem",
+                                                      arrows: false,
+                                                      pagination: false,
+                                                      perPage: 1,
+                                                  }
+                                                : {
+                                                      gap: "1rem",
+                                                      fixedWidth: "16rem",
+                                                      focus: "center",
+                                                      arrows: false,
+                                                      pagination: false,
+                                                  },
+                                    },
+                                }}
+                            >
+                                <SplideTrack>
+                                    {products?.map((product, i) => (
+                                        <SplideSlide key={i}>
+                                            <FeaturedProductCard
+                                                product={product}
+                                            />
+                                        </SplideSlide>
+                                    ))}
+                                </SplideTrack>
+                            </Splide>
+                        </section>
+                    )}
 
-                    <section id="featured-categories" className="px-4 md:px-2">
-                        <div className="flex flex-row items-center justify-between mb-4 md:mb-8">
-                            <h1 className="text-2xl font-bold">
-                                หมวดหมู่แนะนำ
-                            </h1>
-                            <Link
-                                href={"/"}
-                                className="font-semibold hover:text-primary"
-                            >
-                                ดูทั้งหมด
-                            </Link>
-                        </div>
-                        <Splide
-                            hasTrack={false}
-                            options={{
-                                mediaQuery: "max",
-                                perPage: 3,
-                                gap: "1.5rem",
-                                flickPower: 100,
-                                breakpoints: {
-                                    768: {
-                                        gap: "1rem",
-                                        perPage: 1,
-                                        arrows: false,
-                                        pagination: false,
-                                    },
-                                },
-                            }}
+                    {!loading && categories.length > 0  && (
+                        <section
+                            id="featured-categories"
+                            className="px-4 md:px-2"
                         >
-                            <SplideTrack>
-                                {categories?.map((category, i) => (
-                                    <SplideSlide
-                                        key={i}
-                                        className="rounded-xl overflow-hidden shadow-lg"
-                                    >
-                                        <CategoryCard category={category} />
-                                    </SplideSlide>
-                                ))}
-                            </SplideTrack>
-                        </Splide>
-                    </section>
+                            <div className="flex flex-row items-center justify-between mb-4 md:mb-8">
+                                <h1 className="text-2xl font-bold">
+                                    หมวดหมู่แนะนำ
+                                </h1>
+                                <Link
+                                    href={"/"}
+                                    className="font-semibold hover:text-primary"
+                                >
+                                    ดูทั้งหมด
+                                </Link>
+                            </div>
+                            <Splide
+                                hasTrack={false}
+                                options={{
+                                    mediaQuery: "max",
+                                    perPage: 3,
+                                    gap: "1.5rem",
+                                    flickPower: 100,
+                                    breakpoints: {
+                                        768: {
+                                            gap: "1rem",
+                                            perPage: 1,
+                                            arrows: false,
+                                            pagination: false,
+                                        },
+                                    },
+                                }}
+                            >
+                                <SplideTrack>
+                                    {categories?.map((category, i) => (
+                                        <SplideSlide
+                                            key={i}
+                                            className="rounded-xl overflow-hidden shadow-lg"
+                                        >
+                                            <CategoryCard category={category} />
+                                        </SplideSlide>
+                                    ))}
+                                </SplideTrack>
+                            </Splide>
+                        </section>
+                    )}
                 </div>
             </main>
         </Layout>

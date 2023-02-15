@@ -5,7 +5,7 @@ export const DashboardNavList = () => {
     const Menus = [
         { name: "ภาพรวม", href: `/dashboard` },
         { name: "จัดการเว็บไซต์", href: `/dashboard/configs` },
-        { name: "จัดการหมวดหมู่", href: `/dashboard/categories` },
+        { name: "จัดการสินค้า", href: `/dashboard/categories` },
         { name: "จัดการคิว", href: `/dashboard/history/queues` },
         { name: "จัดการคูปอง", href: `/dashboard/coupon` },
         { name: "จัดการผู้ใช้", href: `/dashboard/users` },
@@ -16,7 +16,7 @@ export const DashboardNavList = () => {
     const router = useRouter();
 
     return (
-        <div className="flex md:flex-row md:w-full md:justify-between md:gap-x-8 text-sm md:text-base font-medium">
+        <div className="flex flex-col md:flex-row md:w-full md:justify-between md:gap-x-8 text-sm md:text-base font-medium">
             {Menus?.map((menu, i) => {
                 const isActive = router.asPath === menu.href;
                 return (
