@@ -7,7 +7,7 @@ const ProductCard = ({ product }) => {
 
     const handleClick = (e) => {
         e.preventDefault();
-        
+
         const isDesktop = window.matchMedia(`(min-width: 768px)`).matches;
 
         if (isDesktop) {
@@ -34,7 +34,7 @@ const ProductCard = ({ product }) => {
                 </div>
                 <div className="py-3 pl-1 pr-4 md:p-6 w-2/3 md:w-full flex-shrink-0 md:flex-shrink flex flex-col justify-between">
                     <h1
-                        className="text-lg md:text-xl font-semibold overflow-hidden md:mb-4 h-[56px]"
+                        className="text-lg md:text-xl font-medium overflow-hidden md:mb-4 h-[56px]"
                         style={{
                             display: "-webkit-box",
                             WebkitLineClamp: 2,
@@ -46,13 +46,13 @@ const ProductCard = ({ product }) => {
                     <div className="flex flex-row justify-between items-end md:items-center md:mb-4">
                         <p className="text-xl md:text-2xl leading-5 text-primary font-semibold">
                             {product?.price?.toLocaleString()}
-                            <span className="text-base md:text-base ml-1">
+                            <span className="text-sm ml-1">
                                 บาท
                             </span>
                         </p>
                         <p
                             className={
-                                "text-sm font-medium" +
+                                "text-sm font-medium self-end leading-[1.5] md:leading-[1.8]" +
                                 (product?.stock_count === 0
                                     ? " text-red-600"
                                     : "")

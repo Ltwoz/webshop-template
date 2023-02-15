@@ -16,7 +16,7 @@ export const DashboardNavList = () => {
     const router = useRouter();
 
     return (
-        <div className="flex flex-col md:flex-row md:w-full md:justify-between md:gap-x-8 text-sm md:text-base font-medium">
+        <div className="flex md:flex-row md:w-full md:justify-between md:gap-x-8 text-sm md:text-base font-medium">
             {Menus?.map((menu, i) => {
                 const isActive = router.asPath === menu.href;
                 return (
@@ -25,7 +25,7 @@ export const DashboardNavList = () => {
                         scroll={false}
                         key={i}
                         className={`${
-                            isActive ? "md:delay-150 md:hover:text-gray-900 md:border-b-2 md:border-primary" : ""
+                            isActive ? "md:delay-150 text-primary md:hover:text-primary md:border-b-2 md:border-primary" : ""
                         } transition-all hover:text-primary appearance-none pt-2 md:pt-4 pb-[6px] md:pb-[14px]`}
                     >
                         {menu.name}

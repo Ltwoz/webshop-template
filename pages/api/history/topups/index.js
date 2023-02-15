@@ -1,6 +1,7 @@
 import dbConnect from "../../../../lib/db-connect";
 import { isAuthenticatedUser } from "../../../../middlewares/auth";
 import Topup from "../../../../models/topup";
+import ApiFeatures from "../../../../utils/api-features";
 
 async function handler(req, res) {
     await dbConnect();
@@ -8,13 +9,32 @@ async function handler(req, res) {
     switch (req.method) {
         case "GET":
             try {
-                const userId = req.query.user;
+                const resultPerPage = 20;
 
-                const topups = await Topup.find({ user: userId });
+                const apiFeature = new ApiFeatures(
+                    Topup.find().select("-form"),
+                    req.query
+                )
+                    .filter()
+                    .searchById();
+
+                let topups = await apiFeature.query;
+
+                let fiteredTopupsCount = topups.length;
+
+                apiFeature.pagination(resultPerPage);
+
+                topups = await apiFeature.query.clone();
+
+                const totalPageCount = Math.ceil(
+                    fiteredTopupsCount / resultPerPage
+                );
 
                 res.status(200).json({
                     success: true,
                     topups,
+                    fiteredTopupsCount,
+                    totalPageCount
                 });
             } catch (error) {
                 res.status(500).json({

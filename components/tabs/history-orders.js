@@ -33,7 +33,7 @@ const HistoryOrdersTab = () => {
 
     useEffect(() => {
         const getOrders = async () => {
-            let link = `/api/admin/history/orders?user=${user?.id}&id=${
+            let link = `/api/history/orders?user=${user?.id}&id=${
                 search ? search : ""
             }&page=${page}`;
 

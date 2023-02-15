@@ -44,7 +44,7 @@ const Footer = () => {
                             name="discord"
                             className="inline-block p-2 font-medium text-sm md:text-base leading-tight rounded-full border border-gray-400/80 
                         transition duration-150 ease-in-out 
-                        hover:bg-primary hover:bg-opacity-10 hover:border-primary"
+                        hover:bg-primary hover:bg-opacity-10 hover:border-primary active:scale-95"
                         >
                             <FaDiscord />
                         </Link>
@@ -56,7 +56,7 @@ const Footer = () => {
                             name="facebook"
                             className="inline-block p-2 font-medium text-sm md:text-base leading-tight rounded-full border border-gray-400/80 
                         transition duration-150 ease-in-out 
-                        hover:bg-primary hover:bg-opacity-10 hover:border-primary"
+                        hover:bg-primary hover:bg-opacity-10 hover:border-primary active:scale-95"
                         >
                             <FaFacebookF />
                         </Link>
@@ -66,7 +66,7 @@ const Footer = () => {
                         name="support"
                         className="inline-block p-2 font-medium text-sm md:text-base leading-tight rounded-full border border-gray-400/80 
                         transition duration-150 ease-in-out 
-                        hover:bg-primary hover:bg-opacity-10 hover:border-primary"
+                        hover:bg-primary hover:bg-opacity-10 hover:border-primary active:scale-95"
                     >
                         <BsQuestionLg />
                     </Link>

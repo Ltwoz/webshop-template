@@ -21,6 +21,11 @@ const UserSchema = new mongoose.Schema(
             minLength: [8, "รหัสผ่านจำเป็นต้องใส่อย่างน้อย 8 ตัว"],
             select: false,
         },
+        avatar: {
+            type: String,
+            default:
+                "https://cdn.discordapp.com/attachments/717327142978977834/1074905721411469413/avatar.png",
+        },
         role: {
             type: String,
             default: "member",

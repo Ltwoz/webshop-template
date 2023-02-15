@@ -4,15 +4,14 @@ import Link from "next/link";
 const CategoryCard = ({ category }) => {
     return (
         <Link
-            href={category.type === "STOCK" ? `/store/${category._id}` : `/store/idpass/${category._id}`}
-            className="
-            overflow-hidden rounded-lg shadow-lg relative
-            transition-all md:hover:scale-105 active:scale-95 md:active:scale-100
-            "
+            href={
+                category.type === "STOCK"
+                    ? `/store/${category._id}`
+                    : `/store/idpass/${category._id}`
+            }
+            className="overflow-hidden rounded-xl shadow-lg relative transition-all md:hover:scale-105 active:scale-95 md:active:scale-100"
         >
-            <div
-                className="w-full h-[200px] relative flex items-center"
-            >
+            <div className="w-full h-[200px] relative flex items-center">
                 <div className="absolute z-[1] right-0 bottom-0 left-0 w-full h-[50%] overflow-hidden bg-gradient-to-t from-black to-white/0 opacity-100"></div>
                 <div className="absolute z-[1] top-0 right-0 left-0 w-full h-[30%] overflow-hidden bg-gradient-to-b from-black to-white/0 opacity-70"></div>
                 <Image
@@ -20,8 +19,6 @@ const CategoryCard = ({ category }) => {
                     src={category.image}
                     // unoptimized
                     draggable="false"
-                    // width={334}
-                    // height={334}
                     fill
                     className="select-none object-cover z-[0]"
                 />

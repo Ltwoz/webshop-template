@@ -1,27 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-    HexColorPicker,
-    HexAlphaColorPicker,
-    HexColorInput,
-} from "react-colorful";
+import { HexColorPicker, HexAlphaColorPicker } from "react-colorful";
 
 export const PopoverPicker = ({ color, onChange, type }) => {
     const popover = useRef();
 
     const [isOpen, toggle] = useState(false);
-    const [value, setValue] = useState(color);
 
     const close = useCallback(() => toggle(false), []);
-
-    // Debounce
-    useEffect(() => {
-        const debounce = setTimeout(() => {
-            onChange(value);
-        }, 200);
-
-        return () => clearTimeout(debounce);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value]);
 
     useEffect(() => {
         let startedInside = false;
@@ -68,11 +53,11 @@ export const PopoverPicker = ({ color, onChange, type }) => {
                     ref={popover}
                 >
                     {type === "hex" ? (
-                        <HexColorPicker color={color} onChange={setValue} />
+                        <HexColorPicker color={color} onChange={onChange} />
                     ) : (
                         <HexAlphaColorPicker
                             color={color}
-                            onChange={setValue}
+                            onChange={onChange}
                         />
                     )}
                     <input

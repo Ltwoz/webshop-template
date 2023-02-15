@@ -1,6 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Layout from "../../../components/layouts/main-layout";
+import ProfileNavbar from "../../../components/layouts/profile-navbar";
 import HistoryOrdersTab from "../../../components/tabs/history-orders";
 import HistoryQueuesTab from "../../../components/tabs/history-queues";
 
@@ -20,9 +21,7 @@ const HistoryOrders = () => {
     return (
         <Layout>
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
-                <h1 className="text-center text-4xl font-bold mb-8">
-                    ประวัติการสั่งซื้อ
-                </h1>
+                <ProfileNavbar />
                 <div className="flex justify-end items-center mb-2 gap-2">
                     {tabHeader.map((tab, i) => (
                         <div

@@ -130,7 +130,10 @@ const Navbar = () => {
                             <div className="aspect-square w-7 h-7 relative overflow-hidden rounded-full">
                                 <Image
                                     alt="avatar"
-                                    src={user?.avatar || "https://cdn.discordapp.com/attachments/717327142978977834/1074905721411469413/avatar.png"}
+                                    src={
+                                        user?.avatar ||
+                                        "https://cdn.discordapp.com/attachments/717327142978977834/1074905721411469413/avatar.png"
+                                    }
                                     draggable="false"
                                     fill
                                     className="select-none object-cover"
@@ -184,9 +187,25 @@ const Navbar = () => {
                         <Link
                             scroll={false}
                             href={`/profile`}
-                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-primary/5"
+                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-primary/10"
                         >
                             โปรไฟล์
+                        </Link>
+                    </div>
+                    <div className="py-1">
+                        <Link
+                            scroll={false}
+                            href={`/history/topups`}
+                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-primary/10"
+                        >
+                            ประวัติการเติมเงิน
+                        </Link>
+                        <Link
+                            scroll={false}
+                            href={`/history/orders`}
+                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-primary/10"
+                        >
+                            ประวัติการสั่งซื้อ
                         </Link>
                     </div>
                     {user?.role === "admin" && (
@@ -194,32 +213,16 @@ const Navbar = () => {
                             <Link
                                 scroll={false}
                                 href={`/dashboard`}
-                                className="text-blue-700 block px-4 py-2 text-sm hover:bg-primary/5"
+                                className="text-blue-700 block px-4 py-2 text-sm hover:bg-primary/10"
                             >
                                 จัดการหลังบ้าน
                             </Link>
                         </div>
                     )}
                     <div className="py-1">
-                        <Link
-                            scroll={false}
-                            href={`/history/topups`}
-                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-primary/5"
-                        >
-                            ประวัติการเติมเงิน
-                        </Link>
-                        <Link
-                            scroll={false}
-                            href={`/history/orders`}
-                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-primary/5"
-                        >
-                            ประวัติการสั่งซื้อ
-                        </Link>
-                    </div>
-                    <div className="py-1">
                         <button
                             onClick={logoutHandler}
-                            className="text-red-600 w-full text-left px-4 py-2 text-sm hover:bg-primary/5"
+                            className="text-red-600 w-full text-left px-4 py-2 text-sm hover:bg-primary/10"
                         >
                             ออกจากระบบ
                         </button>
