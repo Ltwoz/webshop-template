@@ -43,6 +43,11 @@ export const authOptions = (req) => {
                             email: user.email,
                             role: user.role,
                             point: user.point,
+                            avatar: user.avatar,
+                            timeStamp: {
+                                createdAt: user.createdAt,
+                                updatedAt: user.updatedAt
+                            }
                         };
                     } catch (error) {
                         throw new Error(
@@ -77,6 +82,11 @@ export const authOptions = (req) => {
                         email: user.email,
                         role: user.role,
                         point: user.point,
+                        avatar: user.avatar,
+                        timeStamp: {
+                            createdAt: user.createdAt,
+                            updatedAt: user.updatedAt
+                        }
                     };
                 } else {
                     user && (token.user = user);

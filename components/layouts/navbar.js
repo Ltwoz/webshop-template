@@ -191,8 +191,6 @@ const Navbar = () => {
                         >
                             โปรไฟล์
                         </Link>
-                    </div>
-                    <div className="py-1">
                         <Link
                             scroll={false}
                             href={`/history/topups`}

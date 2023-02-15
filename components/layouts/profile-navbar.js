@@ -3,25 +3,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 const ProfileNavbar = () => {
     const router = useRouter();
 
-    const [user, setUser] = useState({});
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const getUser = async () => {
-            const { data } = await axios.get(`/api/auth/@me`);
-            setUser(data.user);
-            setLoading(false);
-        };
-
-        getUser().catch(() => {
-            console.error;
-            setLoading(false);
-        });
-    }, []);
+    const { data: session, status } = useSession();
+    const user = session.user;
 
     const Menus = [
         { name: "โปรไฟล์", href: `/profile` },
@@ -74,14 +62,14 @@ const ProfileNavbar = () => {
                     <div className="hidden md:flex flex-col justify-center gap-2 h-[80px] px-6 border-l">
                         <div className="text-base font-medium">
                             แก้ไขเมื่อ{" "}
-                            {new Date(user?.updatedAt).toLocaleString("th", {
+                            {new Date(user?.timeStamp?.updatedAt).toLocaleString("th", {
                                 dateStyle: "long",
                                 hour12: false,
                             })}
                         </div>
                         <div className="text-base font-medium">
                             สร้างเมื่อ{" "}
-                            {new Date(user?.createdAt).toLocaleString("th", {
+                            {new Date(user?.timeStamp?.createdAt).toLocaleString("th", {
                                 dateStyle: "long",
                                 hour12: false,
                             })}

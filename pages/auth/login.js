@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import Layout from "../../components/layouts/main-layout";
-import ConfigContext from "../../contexts/config/config-context";
 import {
     getSession,
     signIn,
@@ -10,13 +9,14 @@ import {
     getCsrfToken,
 } from "next-auth/react";
 import { withInitProps } from "../../utils/get-init-data";
+import { useToast } from "../../contexts/toast/toast-context";
 
 const LoginPage = () => {
     const router = useRouter();
     const usernameRef = useRef();
     const passwordRef = useRef();
 
-    const { configs } = useContext(ConfigContext);
+    const toast = useToast();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,9 +29,20 @@ const LoginPage = () => {
             password: enteredPassword,
         });
 
-        console.log(result);
-
-        router.replace("/");
+        if (result.ok) {
+            toast.add({
+                title: "สำเร็จ!",
+                text: "กำลังพาคุณเข้าสู่ระบบ",
+                icon: "success",
+            });
+            router.replace("/");
+        } else {
+            toast.add({
+                title: "ผิดพลาด!",
+                text: error,
+                icon: "error",
+            });
+        }
     };
 
     return (

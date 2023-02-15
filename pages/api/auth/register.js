@@ -9,6 +9,22 @@ const handler = async (req, res) => {
             try {
                 const { username, email, password } = req.body;
 
+                const existingUser = await User.findOne({ username });
+                if (existingUser) {
+                    return res.status(400).json({
+                        success: false,
+                        message: "ชื่อผู้ใช้นี้ถูกใช้ไปแล้ว",
+                    });
+                }
+
+                const existingEmail = await User.findOne({ email });
+                if (existingEmail) {
+                    return res.status(400).json({
+                        success: false,
+                        message: "อีเมลนี้ถูกใช้ไปแล้ว",
+                    });
+                }
+
                 if (
                     !username ||
                     username.trim() === "" ||

@@ -1,17 +1,17 @@
 import axios from "axios";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Layout from "../../components/layouts/main-layout";
 import ProfileNavbar from "../../components/layouts/profile-navbar";
 import LoadingSpiner from "../../components/ui/loader/spiner";
 import { BsKey } from "react-icons/bs";
 import { FiUser } from "react-icons/fi";
+import ProfileEditTab from "../../components/tabs/profile-edit";
+import ProfilePasswordTab from "../../components/tabs/profile-password";
 
 const ProfilePage = () => {
-    const { data: session, status } = useSession();
-
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState("profile");
+    const [user, setUser] = useState({});
+    const [activeTab, setActiveTab] = useState("edit");
 
     useEffect(() => {
         const getUser = async () => {
@@ -32,7 +32,7 @@ const ProfilePage = () => {
     };
 
     const tabHeader = [
-        { label: "แก้ไขโปรไฟล์", value: "profile", icon: <FiUser /> },
+        { label: "แก้ไขโปรไฟล์", value: "edit", icon: <FiUser /> },
         { label: "เปลี่ยนรหัสผ่าน", value: "password", icon: <BsKey /> },
     ];
 
@@ -81,7 +81,14 @@ const ProfilePage = () => {
                                 id="tab"
                                 autoComplete="off"
                                 className="md:col-span-2 bg-white border rounded-md shadow"
-                            ></form>
+                            >
+                                {activeTab === "edit" && (
+                                    <ProfileEditTab user={user} />
+                                )}
+                                {activeTab === "password" && (
+                                    <ProfilePasswordTab />
+                                )}
+                            </form>
                         </section>
                     </>
                 )}

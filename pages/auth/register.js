@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Layout from "../../components/layouts/main-layout";
 import { withInitProps } from "../../utils/get-init-data";
 import {
@@ -19,7 +19,20 @@ const RegisterPage = () => {
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
 
+    const [error, setError] = useState(null);
+
     const toast = useToast();
+
+    useEffect(() => {
+        if (error) {
+            toast.add({
+                title: "ผิดพลาด!",
+                text: error,
+                icon: "error",
+            });
+            setError(null);
+        }
+    }, [error, toast]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,18 +41,23 @@ const RegisterPage = () => {
         const enteredPassword = passwordRef.current.value;
         const enteredConfirmPassword = confirmPasswordRef.current.value;
 
+        if (
+            !enteredUsername ||
+            !enteredEmail ||
+            !enteredPassword ||
+            !enteredConfirmPassword
+        ) {
+            return setError("กรุณากรอกข้อมูลให้ครบ");
+        }
+
         if (enteredPassword !== enteredConfirmPassword) {
             confirmPasswordRef.current.focus();
-            return toast.add({
-                title: "ผิดพลาด!",
-                text: "รหัสผ่านไม่ตรงกัน",
-                icon: "error",
-            });
+            return setError("รหัสผ่านไม่ตรงกัน");
         }
 
         const config = { headers: { "Content-Type": "application/json" } };
 
-        const res = await axios
+        const result = await axios
             .post(
                 "/api/auth/register",
                 {
@@ -49,16 +67,21 @@ const RegisterPage = () => {
                 },
                 config
             )
-            .then(async () => {
-                await signIn("credentials", {
-                    redirect: false,
-                    username: enteredUsername,
-                    password: enteredPassword,
-                });
-            })
-            .catch((error) => console.log(error));
+            .catch((error) => setError(error.response.data.message));
 
-        router.replace("/");
+        if (result) {
+            await signIn("credentials", {
+                redirect: false,
+                username: enteredUsername,
+                password: enteredPassword,
+            });
+            toast.add({
+                title: "สมัครสำเร็จ!",
+                text: "กำลังพาคุณเข้าสู่ระบบ",
+                icon: "success",
+            });
+            router.replace("/");
+        }
     };
 
     return (
