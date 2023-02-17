@@ -28,7 +28,7 @@ const Dashboard = () => {
         const getAdminTopupStats = async () => {
             const { data } = await axios.get(`/api/admin/stats/topup-stats`);
             setTopupSum(data.stats);
-            setWeeklyData(data.stats.weekSum)
+            setWeeklyData(data.stats.weekSum);
         };
 
         getAdminStats().catch((err) => {
@@ -54,11 +54,11 @@ const Dashboard = () => {
     const now = new Date();
     const year = now.getFullYear();
     const month = now.getMonth();
-    const end = new Date(year, month + 1 ,0).getDate();
+    const end = new Date(year, month + 1, 0).getDate();
 
     let dayLabel = [];
     for (let i = 0; i < end; i++) {
-        dayLabel.push(i + 1)
+        dayLabel.push(i + 1);
     }
 
     const monthData = {
@@ -66,8 +66,9 @@ const Dashboard = () => {
         datasets: [
             {
                 data: [
-                    150, 0, 230, 280, 520, 650, 890, 1230, 460, 150, 350, 640, 850, 345,
-                    430, 720, 640, 950, 670, 840, 350, 160, 260, 640, 500, 345, 330, 250,
+                    150, 0, 230, 280, 520, 650, 890, 1230, 460, 150, 350, 640,
+                    850, 345, 430, 720, 640, 950, 670, 840, 350, 160, 260, 640,
+                    500, 345, 330, 250,
                 ],
                 lineTension: 0.4,
                 radius: 3,
@@ -161,7 +162,7 @@ const Dashboard = () => {
 
                 <section
                     id="stats-group-first"
-                    className="grid grid-cols-3 gap-4 mb-4"
+                    className="grid grid-cols-6 gap-4 mb-4"
                 >
                     <MiniStatCard
                         title="หมวดหมู่ทั้งหมด"
@@ -198,12 +199,6 @@ const Dashboard = () => {
                         }
                         color="emerald"
                     />
-                </section>
-
-                <section
-                    id="stats-group-second"
-                    className="grid grid-cols-3 gap-4 mb-4"
-                >
                     <MiniStatCard
                         title="ออเดอร์ทั้งหมด"
                         value={stats?.orderCount?.toLocaleString()}

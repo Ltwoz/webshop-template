@@ -2,8 +2,8 @@ import dbConnect from "../../../lib/db-connect";
 import Topup from "../../../models/topup";
 import User from "../../../models/user";
 import { customAlphabet } from "nanoid";
-import TrueWallet from "../../../lib/TrueWallet";
 import { isAuthenticatedUser } from "../../../middlewares/auth";
+import GBPrimePay from "../../../lib/GBPrimePay";
 
 async function handler(req, res) {
     await dbConnect();
@@ -18,24 +18,26 @@ async function handler(req, res) {
                     10
                 );
 
-                const wallet = new TrueWallet(phone);
+                const gbprimepay = new GBPrimePay();
 
-                const redeemed = await wallet
-                    .redeem(gift_url)
+                const response = await gbprimepay.promptpay();
 
-                if (!redeemed) {
-                    return res.status(406).json({
-                        success: false,
-                        message: "ลิงก์นี้ถูกใช้งานไปแล้ว",
-                    });
-                }
+                // new GBPrimePay({
+                //     publicKey: "publickey_1234abcd",
+                //     gbForm: "#gb-form",
+                //     merchantForm: "#checkout-form",
+                //     amount: 90.9,
+                //     customStyle: {
+                //         backgroundColor: "#eaeaea",
+                //     },
+                //     env: "test", // default prd | optional: test, prd
+                // });
 
                 const topup = await Topup.create({
                     _id: nanoid(),
-                    type: "TRUEMONEY_GIFT",
-                    amount: redeemed.amount,
-                    reference: gift_url,
-                    user: req.user.id,
+                    type: "PROMPTPAY_QR",
+                    // amount: redeemed.amount,
+                    // user: req.user.id,
                 });
 
                 //* New point after topup
@@ -68,4 +70,5 @@ async function handler(req, res) {
     }
 }
 
-export default isAuthenticatedUser(handler);
+// export default isAuthenticatedUser(handler);
+export default handler;

@@ -1,8 +1,6 @@
 import axios from "axios";
 
 export const getServerSideProps = async (ctx) => {
-    // const token = ctx.req.cookies.token;
-    // console.log("ssr cookie :", token);
     const nextRequestMeta =
         ctx.req[
             Reflect.ownKeys(ctx.req).find(
@@ -11,14 +9,13 @@ export const getServerSideProps = async (ctx) => {
         ];
     const protocal = nextRequestMeta._protocol;
 
-    const config_raw = await axios(
+    const { data } = await axios(
         `${protocal}://${ctx.req.headers.host}/api/configs`
     );
-    const config_data = await config_raw.data;
 
     return {
         props: {
-            configs: config_data?.configs,
+            configs: data?.configs,
         },
     };
 };

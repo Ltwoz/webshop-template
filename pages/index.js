@@ -175,7 +175,7 @@ export default function Home() {
                                     {categories?.map((category, i) => (
                                         <SplideSlide
                                             key={i}
-                                            className="rounded-xl overflow-hidden shadow-lg"
+                                            className="rounded-xl overflow-hidden shadow-lg-------------- active:scale-95 transition-all"
                                         >
                                             <CategoryCard category={category} />
                                         </SplideSlide>

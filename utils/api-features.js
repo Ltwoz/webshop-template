@@ -28,6 +28,21 @@ export default class ApiFeatures {
         this.query = this.query.find({ ...id });
         return this;
     }
+    
+    // For find Coupon Code.
+    searchCoupon() {
+        const couponCode = this.queryStr.couponCode
+            ? {
+                  code: {
+                      $regex: this.queryStr.couponCode,
+                      $options: "i",
+                  },
+              }
+            : {};
+
+        this.query = this.query.find({ ...couponCode });
+        return this;
+    }
 
     findUser() {
         const user = this.queryStr.findUser
@@ -57,7 +72,7 @@ export default class ApiFeatures {
         const queryCopy = { ...this.queryStr };
 
         //   Removing some fields for category
-        const removeFields = ["cid", "id", "findUser", "page"];
+        const removeFields = ["cid", "id", "findUser", "couponCode", "page"];
 
         removeFields.forEach((key) => delete queryCopy[key]);
 

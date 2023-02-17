@@ -18,7 +18,7 @@ async function handler(req, res) {
                 const userCount = await User.countDocuments();
                 
                 const allQueue = await Queue.find();
-                const pendingQueue = allQueue.filter((q) => q.status === "กำลังดำเนินการ")
+                const pendingQueue = allQueue.filter((q) => q.status === "pending")
 
                 res.status(200).json({
                     success: true,

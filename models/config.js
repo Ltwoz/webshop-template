@@ -25,11 +25,11 @@ const ConfigSchema = mongoose.Schema({
         type: String,
         default: "https://dummyimage.com/1100x240",
     },
-    announcement: {
+    website_image: {
         type: String,
         default: "",
     },
-    og_image: {
+    announcement: {
         type: String,
         default: "",
     },

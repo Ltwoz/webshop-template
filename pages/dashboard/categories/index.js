@@ -46,7 +46,7 @@ const AdminCategories = () => {
 
     // Category State.
     const [categories, setCategories] = useState([]);
-    const [category, setCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
 
     const toast = useToast();
 
@@ -114,7 +114,7 @@ const AdminCategories = () => {
     const deleteHandler = (e) => {
         e.preventDefault();
 
-        deleteCategory(category?._id);
+        deleteCategory(selectedCategory?._id);
         setConfirmModal(false);
     };
 
@@ -126,13 +126,13 @@ const AdminCategories = () => {
                 )}
                 {isUpdateModalOpen && (
                     <UpdateCategoryModal
-                        category={category}
+                        category={selectedCategory}
                         setIsOpen={setIsUpdateModalOpen}
                     />
                 )}
                 {confirmModal && (
                     <ConfirmModal
-                        title={`ลบหมวดหมู่ ${category.name} ?`}
+                        title={`ลบหมวดหมู่ ${selectedCategory.name} ?`}
                         message={"สินค้าในหมวดหมู่จะถูกลบด้วย"}
                         buttonLabel={"ตกลง, ลบเลย!"}
                         setIsOpen={setConfirmModal}
@@ -284,7 +284,7 @@ const AdminCategories = () => {
                                                         </Link>
                                                         <div
                                                             onClick={() => {
-                                                                setCategory(
+                                                                setSelectedCategory(
                                                                     category
                                                                 );
                                                                 setIsUpdateModalOpen(
@@ -313,7 +313,7 @@ const AdminCategories = () => {
                                                         </div>
                                                         <div
                                                             onClick={() => {
-                                                                setCategory(
+                                                                setSelectedCategory(
                                                                     category
                                                                 );
                                                                 setConfirmModal(

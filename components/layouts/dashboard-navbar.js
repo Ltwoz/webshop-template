@@ -7,7 +7,7 @@ export const DashboardNavList = () => {
         { name: "จัดการเว็บไซต์", href: `/dashboard/configs` },
         { name: "จัดการสินค้า", href: `/dashboard/categories` },
         { name: "จัดการคิว", href: `/dashboard/history/queues` },
-        { name: "จัดการคูปอง", href: `/dashboard/coupon` },
+        { name: "จัดการคูปอง", href: `/dashboard/coupons` },
         { name: "จัดการผู้ใช้", href: `/dashboard/users` },
         { name: "ประวัติการเติมเงิน", href: `/dashboard/history/topups` },
         { name: "ประวัติการสั่งซื้อ", href: `/dashboard/history/orders` },

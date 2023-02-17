@@ -47,7 +47,7 @@ const Layout = ({ children }) => {
                 />
                 <meta
                     property="og:image"
-                    content={configs?.og_image || ""}
+                    content={configs?.website_image || ""}
                 />
                 <link
                     rel="icon"

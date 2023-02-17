@@ -1,10 +1,12 @@
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Layout from "../../components/layouts/main-layout";
 import TopupCard from "../../components/ui/cards/topup-card";
+import ConfigContext from "../../contexts/config/config-context";
 
-const Topup = () => {
+const Topup = ({ configs }) => {
     const { data: session, status } = useSession();
+
     const user = session?.user;
 
     return (
@@ -20,34 +22,42 @@ const Topup = () => {
                     }).format(user?.point)}
                 </div>
                 <div className="max-w-[800px] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 transition-all duration-500 ease-in-out">
-                    <TopupCard
-                        title={"TrueMoney Wallet Gift"}
-                        image={
-                            "https://cdn.discordapp.com/attachments/717327142978977834/1065807965073969222/ic-truemoneywallet-gift.png"
-                        }
-                        href="/topup/truemoney-gift"
-                    />
-                    <TopupCard
-                        title={"TrueMoney Wallet QR"}
-                        image={
-                            "https://cdn.discordapp.com/attachments/717327142978977834/1065807936636583976/ic-truemoneywallet-auto.png"
-                        }
-                        href="/topup"
-                    />
-                    <TopupCard
-                        title={"TrueMoney"}
-                        image={
-                            "https://cdn.discordapp.com/attachments/717327142978977834/1065807993049976882/ic-truemoney.png"
-                        }
-                        href="/topup"
-                    />
-                    <TopupCard
-                        title={"PromptPay QR"}
-                        image={
-                            "https://cdn.discordapp.com/attachments/717327142978977834/1065804796126314547/ic-promptpay.png"
-                        }
-                        href="/topup"
-                    />
+                    {configs.payment?.truemoney_gift && (
+                        <TopupCard
+                            title={"TrueMoney Wallet Gift"}
+                            image={
+                                "https://cdn.discordapp.com/attachments/717327142978977834/1065807965073969222/ic-truemoneywallet-gift.png"
+                            }
+                            href="/topup/truemoney-gift"
+                        />
+                    )}
+                    {!configs.payment?.truemoney_qr && (
+                        <TopupCard
+                            title={"TrueMoney Wallet QR"}
+                            image={
+                                "https://cdn.discordapp.com/attachments/717327142978977834/1065807936636583976/ic-truemoneywallet-auto.png"
+                            }
+                            href="/topup"
+                        />
+                    )}
+                    {!configs.payment?.truemoney && (
+                        <TopupCard
+                            title={"TrueMoney"}
+                            image={
+                                "https://cdn.discordapp.com/attachments/717327142978977834/1065807993049976882/ic-truemoney.png"
+                            }
+                            href="/topup"
+                        />
+                    )}
+                    {!configs.payment?.promptpay_qr && (
+                        <TopupCard
+                            title={"PromptPay QR"}
+                            image={
+                                "https://cdn.discordapp.com/attachments/717327142978977834/1065804796126314547/ic-promptpay.png"
+                            }
+                            href="/topup"
+                        />
+                    )}
                 </div>
             </main>
         </Layout>
