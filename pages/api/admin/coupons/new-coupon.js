@@ -12,7 +12,7 @@ const handler = async (req, res) => {
     switch (req.method) {
         case "POST":
             try {
-                const { code, value, limit, expiredAt } = req.body;
+                const { code, value, limit } = req.body;
 
                 const nanoid = customAlphabet(
                     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
@@ -24,7 +24,6 @@ const handler = async (req, res) => {
                     code,
                     value,
                     limit,
-                    expiredAt,
                 });
 
                 res.status(201).json({ success: true, coupon });

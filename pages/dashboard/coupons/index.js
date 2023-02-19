@@ -6,12 +6,14 @@ import Layout from "../../../components/layouts/main-layout";
 import LoadingSpiner from "../../../components/ui/loader/spiner";
 import ConfirmModal from "../../../components/ui/modals/alert-modal/confirm-modal";
 import NewCouponModal from "../../../components/ui/modals/new-coupon-modal";
+import UpdateCouponModal from "../../../components/ui/modals/update-coupon-modal";
 import TablePagination from "../../../components/ui/paginations/table-pagination";
 import { useToast } from "../../../contexts/toast/toast-context";
 
 const AdminCoupons = () => {
     // Modals State.
     const [isNewModal, setIsNewModal] = useState(false);
+    const [isUpdateModal, setIsUpdateModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
 
     // CRUD State.
@@ -77,7 +79,7 @@ const AdminCoupons = () => {
             });
             setIsSuccess(false);
         }
-        
+
         if (isDeleted) {
             toast.add({
                 title: "สำเร็จ!",
@@ -92,7 +94,9 @@ const AdminCoupons = () => {
         e.preventDefault();
 
         try {
-            const { data } = await axios.delete(`/api/admin/coupons/${selectedCoupon._id}`);
+            const { data } = await axios.delete(
+                `/api/admin/coupons/${selectedCoupon._id}`
+            );
 
             setIsDeleted(data.success);
         } catch (error) {
@@ -109,6 +113,14 @@ const AdminCoupons = () => {
                 {isNewModal && (
                     <NewCouponModal
                         setIsOpen={setIsNewModal}
+                        setIsSuccess={setIsSuccess}
+                        setError={setError}
+                    />
+                )}
+                {isUpdateModal && (
+                    <UpdateCouponModal
+                        coupon={selectedCoupon}
+                        setIsOpen={setIsUpdateModal}
                         setIsSuccess={setIsSuccess}
                         setError={setError}
                     />
@@ -254,8 +266,8 @@ const AdminCoupons = () => {
                                                         <div className="flex item-center justify-end gap-x-2">
                                                             <div
                                                                 onClick={() => {
-                                                                    setSelectedUser(
-                                                                        user
+                                                                    setSelectedCoupon(
+                                                                        coupon
                                                                     );
                                                                     setIsUpdateModal(
                                                                         (

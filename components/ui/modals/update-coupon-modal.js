@@ -2,10 +2,10 @@ import axios from "axios";
 import { useState } from "react";
 import ModalLayout from "./modal-layout/modal-layout";
 
-const NewCouponModal = ({ setIsOpen, setIsSuccess, setError }) => {
-    const [code, setCode] = useState("");
-    const [value, setValue] = useState("");
-    const [limit, setLimit] = useState("");
+const UpdateCouponModal = ({ coupon, setIsOpen, setIsSuccess, setError }) => {
+    const [code, setCode] = useState(coupon.code);
+    const [value, setValue] = useState(coupon.value);
+    const [limit, setLimit] = useState(coupon.limit);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -13,8 +13,8 @@ const NewCouponModal = ({ setIsOpen, setIsSuccess, setError }) => {
         const config = { headers: { "Content-Type": "application/json" } };
 
         try {
-            const { data } = await axios.post(
-                `/api/admin/coupons/new-coupon`,
+            const { data } = await axios.put(
+                `/api/admin/coupons/${coupon._id}`,
                 {
                     code,
                     value,
@@ -35,7 +35,7 @@ const NewCouponModal = ({ setIsOpen, setIsSuccess, setError }) => {
     return (
         <ModalLayout>
             <div className="w-full px-6 py-4 flex items-center justify-between">
-                <h2 className="text-lg font-semibold">สร้างคูปองใหม่</h2>
+                <h2 className="text-lg font-semibold">แก้ไขคูปอง</h2>
                 <button
                     type="button"
                     onClick={() => setIsOpen(false)}
@@ -137,10 +137,10 @@ const NewCouponModal = ({ setIsOpen, setIsSuccess, setError }) => {
                             <path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                             />
                         </svg>
-                        <span className="block">สร้าง</span>
+                        <span className="block">บันทึก</span>
                     </div>
                 </button>
             </div>
@@ -148,4 +148,4 @@ const NewCouponModal = ({ setIsOpen, setIsSuccess, setError }) => {
     );
 };
 
-export default NewCouponModal;
+export default UpdateCouponModal;

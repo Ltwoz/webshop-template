@@ -7,7 +7,7 @@ const TopupSchema = new mongoose.Schema({
     type: {
         type: String,
         required: true,
-        enum: ["TRUEMONEY_QR", "TRUEMONEY_GIFT", "TRUEMONEY", "PROMPTPAY_QR"]
+        enum: ["TRUEMONEY_QR", "TRUEMONEY_GIFT", "TRUEMONEY", "PROMPTPAY_QR", "COUPON"]
     },
     amount: {
         type: Number,

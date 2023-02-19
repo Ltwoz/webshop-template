@@ -24,9 +24,14 @@ const Store = () => {
     return (
         <Layout>
             <main className="max-w-[1150px] px-4 sm:px-[25px] pb-4 sm:pb-[25px] pt-24 md:pt-28 mx-auto items-center">
-                <h1 className="text-center text-3xl md:text-4xl font-bold mb-6 md:mb-8">
-                    เลือกหมวดหมู่สินค้า
-                </h1>
+                <section
+                    id="header"
+                    className="border-b-2 md:border-0 mx-8 pb-4 pt-0 mb-6"
+                >
+                    <h1 className="text-3xl md:text-4xl font-semibold text-center">
+                        เลือกหมวดหมู่สินค้า
+                    </h1>
+                </section>
                 {loading ? (
                     <LoadingSpiner />
                 ) : (

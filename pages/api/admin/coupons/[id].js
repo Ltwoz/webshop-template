@@ -33,7 +33,7 @@ async function handler(req, res) {
             break;
         case "PUT":
             try {
-                const { code, value, limit, expiredAt } = req.body;
+                const { code, value, limit } = req.body;
 
                 let coupon = await Coupon.findById(req.query.id);
 
@@ -50,7 +50,6 @@ async function handler(req, res) {
                         code,
                         value,
                         limit,
-                        expiredAt,
                     },
                     {
                         new: true,
