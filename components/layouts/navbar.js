@@ -83,7 +83,7 @@ const Navbar = () => {
             >
                 เติมเงิน
             </Link>
-            <Link scroll={false} href={`/`} className="py-2 hover:text-primary">
+            <Link scroll={false} href={`#`} className="py-2 hover:text-primary">
                 ช่วยเหลือ
             </Link>
             {user?.role === "admin" && (
